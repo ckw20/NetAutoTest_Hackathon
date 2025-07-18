@@ -1,0 +1,27 @@
+{
+ "type":"Testcase",
+ "name":"Internet Control Message Protocol (ICMP)",
+ "tc_no":"tc_6_7_2",
+ "version": {
+  "description": "Version number, use development or modification date",
+  "default": "v20240917"
+ },
+ "arg":{
+  "interface": {
+   "description": "Tester port MAC address setting",
+   "default": {
+     "ipv4_up_address":{
+      "description": "Uplink port IPv4 address setting",
+      "default": "192.168.1.100"
+     },
+     "ipv4_up_gateway":{
+      "description": "Uplink port IPv4 gateway setting",
+      "default": "192.168.1.1"
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2"]
+}

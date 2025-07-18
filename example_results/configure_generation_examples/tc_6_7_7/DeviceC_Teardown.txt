@@ -1,0 +1,26 @@
+#
+undo sysname SwitchC
+#
+undo vlan batch 200 300 400
+#
+undo interface Vlanif200
+#
+undo interface Vlanif300
+#
+undo interface Vlanif400
+#
+interface 10GE1/0/1
+undo port link-type trunk
+undo  port trunk allow-pass vlan 300
+#
+interface 10GE1/0/2
+undo  port link-type trunk
+undo  port trunk allow-pass vlan 200
+#
+interface 10GE1/0/3
+ undo  port link-type trunk
+undo  port trunk allow-pass vlan 400
+#
+undo ospf 1
+#
+return

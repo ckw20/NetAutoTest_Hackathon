@@ -1,0 +1,21 @@
+#
+sysname SwitchA
+#
+undo vlan batch 100 300
+#
+undo interface Vlanif100
+#
+undo interface Vlanif300
+#
+interface 10GE1/0/1
+undo port link-type trunk
+undo port trunk allow-pass vlan 300
+#
+interface 10GE1/0/2
+undo port link-type trunk
+undo port trunk pvid vlan 100
+ undo port trunk allow-pass vlan 1
+ undo port trunk allow-pass vlan 100
+#
+undo ospf 1
+#

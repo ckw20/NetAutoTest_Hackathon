@@ -1,0 +1,13 @@
+#
+undo stp mode rstp
+undo stp instance 0 root primary
+undo stp pathcost-standard legacy
+#
+interface 10GE1/0/1
+undo stp root-protection
+#
+interface 10GE1/0/2
+undo stp root-protection
+#
+commit
+quit

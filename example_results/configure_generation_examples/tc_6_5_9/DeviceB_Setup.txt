@@ -1,0 +1,10 @@
+#
+stp mode rstp
+stp instance 0 root secondary
+stp pathcost-standard legacy
+#
+interface 10GE1/0/2
+ stp disable
+#
+commit
+quit

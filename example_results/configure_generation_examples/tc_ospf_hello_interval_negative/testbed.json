@@ -1,0 +1,132 @@
+{
+  "version": {
+    "description": "Version number",
+    "default": "v1.0.0"
+  },
+  "tester": {
+    "description": "Tester information",
+    "product_type": {
+      "description": "Renix product type: BIGTAO or DARYU",
+      "default": "DARYU"
+    },
+    "rtsm": {
+      "description": "Whether to use rtsm",
+      "ip": false,
+      "app": true
+    },
+    "force": {
+      "description": "Whether to forcibly occupy the port",
+      "default": true
+    },
+    "debug": {
+      "description": "Whether to use offline mode for debugging",
+      "default": false
+    },
+    "wait_for_status_up": {
+      "description": "Whether to wait for port UP",
+      "default": true
+    },
+    "analyzer": {
+      "description": "Whether to automatically pop up the result analysis tool when executing intelligent scripts",
+      "default": false
+    }
+  },
+  "nto": {
+    "description": "NTO device information",
+    "enable": {
+      "description": "Whether to automatically switch topology",
+      "default": false
+    },
+    "ip": {
+      "description": "Device IP address",
+      "default": "192.168.41.99"
+    },
+    "port": {
+      "description": "Device port number",
+      "default": 8000
+    },
+    "username": {
+      "description": "Device login username",
+      "default": "admin"
+    },
+    "password": {
+      "description": "Device login password",
+      "default": "admin"
+    }
+  },
+  "dut": {
+    "description": "DUT (Device Under Test) information",
+    "auto": {
+      "description": "Whether to automatically deliver device configuration",
+      "default": true
+    },
+    "command_source": {
+      "description": "Source of configuration, supports: excel, txt",
+      "default": "txt"
+    },
+    "DeviceA": {
+      "dut_type": "huawei_ce6881",
+      "dut_ip": "10.0.11.205",
+      "dut_user": "admin123",
+      "dut_password": "ADmin@123",
+      "interface": {
+        "PortDeviceA_1": {
+          "port_type": "tester",
+          "interface": "10GE1/0/45",
+          "location": "//10.0.11.192/1/5"
+        },
+        "PortDeviceA_2": {
+          "port_type": "tester",
+          "interface": "10GE1/0/46",
+          "location": "//10.0.11.192/1/6"
+        },
+        "PortDeviceA_3": {
+          "port_type": "tester",
+          "interface": "10GE1/0/47",
+          "location": "//10.0.11.192/1/7"
+        },
+        "PortDeviceA_4": {
+          "port_type": "tester",
+          "interface": "10GE1/0/48",
+          "location": "//10.0.11.192/1/8"
+        }
+      }
+    },
+    "DeviceB": {
+      "dut_type": "huawei_ce6881",
+      "dut_ip": "10.0.11.206",
+      "dut_user": "admin123",
+      "dut_password": "ADmin@123",
+      "interface": {
+        "PortDeviceB_1": {
+          "port_type": "dut",
+          "interface": "10GE1/0/45",
+          "location": "10GE1/0/45"
+        },
+        "PortDeviceB_2": {
+          "port_type": "dut",
+          "interface": "10GE1/0/46",
+          "location": "10GE1/0/46"
+        }
+      }
+    },
+    "DeviceC": {
+      "dut_type": "huawei_ce6881",
+      "dut_ip": "10.0.11.206",
+      "dut_user": "admin123",
+      "dut_password": "ADmin@123",
+      "interface": {
+        "PortDeviceC_1": {
+          "port_type": "dut",
+          "interface": "10GE1/0/45",
+          "location": "10GE1/0/45"
+        },
+        "PortDeviceC_2": {
+          "port_type": "dut",
+          "interface": "10GE1/0/46",
+          "location": "10GE1/0/46"
+        }
+      }
+    }
+  }
+} 

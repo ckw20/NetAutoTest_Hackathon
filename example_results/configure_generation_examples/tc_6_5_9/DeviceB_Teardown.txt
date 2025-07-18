@@ -1,0 +1,10 @@
+#
+undo stp mode rstp
+undo stp instance 0 root secondary
+undo stp pathcost-standard legacy
+#
+interface 10GE1/0/2
+ undo stp disable
+#
+commit
+quit
