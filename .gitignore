@@ -1,0 +1,17 @@
+log/
+*.log
+__pycache__/
+results/
+test.py
+temp_script/
+Testcase/
+main_sg_xrt.py
+data/result_scripts/
+run_sg.sh
+run_finetune.sh
+# .gitignore
+data/api_retriever_dataset/
+data/models/
+data/embeddings/
+wandb/
+src/for_lint_cnt/

@@ -1,8 +1,8 @@
 {
   "protocol_field": {
     "name": "Hello Packet",
-    "version": "OSPF packet type 1",
-    "description": "Periodically sent on all interfaces to establish and maintain neighbor relationships. Includes parameters for neighbor relationship validation.",
+    "version": "OSPF Packet Type 1",
+    "description": "Periodically sent on all interfaces to establish and maintain neighbor relationships. Includes parameters for network mask, HelloInterval, and RouterDeadInterval to ensure agreement among routers.",
     "fields": [
       {
         "name": "Version #",
@@ -13,11 +13,19 @@
         ]
       },
       {
-        "name": "Packet length",
-        "description": "The length of the OSPF packet in bytes, including the header.",
+        "name": "Packet Type",
+        "description": "Identifies the packet as a Hello packet.",
+        "size_bits": 8,
+        "constraints": [
+          "Fixed value of 1 for Hello packets."
+        ]
+      },
+      {
+        "name": "Packet Length",
+        "description": "The total length of the packet in bytes.",
         "size_bits": 16,
         "constraints": [
-          "Must be greater than or equal to the minimum size of the Hello packet."
+          "Must be at least the size of the fixed header plus variable fields."
         ]
       },
       {
@@ -25,39 +33,39 @@
         "description": "The identifier of the router originating the packet.",
         "size_bits": 32,
         "constraints": [
-          "Must be a unique 32-bit value within the OSPF domain."
+          "A unique IP address assigned to the router. Used to identify the source of the Hello Packet when received on point-to-point or virtual links."
         ]
       },
       {
         "name": "Area ID",
-        "description": "The identifier of the OSPF area to which the packet belongs.",
+        "description": "The OSPF area to which the packet belongs.",
         "size_bits": 32,
         "constraints": [
-          "Must match the area ID of the interface sending the packet."
+          "Must match the area ID of the receiving router for processing. The E-bit in the Options field must align with the ExternalRoutingCapability of this area (set if AS-external-LSAs are flooded, cleared otherwise)."
         ]
       },
       {
         "name": "Checksum",
-        "description": "A checksum of the entire OSPF packet for error detection.",
+        "description": "A checksum covering the entire packet.",
         "size_bits": 16,
         "constraints": [
-          "Calculated using the standard OSPF checksum algorithm."
+          "Calculated using standard OSPF checksum rules."
         ]
       },
       {
         "name": "AuType",
-        "description": "The type of authentication used for the packet.",
+        "description": "The type of authentication used.",
         "size_bits": 16,
         "constraints": [
-          "0 means no authentication, 1 means simple password, 2 means cryptographic authentication."
+          "0 for no authentication, 1 for simple password, 2 for cryptographic authentication."
         ]
       },
       {
         "name": "Authentication",
-        "description": "Authentication data, usage depends on the AuType field.",
+        "description": "Authentication data, format depends on AuType.",
         "size_bits": 64,
         "constraints": [
-          "If AuType is 0, this field is unused; if AuType is 1, contains a simple password; if AuType is 2, contains cryptographic data."
+          "Must conform to the specified AuType; unused bits are set to 0."
         ]
       },
       {
@@ -65,15 +73,15 @@
         "description": "The subnet mask associated with the interface.",
         "size_bits": 32,
         "constraints": [
-          "For example, 0xffffff00 for a class B network with subnetting in the third byte."
+          "For example, 0xffffff00 for a class B network with subnetting. Must match the configured value on the receiving interface, except on unnumbered point-to-point networks and virtual links where it is always set to 0.0.0.0."
         ]
       },
       {
         "name": "HelloInterval",
-        "description": "The interval in seconds between Hello packets sent by the router.",
+        "description": "The interval in seconds between Hello packets.",
         "size_bits": 16,
         "constraints": [
-          "Must be agreed upon by all routers on the same network."
+          "Typically ranges from 1 to 65535 seconds. Must be consistent across all routers attached to a common network; any mismatch causes the packet to be dropped."
         ]
       },
       {
@@ -81,15 +89,15 @@
         "description": "Optional capabilities supported by the router.",
         "size_bits": 8,
         "constraints": [
-          "Defined in Section A.2 of the RFC document."
+          "Defined in Section A.2 of the RFC document. The E-bit must align with the ExternalRoutingCapability of the attached OSPF area (set if the area can process AS-external-LSAs, cleared if it is a stub area). Unrecognized bits should be set to zero. If the E-bit is set incorrectly, neighboring routers will refuse to accept the Hello Packet. The Options field consists of five defined bits: E-bit (determines AS-external-LSA flooding), MC-bit (indicates multicast datagram forwarding support as per [Ref18]), N/P-bit (controls handling of Type-7 LSAs as per [Ref19]), EA-bit (signals willingness to receive and forward External-Attributes-LSAs as per [Ref20]), and DC-bit (indicates demand circuit handling as per [Ref21]). Routers encountering unrecognized Option bits in received packets should ignore those bits but process the packet normally."
         ]
       },
       {
         "name": "Rtr Pri",
-        "description": "The priority of the router for (Backup) Designated Router election.",
+        "description": "The router's priority for (Backup) Designated Router election.",
         "size_bits": 8,
         "constraints": [
-          "0 makes the router ineligible for (Backup) Designated Router role."
+          "Set to 0 to make the router ineligible for election. Changes in this field may trigger NeighborChange events in the receiving interface's state machine."
         ]
       },
       {
@@ -97,23 +105,23 @@
         "description": "The time in seconds before declaring a silent router down.",
         "size_bits": 32,
         "constraints": [
-          "Must be consistent across all routers on the same network."
+          "Must be greater than HelloInterval; typically a multiple of it. Must be consistent across all routers attached to a common network; any mismatch causes the packet to be dropped."
         ]
       },
       {
         "name": "Designated Router",
-        "description": "The IP address of the Designated Router for the network.",
+        "description": "The IP address of the Designated Router.",
         "size_bits": 32,
         "constraints": [
-          "Set to 0.0.0.0 if no Designated Router exists."
+          "Set to 0.0.0.0 if no Designated Router has been selected yet. If the neighbor declares itself as the Designated Router, it may trigger BackupSeen or NeighborChange events in the receiving interface's state machine."
         ]
       },
       {
         "name": "Backup Designated Router",
-        "description": "The IP address of the Backup Designated Router for the network.",
+        "description": "The IP address of the Backup Designated Router.",
         "size_bits": 32,
         "constraints": [
-          "Set to 0.0.0.0 if no Backup Designated Router exists."
+          "Set to 0.0.0.0 if no Backup Designated Router has been selected yet. If the neighbor declares itself as the Backup Designated Router, it may trigger BackupSeen or NeighborChange events in the receiving interface's state machine."
         ]
       },
       {
@@ -121,11 +129,10 @@
         "description": "The Router IDs of neighboring routers from whom valid Hello packets have been received recently.",
         "size_bits": null,
         "constraints": [
-          "Each entry is a 32-bit Router ID.",
-          "Listed neighbors must have sent Hello packets within the last RouterDeadInterval seconds."
+          "Each entry is 32 bits; list continues until packet end. If the receiving router's ID appears in this list, the 2-WayReceived event is triggered; otherwise, the 1-WayReceived event is triggered, and processing stops."
         ]
       }
     ]
   },
-  "comments": "This JSON template describes the structure of the OSPF Hello packet fields based on the provided RFC section."
+  "comments": "This JSON template describes the structure of a protocol field specification. The 'protocol_field' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol fields."
 }

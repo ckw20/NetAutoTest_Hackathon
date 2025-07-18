@@ -98,7 +98,6 @@ if __name__ == "__main__":
             logger.info(f"Generating test cases from field JSON {field_json_path}...")
             assert field_json_path, "Field JSON path must be provided for test case generation."
             testcases = testcase_generator.generate_test_cases_from_field_constraints(field_json_path, args.field_file, current_time, model=args.model, topo_path=args.topo_path, testbed_path=args.testbed_path, std_path=std_json_path)
-            ######### TODO #########
     elif args.method == "std":      # Generate test cases directly from standards
         testcase_generator.generate_test_cases_from_std(args.std_file, args.rfc_file, current_time, args.model, topo_path=args.topo_path, testbed_path=args.testbed_path)
     elif args.method == "addcfgs":  # Add configurations to generated test cases

@@ -357,7 +357,7 @@ def generate_test_cases_from_field_constraints(field_json_path, field_path, curr
     """
     Generate test cases from extracted field constraints, aiming for quantifiable coverage
     """
-    testcase_template_path="data/testcases/examples/testcase_template_with_topology.json"  
+    testcase_template_path="data/templates/test_cases/testcase_template_with_topology.json"  
     testcase_example_with_topo_path="data/testcases/examples/one-tester-one-dut/tc_6_7_6/few_shot_of_testcase_with_topo_one_6_7_6.json"
     if std_path:
           testcase_example_with_topo_path=std_path
