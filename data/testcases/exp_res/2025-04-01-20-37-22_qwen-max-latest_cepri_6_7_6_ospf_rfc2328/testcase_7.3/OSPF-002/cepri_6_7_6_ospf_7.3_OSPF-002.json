@@ -1,0 +1,34 @@
+{
+  "id": "OSPF-002",
+  "title": "验证DR的多播行为优化",
+  "objective": "验证DR在广播网络中通过多播发送LSU以优化洪泛过程。",
+  "test_reference": [
+    "RFC 2328 Section 7.3"
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "使用与OSPF-001相同的拓扑和配置，确保PortDeviceA_1为DR。",
+      "expected_result": "拓扑和配置复用成功，PortDeviceA_1为DR。"
+    },
+    {
+      "step_id": "2",
+      "description": "在TesterA的PortTesterA_1上注入一条新的LSA。",
+      "expected_result": "LSA注入成功，TesterA的PortTesterA_1与DeviceA的PortDeviceA_1同步LSDB。"
+    },
+    {
+      "step_id": "3",
+      "description": "捕获DeviceA的PortDeviceA_1发出的LSU数据包，检查目标地址是否为AllSPFRouters（224.0.0.5）。",
+      "expected_result": "LSU数据包目标地址为AllSPFRouters（224.0.0.5），表明DR通过多播优化洪泛过程。"
+    },
+    {
+      "step_id": "4",
+      "description": "验证TesterA的PortTesterA_2和PortTesterA_3是否接收到该LSA。",
+      "expected_result": "PortTesterA_2和PortTesterA_3均接收到该LSA，LSDB同步完成。"
+    }
+  ],
+  "tags": [
+    "function",
+    "performance"
+  ]
+}

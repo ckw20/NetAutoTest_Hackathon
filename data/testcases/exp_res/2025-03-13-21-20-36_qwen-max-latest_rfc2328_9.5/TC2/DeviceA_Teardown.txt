@@ -1,0 +1,18 @@
+
+system-view
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address
+ undo ospf network point-to-point
+ undo ospf enable
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo ip address
+ undo ospf virtual-link
+ undo ospf enable
+ portswitch
+#
+undo ospf 1
+commit
+quit

@@ -1,0 +1,66 @@
+{
+    "test_cases": [
+      {
+        "id": "5",
+        "title": "发送/接收hello包的正确性测试",
+        "objective": "保证被测设备不接受选项域不匹配的hello包",
+        "test_reference": ["RFC 2328 10.5"],
+        "topology": [
+          {
+            "name": "protocol_tester",
+            "type": "tester",
+            "ports": [
+              {
+                "name": "port1",
+                "connected_to": "DUT:port1"
+              }
+            ]
+          },
+          {
+            "name": "DUT",
+            "type": "device_under_test",
+            "ports": [
+              {
+                "name": "port1",
+                "connected_to": "protocol_tester:port1"
+              }
+            ]
+          }
+        ],
+        "steps": [
+          {
+            "step_id": "1",
+            "description": "开启协议测试仪的端口，向测试网络和被测设备开始发送/接收选项域不匹配的Hello包",
+            "expected_result": "协议测试仪开始发送/接收选项域不匹配的Hello包"
+          },
+          {
+            "step_id": "2",
+            "description": "延迟20秒后，观察协议测试仪端口的状态",
+            "expected_result": "协议测试仪端口应没有到达2-WAY状态"
+          },
+          {
+            "step_id": "3",
+            "description": "关闭协议测试仪的端口",
+            "expected_result": "协议测试仪端口关闭"
+          }
+        ],
+        "tags": ["function"]
+      }
+    ],
+    "comments": {
+      "id": "测试用例的唯一标识符。",
+      "title": "测试用例的标题，简要描述测试内容。",
+      "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+      "test_reference": "测试用例的参考文档，如RFC的章节号等",
+      "topology": [
+        "测试用例所涉及的设备和端口连接信息，包含以下字段：",
+        "1. ​**name**: 设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+        "2. ​**type**: 设备的类型（例如：tester、DUT 等）。",
+        "3. ​**ports**: 设备的端口列表，描述设备的各个端口。",
+        "   - ​**name**: 端口的名称，用于唯一标识端口，例如port1等。",
+        "   - ​**connected_to**: 描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。"
+      ],
+      "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+      "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+    }
+  }

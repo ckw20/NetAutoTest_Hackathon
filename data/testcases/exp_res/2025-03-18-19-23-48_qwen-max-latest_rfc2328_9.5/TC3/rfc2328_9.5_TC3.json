@@ -1,0 +1,58 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC3",
+      "title": "E-bit选项兼容性测试",
+      "objective": "确保设备正确处理区域类型与E-bit设置的匹配关系",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5",
+        "RFC2328.4.5"
+      ],
+      "steps": [
+        {
+          "step_id": "TC3-1",
+          "description": "配置被测设备（DUT）的一个接口所属的区域为非Stub区域，并确保其Hello包中的E-bit设置为1。",
+          "expected_result": "被测设备的Hello包中E-bit应被正确设置为1。"
+        },
+        {
+          "step_id": "TC3-2",
+          "description": "通过协议测试仪向被测设备发送Hello包，其中E-bit设置为0（表示Stub区域）。",
+          "expected_result": "被测设备应拒绝接收该Hello包，并且邻接关系无法建立。"
+        },
+        {
+          "step_id": "TC3-3",
+          "description": "通过协议测试仪向被测设备发送Hello包，其中E-bit设置为1（表示非Stub区域）。",
+          "expected_result": "被测设备应接受该Hello包，并尝试建立邻接关系。"
+        },
+        {
+          "step_id": "TC3-4",
+          "description": "将被测设备的一个接口所属的区域重新配置为Stub区域，并确保其Hello包中的E-bit设置为0。",
+          "expected_result": "被测设备的Hello包中E-bit应被正确设置为0。"
+        },
+        {
+          "step_id": "TC3-5",
+          "description": "通过协议测试仪向被测设备发送Hello包，其中E-bit设置为1（表示非Stub区域）。",
+          "expected_result": "被测设备应拒绝接收该Hello包，并且邻接关系无法建立。"
+        },
+        {
+          "step_id": "TC3-6",
+          "description": "通过协议测试仪向被测设备发送Hello包，其中E-bit设置为0（表示Stub区域）。",
+          "expected_result": "被测设备应接受该Hello包，并尝试建立邻接关系。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等。",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']。"
+  }
+}

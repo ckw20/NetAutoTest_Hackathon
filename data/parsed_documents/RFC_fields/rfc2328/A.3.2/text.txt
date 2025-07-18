@@ -1,0 +1,84 @@
+A.3.2 The Hello packet
+
+    Hello packets are OSPF packet type 1.  These packets are sent
+    periodically on all interfaces (including virtual links) in order to
+    establish and maintain neighbor relationships.  In addition, Hello
+    Packets are multicast on those physical networks having a multicast
+    or broadcast capability, enabling dynamic discovery of neighboring
+    routers.
+
+    All routers connected to a common network must agree on certain
+    parameters (Network mask, HelloInterval and RouterDeadInterval).
+    These parameters are included in Hello packets, so that differences
+    can inhibit the forming of neighbor relationships.  A detailed
+    explanation of the receive processing for Hello packets is presented
+    in Section 10.5.  The sending of Hello packets is covered in Section
+    9.5.
+
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |   Version #   |       1       |         Packet length         |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                          Router ID                            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                           Area ID                             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |           Checksum            |             AuType            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                        Network Mask                           |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |         HelloInterval         |    Options    |    Rtr Pri    |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     RouterDeadInterval                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                      Designated Router                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                   Backup Designated Router                    |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                          Neighbor                             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                              ...                              |
+
+
+    Network mask
+        The network mask associated with this interface.  For example,
+        if the interface is to a class B network whose third byte is
+        used for subnetting, the network mask is 0xffffff00.
+
+    Options
+        The optional capabilities supported by the router, as documented
+        in Section A.2.
+
+    HelloInterval
+        The number of seconds between this router's Hello packets.
+
+    Rtr Pri
+        This router's Router Priority.  Used in (Backup) Designated
+        Router election.  If set to 0, the router will be ineligible to
+        become (Backup) Designated Router.
+
+    RouterDeadInterval
+        The number of seconds before declaring a silent router down.
+
+    Designated Router
+        The identity of the Designated Router for this network, in the
+        view of the sending router.  The Designated Router is identified
+        here by its IP interface address on the network.  Set to 0.0.0.0
+        if there is no Designated Router.
+
+    Backup Designated Router
+        The identity of the Backup Designated Router for this network,
+        in the view of the sending router.  The Backup Designated Router
+        is identified here by its IP interface address on the network.
+        Set to 0.0.0.0 if there is no Backup Designated Router.
+
+    Neighbor
+        The Router IDs of each router from whom valid Hello packets have
+        been seen recently on the network.  Recently means in the last
+        RouterDeadInterval seconds.

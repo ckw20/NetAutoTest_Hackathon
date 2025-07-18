@@ -1,0 +1,1170 @@
+[
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "ExchangeDone",
+      "to_state": "Loading",
+      "actions": [
+        "If Link state request list is not empty, start sending Link State Request packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Loading",
+      "event": "LoadingDone",
+      "to_state": "Full",
+      "actions": [
+        "No action required"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Full",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "ExchangeDone",
+      "to_state": "Loading",
+      "actions": [
+        "If Link state request list is not empty, start sending Link State Request packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Loading",
+      "event": "LoadingDone",
+      "to_state": "Full",
+      "actions": [
+        "No action required"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Full",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "ExchangeDone",
+      "to_state": "Loading",
+      "actions": [
+        "If Link state request list is not empty, start sending Link State Request packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Loading",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "ExchangeDone",
+      "to_state": "Loading",
+      "actions": [
+        "If Link state request list is not empty, start sending Link State Request packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Loading",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "ExchangeDone",
+      "to_state": "Loading",
+      "actions": [
+        "If Link state request list is not empty, start sending Link State Request packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Loading",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "NegotiationDone",
+      "to_state": "Exchange",
+      "actions": [
+        "List contents of area link state database in neighbor Database summary list",
+        "Send Database Description packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Exchange",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "AdjOK?",
+      "to_state": "ExStart",
+      "actions": [
+        "Determine whether an adjacency should be formed",
+        "If yes, transition to ExStart and perform actions for 2-WayReceived event"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "ExStart",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "2-WayReceived",
+      "to_state": "2-Way",
+      "actions": [
+        "Determine whether an adjacency should be established with the neighbor",
+        "If not, remain in 2-Way state",
+        "Otherwise, increment DD sequence number, declare master, and start sending Database Description Packets"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "2-Way",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "HelloReceived",
+      "to_state": "Init",
+      "actions": [
+        "Restart the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [],
+      "is_global": 0
+    },
+    {
+      "from_state": "Init",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "Start",
+      "to_state": "Attempt",
+      "actions": [
+        "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+        "Start the Inactivity Timer for the neighbor"
+      ],
+      "constraints": [
+        "network_type == 'NBMA'"
+      ],
+      "is_global": 0
+    },
+    {
+      "from_state": "Attempt",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "KillNbr",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "LLDown",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list",
+        "Disable Inactivity Timer"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ],
+  [
+    {
+      "from_state": "Down",
+      "event": "InactivityTimer",
+      "to_state": "Down",
+      "actions": [
+        "Clear Link state retransmission list, Database summary list, and Link state request list"
+      ],
+      "constraints": [],
+      "is_global": 1
+    }
+  ]
+]

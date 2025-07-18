@@ -1,0 +1,34 @@
+{
+    "method_name": "方法名称，与代码中声明的名称完全一致",
+    "func_type": "方法的函数类型,static_func/package_func",
+    "description": "方法的描述信息",
+    "parameters": [
+        {
+            "name": "参数名称，与代码中声明的名称完全一致",
+            "type": "参数的类型，使用 Python 类型注解",
+            "description": "参数的描述信息，从文档字符串中提取",
+            "range_or_options": "参数的范围或可选值",
+            "default": "参数的默认值，如果函数或类声明后可以访问"
+        }
+    ],
+    "kwargs": [
+        {
+            "config_pattern": "配置模式的名称，如果没有配置模式，使用 'default_config_pattern'",
+            "append_info": "配置模式的附加信息，通常是模式的原始标签或描述",
+            "parameters": [
+                {
+                    "name": "参数名称，与代码中声明的名称完全一致",
+                    "type": "参数的类型，使用 Python 类型注解",
+                    "description": "参数的描述信息，从文档字符串中提取",
+                    "range_or_options": "参数的范围或可选值",
+                    "default": "参数的默认值，如果函数或类声明后可以访问"
+                }
+            ]
+        }
+    ],
+    "return": "返回值的描述信息",
+    "return_type": "返回值的类型",
+    "example": "方法的使用示例",
+    "conflicts": "解析类时遇到的冲突描述"
+}
+

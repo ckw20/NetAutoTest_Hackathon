@@ -1,0 +1,69 @@
+task_name: network_test_intent_rewrite
+description: >
+  Rewrite natural language task descriptions for any type of network testing scenario
+  into a standardized sequence of fine-grained subtasks. This supports automated planning,
+  API retrieval, and script generation for protocols like OSPF, BGP, IGMP, throughput, latency tests, etc.
+
+prompt_template: |
+  You are a senior network testing expert, skilled at breaking down complex natural language test intents into executable fine-grained action steps.
+
+  You will receive the following inputs:
+
+  Task Intent: A description in natural language of the goals and steps of a network testing case.  
+  Code Snippet: The test script code.  
+  API Functions: A list of available API interfaces used to generate the test script.
+
+  ---
+
+  Your task is:
+
+  Based on the above inputs, rewrite the Task Intent into a standardized and fine-grained list of subtasks to guide automated test script generation.
+
+  Each subtask must satisfy the following critical requirements:
+  1. Follow the logical execution order, reflecting the actual sequence of network testing steps;
+  2. Be clearly and precisely described to facilitate semantic matching with API Functions;
+  3. Ensure no key testing intent or condition is omitted (e.g., configurations, validations, expected outcomes);
+  4. Maintain contextual consistency across tasks so that each subtask smoothly connects with the output of the previous one.
+
+  ---
+
+  ## Input:
+  - Task Intent: 
+    {intent}
+  - Code Snippet: 
+    ```python
+    {code}
+    ```
+  - API Functions: 
+    {api_list}
+
+  ### Output format requirement:
+
+  Please return the result in JSON format. Use keys like `"Subtask 1"`, `"Subtask 2"`, etc., and values as detailed task descriptions. Do not include any additional content. For example:
+  {{
+    "Subtask 1": "Configure switch port eth1 to connect with the tester and set it to full-duplex mode.",
+    "Subtask 2": "Use the API to create a traffic stream with a frame length of 64 bytes and a test duration of 60 seconds.",
+    "Subtask 3": "Start the traffic transmission and record the packet loss and throughput during the test.",
+    "Subtask 4": "Verify whether the test results meet expectations: throughput reaches 100%."
+  }}
+
+example:
+  intent: |
+    Test Objective: Verify the switch’s handling capability for erroneous frames.  
+    Steps:  
+    1. Use the tester to send Ethernet frames with invalid checksums to the switch port;  
+    2. Check whether the switch filters these erroneous frames;  
+    3. Verify if the port statistics correctly record the number of dropped frames.
+
+  code: "<The actual Python test script is omitted here>"
+
+  api_list:
+    - init_tester
+    - reserve_port
+    - create_interface
+    - add_stream
+    - set_error_frame_mode
+    - start_stream
+    - get_port_statistic
+    - release_port
+    - shutdown_tester

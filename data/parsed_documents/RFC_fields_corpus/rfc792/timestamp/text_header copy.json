@@ -1,0 +1,81 @@
+{
+  "protocol_header": {
+    "name": "Timestamp or Timestamp Reply Message",
+    "version": "",
+    "description": "The Timestamp or Timestamp Reply Message is used to measure the round-trip time between two nodes or to synchronize clocks. It contains fields for timestamps and identifiers to aid in matching requests and replies.",
+    "fields": [
+      {1
+        "name": "Type",
+        "description": "Indicates the type of the ICMP message, where 13 represents a timestamp message and 14 represents a timestamp reply message.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 13 for timestamp messages.",
+          "Value must be 14 for timestamp reply messages."
+        ]
+      },
+      {2
+        "name": "Code",
+        "description": "Specifies the code field, which is always 0 for timestamp and timestamp reply messages.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 0."
+        ]
+      },
+      {3
+        "name": "Checksum",
+        "description": "A 16-bit ones' complement checksum of the ICMP message, computed with the checksum field initially set to zero. This field may be updated in future implementations.",
+        "size_bits": 16,
+        "constraints": [
+          "Checksum must be computed as the ones' complement of the ones' complement sum of the ICMP message starting from the ICMP Type field.",
+          "Checksum field must be zero during computation."
+        ]
+      },
+      {4
+        "name": "Identifier",
+        "description": "An identifier to assist in matching timestamp requests and replies. May be zero if Code is 0.",
+        "size_bits": 16,
+        "constraints": [
+          "Value can be any 16-bit integer.",
+          "May be zero when Code is 0."
+        ]
+      },
+      {5
+        "name": "Sequence Number",
+        "description": "A sequence number to assist in matching timestamp requests and replies. May be zero if Code is 0.",
+        "size_bits": 16,
+        "constraints": [
+          "Value can be any 16-bit integer.",
+          "May be zero when Code is 0."
+        ]
+      },
+      {6
+        "name": "Originate Timestamp",
+        "description": "A 32-bit timestamp indicating the time the sender last touched the message before sending it. The value is in milliseconds since midnight UT, unless the high-order bit is set to indicate a non-standard value.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must represent milliseconds since midnight UT unless the high-order bit is set.",
+          "If the high-order bit is set, the value indicates a non-standard timestamp."
+        ]
+      },
+      {7
+        "name": "Receive Timestamp",
+        "description": "A 32-bit timestamp indicating the time the echoer first touched the message upon receipt. The value is in milliseconds since midnight UT, unless the high-order bit is set to indicate a non-standard value.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must represent milliseconds since midnight UT unless the high-order bit is set.",
+          "If the high-order bit is set, the value indicates a non-standard timestamp."
+        ]
+      },
+      {8
+        "name": "Transmit Timestamp",
+        "description": "A 32-bit timestamp indicating the time the echoer last touched the message before sending it. The value is in milliseconds since midnight UT, unless the high-order bit is set to indicate a non-standard value.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must represent milliseconds since midnight UT unless the high-order bit is set.",
+          "If the high-order bit is set, the value indicates a non-standard timestamp."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

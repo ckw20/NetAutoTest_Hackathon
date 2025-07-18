@@ -1,0 +1,11 @@
+测试步骤：
+ONU1绑定T-CONT类型1，固定带宽为4000 Mbps
+ONU2绑定T-CONT类型2，确保带宽为2000Mbps
+ONU3绑定T-CONT类型4，上行总带宽为19000Mbps。
+从ONU3发送20000M数据，观察ONU2的流量。
+继续从ONU1发送5000M流量，观察ONU2、ONU3的流量。
+继续从ONU2发送2000M流量，观察ONU1、ONU2、ONU3的流量
+预期结果：
+步骤4，ONU3获得上行16Gbps的流量；
+步骤5，ONU3流量不变, ONU1获得上行4Gbps的流量；
+步骤6，ONU1上行流量不变，ONU2获得上行2Gbps的流量，ONU3减少2Gbps的流量；

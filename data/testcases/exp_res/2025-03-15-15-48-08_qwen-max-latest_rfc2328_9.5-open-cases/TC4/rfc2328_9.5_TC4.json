@@ -1,0 +1,83 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC4",
+      "title": "E-bit选项兼容性测试",
+      "objective": "验证设备正确处理区域类型与E-bit设置的匹配关系",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5",
+        "RFC2328.4.5"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "DUT:Port1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "Tester1:Port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC4-1",
+          "description": "配置被测设备（DUT）和协议测试仪，使两者通过Port1建立OSPF邻接关系。",
+          "expected_result": "DUT与协议测试仪成功建立OSPF邻接关系。"
+        },
+        {
+          "step_id": "TC4-2",
+          "description": "在协议测试仪上发送Hello包，其中E-bit设置为1，表示该区域支持AS-external-LSAs。",
+          "expected_result": "DUT接受Hello包，并维持邻接关系。"
+        },
+        {
+          "step_id": "TC4-3",
+          "description": "将协议测试仪发送的Hello包中的E-bit设置为0，表示该区域不支持AS-external-LSAs（即为Stub区域）。",
+          "expected_result": "如果DUT所在区域为非Stub区域，则DUT拒绝Hello包并中断邻接关系；如果DUT所在区域为Stub区域，则DUT接受Hello包并维持邻接关系。"
+        },
+        {
+          "step_id": "TC4-4",
+          "description": "在DUT上将区域配置为Stub区域，并重复步骤TC4-2。",
+          "expected_result": "DUT拒绝Hello包并中断邻接关系，因为E-bit设置为1与Stub区域不兼容。"
+        },
+        {
+          "step_id": "TC4-5",
+          "description": "在DUT上将区域配置为非Stub区域，并重复步骤TC4-3。",
+          "expected_result": "DUT接受Hello包并维持邻接关系，因为E-bit设置为0与非Stub区域兼容。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "topology": [
+      "测试用例所涉及的设备和端口连接信息，包含以下字段：",
+      "1. **name**: 设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+      "2. **type**: 设备的类型（例如：tester、DUT 等）。",
+      "3. **ports**: 设备的端口列表，描述设备的各个端口。",
+      "   - **name**: 端口的名称，用于唯一标识端口，例如port1等。",
+      "   - **connected_to**: 描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。"
+    ],
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

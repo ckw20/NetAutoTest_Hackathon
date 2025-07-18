@@ -1,0 +1,38 @@
+{
+    "test_cases": [
+      {
+        "id": "TC-OSPF-001",
+        "title": "OSPFv2路由协议建立与LSA传播测试",
+        "objective": "验证在DUT上配置OSPFv2路由协议后，测试仪tester能够通过OSPF协议建立邻居关系，并且LSA能够正确传播。",
+        "test_reference": "RFC 2328 (OSPFv2)",
+        "steps": [
+          {
+            "step_id": "Step-1",
+            "description": "按图10搭建测试环境。",
+            "expected_result": "测试环境搭建成功。"
+          },
+          {
+            "step_id": "Step-2",
+            "description": "配置tester port1 IP地址为192.168.1.100/24，port2为192.168.2.100/24。",
+            "expected_result": "tester port1和port2的IP地址配置成功。"
+          },
+          {
+            "step_id": "Step-3",
+            "description": "配置DUT port1 IP地址为192.168.1.1/24，port2为192.168.2.1/24。",
+            "expected_result": "DUT port1和port2的IP地址配置成功。"
+          },
+          {
+            "step_id": "Step-4",
+            "description": "在DUT上配置OSPFv2路由协议。",
+            "expected_result": "OSPFv2路由协议配置成功。"
+          },
+          {
+            "step_id": "Step-5",
+            "description": "测试仪tester使用port1、port2建立OSPF路由器，在port1插入一些LSA，并使port1和DUT的port1达到FULL状态，port2和DUT的port2达到FULL状态，观察port2是否能得到port1的LSA。",
+            "expected_result": "port1和DUT的port1达到FULL状态，port2和DUT的port2达到FULL状态，port2能够收到port1的LSA。"
+          }
+        ],
+        "tags": ["function"]
+      }
+    ]
+  }

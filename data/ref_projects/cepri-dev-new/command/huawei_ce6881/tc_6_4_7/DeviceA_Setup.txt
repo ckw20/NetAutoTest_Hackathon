@@ -1,0 +1,13 @@
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo port link-type                                                           
+#                                                                               
+interface ReplaceInterface_PortDeviceA_2
+ undo port link-type                                                           
+#
+interface ReplaceInterface_PortDeviceA_3
+ undo port link-type
+#
+commit
+quit

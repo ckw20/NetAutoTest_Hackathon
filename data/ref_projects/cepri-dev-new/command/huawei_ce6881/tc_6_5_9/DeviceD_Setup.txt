@@ -1,0 +1,5 @@
+
+#
+stp mode rstp
+stp pathcost-standard legacy
+commit

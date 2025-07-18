@@ -1,0 +1,14 @@
+{
+    'Idle': [('ManualStart', 'Connect'), ('ManualStart_with_PassiveTcpEstablishment', 'Active'), ('IdleHoldTimer_Expires', 'Idle'), ('AutomaticStart', 'Connect'), ('AutomaticStart_with_PassiveTcpEstablishment', 'Active'), ('AutomaticStart_with_DampPeerOscillations', 'Idle'), ('AutomaticStart_with_DampPeerOscillations_and_PassiveTcpEstablishment', 'Idle'), ('AnyOtherEvent', 'Idle')
+    ], 
+    'Connect': [('ManualStop', 'Idle'), ('ConnectRetryTimer_Expires', 'Connect'), ('DelayOpenTimer_Expires', 'OpenSent'), ('TcpConnectionFails', 'Active'), ('AutomaticStop', 'Idle'), ('TcpConnectionConfirmed', 'OpenSent'), ('TcpConnectionConfirmed', 'Connect'), ('BGPHeaderErr', 'Idle'), ('Tcp_CR_Invalid', 'Idle'), ('NotifMsg', 'Idle'), ('UpdateMsgErr', 'Idle')
+    ], 
+    'Active': [('ManualStop', 'Idle'), ('ConnectRetryTimer_Expires', 'Connect'), ('DelayOpenTimer_Expires', 'OpenSent'), ('TcpConnectionFails', 'Idle'), ('BGPOpen_with_DelayOpenTimer_running', 'OpenConfirm'), ('TcpConnectionConfirmed', 'OpenSent'), ('TcpConnefctionConfirmed', 'Active'), ('BGPHeaderErr', 'Idle'), ('Tcp_CR_Invalid', 'Idle'), ('NotifMsg', 'Idle'), ('UpdateMsgErr', 'Idle')
+    ], 
+    'OpenSent': [('ManualStop', 'Idle'), ('BGPOpen', 'OpenConfirm'), ('AutomaticStop', 'Idle'), ('HoldTimer_Expires', 'Idle'), ('TcpConnectionFails', 'Active'), ('BGPOpenMsgErr', 'Idle'), ('NotifMsgVerErr', 'Idle'), ('OpenCollisionDump', 'Idle'), ('BGPHeaderErr', 'Idle'), ('Tcp_CR_Invalid', 'Idle')
+    ], 
+    'OpenConfirm': [('KeepAliveMsg', 'Established'), ('AutomaticStop', 'Idle'), ('HoldTimer_Expires', 'Idle'), ('TcpConnectionFails', 'Idle'), ('NotifMsgVerErr', 'Idle'), ('OpenCollisionDump', 'Idle'), ('BGPHeaderErr', 'Idle'), ('Tcp_CR_Invalid', 'Idle'), ('NotifMsg', 'Idle'), ('KeepaliveTimer_Expires', 'Idle')
+    ], 
+    'Established': [('ManualStop', 'Idle'), ('AutomaticStop', 'Idle'), ('NotifMsg', 'Idle'), ('UpdateMsg', 'Established'), ('UpdateMsgErr', 'Idle'), ('OpenCollisionDump', 'Idle'), ('BGPHeaderErr', 'Idle'), ('Tcp_CR_Invalid', 'Idle'), ('KeepaliveTimer_Expires', 'Idle'), ('TcpConnection_Valid', 'Idle'), ('Tcp_CR_Acked', 'Idle'), ('TcpConnectionConfirmed', 'Idle')
+    ]
+}

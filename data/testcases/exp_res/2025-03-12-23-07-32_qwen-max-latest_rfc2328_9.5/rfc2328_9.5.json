@@ -1,0 +1,538 @@
+{
+  "test_cases": [
+    {
+      "id": "TC1",
+      "title": "Hello包参数一致性验证",
+      "objective": "验证接口拒绝HelloInterval不一致的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.1/16",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.2/16",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC1-1",
+          "description": "配置被测设备DUT的Port1接口，设置HelloInterval为10秒。",
+          "expected_result": "DUT的Port1接口HelloInterval成功配置为10秒。"
+        },
+        {
+          "step_id": "TC1-2",
+          "description": "在协议测试仪Tester1上，配置Port1接口发送Hello包，设置HelloInterval为20秒（与DUT的HelloInterval不一致）。",
+          "expected_result": "Tester1的Port1接口成功配置并开始发送Hello包。"
+        },
+        {
+          "step_id": "TC1-3",
+          "description": "等待20秒后，观察DUT的Port1接口状态。",
+          "expected_result": "DUT的Port1接口未与Tester1建立邻接关系，且未进入2-WAY状态。"
+        },
+        {
+          "step_id": "TC1-4",
+          "description": "在协议测试仪Tester1上，重新配置Port1接口发送Hello包，设置HelloInterval为10秒（与DUT一致）。",
+          "expected_result": "Tester1的Port1接口成功配置并开始发送Hello包。"
+        },
+        {
+          "step_id": "TC1-5",
+          "description": "等待20秒后，观察DUT的Port1接口状态。",
+          "expected_result": "DUT的Port1接口与Tester1建立邻接关系，并进入2-WAY或FULL状态。"
+        },
+        {
+          "step_id": "TC1-6",
+          "description": "关闭协议测试仪Tester1的Port1接口。",
+          "expected_result": "DUT的Port1接口邻接关系被清除。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC2",
+      "title": "网络掩码字段处理验证",
+      "objective": "验证在unnumbered点对点网络和虚拟链路上Network Mask字段置0的正确性",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.1/16",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.2/16",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC2-1",
+          "description": "配置被测设备（DUT）的端口Port1为unnumbered点对点网络模式。",
+          "expected_result": "DUT的Port1成功配置为unnumbered点对点网络模式。"
+        },
+        {
+          "step_id": "TC2-2",
+          "description": "开启协议测试仪Tester1的端口Port1，与DUT建立OSPF邻接关系。",
+          "expected_result": "Tester1与DUT之间的OSPF邻接关系成功建立，状态达到FULL。"
+        },
+        {
+          "step_id": "TC2-3",
+          "description": "捕获DUT发送的Hello包，并检查其Network Mask字段是否设置为0.0.0.0。",
+          "expected_result": "DUT发送的Hello包中Network Mask字段为0.0.0.0。"
+        },
+        {
+          "step_id": "TC2-4",
+          "description": "将DUT的Port1重新配置为虚拟链路模式，并重复步骤2。",
+          "expected_result": "Tester1与DUT之间的OSPF邻接关系再次成功建立，状态达到FULL。"
+        },
+        {
+          "step_id": "TC2-5",
+          "description": "捕获DUT在虚拟链路模式下发送的Hello包，并检查其Network Mask字段是否设置为0.0.0.0。",
+          "expected_result": "DUT发送的Hello包中Network Mask字段为0.0.0.0。"
+        },
+        {
+          "step_id": "TC2-6",
+          "description": "关闭协议测试仪Tester1的端口Port1，结束测试。",
+          "expected_result": ""
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC3",
+      "title": "Options字段E-bit配置验证",
+      "objective": "验证被测设备在存根区域正确清除E-bit的能力",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.4.5",
+        "RFC2328.10.5"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "192.168.1.1/24",
+              "connected_to": "DUT:Port1",
+              "area": "stub_area"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "192.168.1.2/24",
+              "connected_to": "Tester1:Port1",
+              "area": "stub_area"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC3-1",
+          "description": "配置被测设备DUT的Port1接口所属区域为存根区域（Stub Area），并确保该区域不接收AS-external-LSAs。",
+          "expected_result": "被测设备DUT的Port1接口成功配置为存根区域，且E-bit在Hello包中被清除。"
+        },
+        {
+          "step_id": "TC3-2",
+          "description": "开启协议测试仪Tester1的端口Port1，向被测设备DUT发送带有E-bit设置的Hello包。",
+          "expected_result": "被测设备DUT拒绝接受来自Tester1的Hello包，并丢弃该包。"
+        },
+        {
+          "step_id": "TC3-3",
+          "description": "修改协议测试仪Tester1的端口Port1，发送E-bit清除的Hello包。",
+          "expected_result": "被测设备DUT接受来自Tester1的Hello包，并与Tester1建立邻居关系。"
+        },
+        {
+          "step_id": "TC3-4",
+          "description": "延迟20秒后，观察被测设备DUT和协议测试仪Tester1的邻居状态。",
+          "expected_result": "被测设备DUT和协议测试仪Tester1的邻居状态达到2-WAY或FULL状态。"
+        },
+        {
+          "step_id": "TC3-5",
+          "description": "关闭协议测试仪Tester1的端口Port1，停止发送Hello包。",
+          "expected_result": "被测设备DUT的邻居状态从2-WAY或FULL状态变为Down状态。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC4",
+      "title": "未知选项位处理验证",
+      "objective": "验证设备正确处理Hello包Options字段未识别位（应置零）",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.1/16",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.2/16",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC4-1",
+          "description": "配置协议测试仪Tester1的端口Port1，发送带有未识别Options字段位设置为非零值的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-2",
+          "description": "观察被测设备DUT的端口Port1是否接收并处理该Hello包。",
+          "expected_result": "被测设备DUT应拒绝接收该Hello包，并记录相关日志或丢弃该包。"
+        },
+        {
+          "step_id": "TC4-3",
+          "description": "修改协议测试仪Tester1的端口Port1，发送带有未识别Options字段位设置为零值的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-4",
+          "description": "观察被测设备DUT的端口Port1是否接收并处理该Hello包。",
+          "expected_result": "被测设备DUT应正常接收该Hello包，并继续建立邻接关系。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC5",
+      "title": "邻居列表维护验证",
+      "objective": "验证设备在RouterDeadInterval时间内维护有效邻居列表的能力",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.1/16",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.2/16",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC5-1",
+          "description": "配置被测设备DUT和协议测试仪Tester1的HelloInterval为10秒，RouterDeadInterval为40秒。",
+          "expected_result": "配置成功，DUT和Tester1的HelloInterval和RouterDeadInterval参数一致。"
+        },
+        {
+          "step_id": "TC5-2",
+          "description": "启动协议测试仪Tester1的端口，向被测设备DUT发送Hello包，确保双方建立邻居关系并达到FULL状态。",
+          "expected_result": "Tester1和DUT之间的邻居关系建立成功，并达到FULL状态。"
+        },
+        {
+          "step_id": "TC5-3",
+          "description": "在Tester1上停止发送Hello包，并等待超过RouterDeadInterval时间（例如45秒）。",
+          "expected_result": "DUT的邻居列表中移除了Tester1的Router ID，且DUT的日志显示Tester1被标记为失效。"
+        },
+        {
+          "step_id": "TC5-4",
+          "description": "重新启动Tester1的端口，恢复发送Hello包。",
+          "expected_result": "DUT重新接收到来自Tester1的Hello包，并将其重新添加到邻居列表中，邻居状态恢复到FULL。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC6",
+      "title": "DR/BDR字段初始化验证",
+      "objective": "验证在未选举时DR/BDR字段置0的正确性",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "192.168.1.1/24",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "192.168.1.2/24",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC6-1",
+          "description": "配置被测设备（DUT）和协议测试仪（Tester1）之间的接口，确保它们处于同一广播网络中。",
+          "expected_result": "DUT和Tester1之间的接口正常启动，并能够互相通信。"
+        },
+        {
+          "step_id": "TC6-2",
+          "description": "在DUT上启用OSPF协议，并确保其HelloInterval和RouterDeadInterval参数与Tester1一致。",
+          "expected_result": "DUT和Tester1的OSPF参数配置一致，且能够发送Hello包。"
+        },
+        {
+          "step_id": "TC6-3",
+          "description": "通过协议测试仪捕获DUT发送的Hello包，检查Hello包中的Designated Router（DR）和Backup Designated Router（BDR）字段值。",
+          "expected_result": "在未进行DR/BDR选举的情况下，Hello包中的DR和BDR字段应为0.0.0.0。"
+        },
+        {
+          "step_id": "TC6-4",
+          "description": "在Tester1上模拟发送一个包含有效DR/BDR字段的Hello包，观察DUT的行为。",
+          "expected_result": "DUT不应接受该Hello包，因为DR/BDR字段不符合初始状态的要求。"
+        },
+        {
+          "step_id": "TC6-5",
+          "description": "关闭协议测试仪端口，停止发送Hello包。",
+          "expected_result": "DUT的接口状态恢复正常，未触发任何异常行为。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC7",
+      "title": "不同网络类型Hello发送方式验证",
+      "objective": "验证在广播/虚拟链路/Point-to-MultiPoint网络正确使用组播/单播发送Hello包",
+      "test_reference": [
+        "RFC2328.9.5"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "192.168.1.1/24",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            },
+            {
+              "name": "Port2",
+              "ip": "192.168.2.1/24",
+              "connected_to": "DUT:Port2",
+              "area": "0.0.0.0"
+            },
+            {
+              "name": "Port3",
+              "ip": "192.168.3.1/24",
+              "connected_to": "DUT:Port3",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "192.168.1.2/24",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            },
+            {
+              "name": "Port2",
+              "ip": "192.168.2.2/24",
+              "connected_to": "Tester1:Port2",
+              "area": "0.0.0.0"
+            },
+            {
+              "name": "Port3",
+              "ip": "192.168.3.2/24",
+              "connected_to": "Tester1:Port3",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC7-1",
+          "description": "配置DUT的Port1为广播网络类型，设置HelloInterval为10秒。",
+          "expected_result": "DUT的Port1应每10秒向IP组播地址AllSPFRouters发送Hello包。"
+        },
+        {
+          "step_id": "TC7-2",
+          "description": "配置DUT的Port2为虚拟链路类型，设置HelloInterval为10秒。",
+          "expected_result": "DUT的Port2应每10秒以单播方式直接向Tester1的Port2发送Hello包。"
+        },
+        {
+          "step_id": "TC7-3",
+          "description": "配置DUT的Port3为Point-to-MultiPoint网络类型，设置HelloInterval为10秒。",
+          "expected_result": "DUT的Port3应每10秒分别向Tester1的Port3发送单独的Hello包。"
+        },
+        {
+          "step_id": "TC7-4",
+          "description": "在Tester1上捕获并分析来自DUT的Hello包，验证其发送方式是否符合预期。",
+          "expected_result": "Tester1应能捕获到符合以下条件的Hello包：\n- Port1接收到组播Hello包。\n- Port2接收到单播Hello包。\n- Port3接收到单独的Hello包。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC8",
+      "title": "RouterDeadInterval一致性验证",
+      "objective": "验证接口拒绝RouterDeadInterval不一致的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.1/16",
+              "connected_to": "DUT:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "ip": "10.1.1.2/16",
+              "connected_to": "Tester1:Port1",
+              "area": "0.0.0.0"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC8-1",
+          "description": "配置协议测试仪端口Port1，设置其发送的Hello包中RouterDeadInterval字段值与被测设备DUT的Port1不一致。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC8-2",
+          "description": "开启协议测试仪端口Port1，向被测设备DUT的Port1发送带有不一致RouterDeadInterval字段的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC8-3",
+          "description": "延迟20秒后，观察协议测试仪端口Port1的状态。",
+          "expected_result": "协议测试仪端口Port1应没有到达2-WAY状态，表明DUT拒绝了RouterDeadInterval不一致的Hello包。"
+        },
+        {
+          "step_id": "TC8-4",
+          "description": "关闭协议测试仪端口Port1。",
+          "expected_result": ""
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

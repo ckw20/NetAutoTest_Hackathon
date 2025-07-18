@@ -1,0 +1,130 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-RDI-POS",
+      "title": "OSPFv2 Hello Packet RouterDeadInterval Consistency Positive Test",
+      "objective": "Verify that OSPFv2 routers on the same network can establish neighbor relationships when the RouterDeadInterval field is consistent across all routers.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester and DUT with identical RouterDeadInterval values (e.g., 40 seconds) in their OSPF Hello packets.",
+          "expected_result": "RouterDeadInterval configuration is successful on both devices."
+        },
+        {
+          "step_id": "3",
+          "description": "Enable OSPF on both the Tester and DUT, ensuring they are connected to the same network.",
+          "expected_result": "OSPF is enabled successfully on both devices."
+        },
+        {
+          "step_id": "4",
+          "description": "Observe whether the Tester and DUT establish a FULL neighbor relationship.",
+          "expected_result": "The Tester and DUT establish a FULL neighbor relationship within the RouterDeadInterval period."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "routing"
+      ],
+      "appendix": [
+        "1. Ensure that the Tester and DUT are connected via a direct link.",
+        "2. Use the same area ID for OSPF configuration on both devices.",
+        "3. Clear OSPF states and routing tables of all devices before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-HELLO-RDI-NEG",
+      "title": "OSPFv2 Hello Packet RouterDeadInterval Inconsistency Negative Test",
+      "objective": "Verify that OSPFv2 routers on the same network fail to establish neighbor relationships when the RouterDeadInterval field is inconsistent.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester with a RouterDeadInterval value of 40 seconds and the DUT with a RouterDeadInterval value of 60 seconds in their OSPF Hello packets.",
+          "expected_result": "RouterDeadInterval configuration is successful on both devices."
+        },
+        {
+          "step_id": "3",
+          "description": "Enable OSPF on both the Tester and DUT, ensuring they are connected to the same network.",
+          "expected_result": "OSPF is enabled successfully on both devices."
+        },
+        {
+          "step_id": "4",
+          "description": "Observe whether the Tester and DUT establish a FULL neighbor relationship.",
+          "expected_result": "The Tester and DUT fail to establish a FULL neighbor relationship within the RouterDeadInterval period."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "routing"
+      ],
+      "appendix": [
+        "1. Ensure that the Tester and DUT are connected via a direct link.",
+        "2. Use the same area ID for OSPF configuration on both devices.",
+        "3. Clear OSPF states and routing tables of all devices before testing."
+      ]
+    }
+  ],
+  "comments": {}
+}

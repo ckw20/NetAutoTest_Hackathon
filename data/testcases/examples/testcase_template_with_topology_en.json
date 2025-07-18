@@ -1,0 +1,48 @@
+{
+  "test_cases": [
+    {
+      "id": "",
+      "title": "",
+      "objective": "",
+      "test_reference": [],
+      "topology": [
+        {
+          "name": "device_name",
+          "type": "device_type",
+          "ports": [
+            {
+              "name": "port_name",
+              "connected_to": "connected_device_name:port_name",
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "",
+          "description": "",
+          "expected_result": ""
+        }
+      ],
+      "tags": [],
+      "appendix": []
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier of the test case.",
+    "title": "Title of the test case, briefly describing the test content.",
+    "objective": "Purpose of the test, explaining the function or feature that the test case aims to verify.",
+    "test_reference": "Reference documents for the test case, such as RFC section numbers, etc.",
+    "topology": [
+      "Device and port connection information involved in the test case, including the following fields:",
+      "1. name: Name of the device, used to uniquely identify the device, such as tester, DUT1, DeviceA, etc.",
+      "2. type: Type of the device (e.g., tester, DUT, etc.).",
+      "3. ports: List of ports of the device, describing each port of the device.",
+      "   - name: Name of the port, used to uniquely identify the port, such as port1, etc.",
+      "   - connected_to: Describes the device and port to which this port is connected, in the format 'device name:port name'."
+    ],
+    "steps": "Detailed description of the test steps, each step includes:\nstep_id: Unique identifier of the step.\ndescription: Specific operations or configurations of the step.\nexpected_result: Expected result of this step.",
+    "tags": "Tags of the test case, used for classifying or filtering test cases, types include: ['function', 'performance']",
+    "appendix": "Appendix section, containing additional information or instructions, such as configuration parameters of the test environment, precautions, etc."
+  }
+}

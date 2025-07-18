@@ -1,0 +1,75 @@
+
+{
+  "type": "Testcase",
+  "name": "区域ID一致性验证测试",
+  "tc_no": "tc_12",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "配置接口的Mac地址和IPv4地址等信息。",
+      "default": {
+        "mac_up_address": {
+          "description": "上行接口Mac地址设置",
+          "default": "00:01:02:02:02:02"
+        },
+        "mac_down_address": {
+          "description": "下行接口Mac地址设置",
+          "default": "00:01:02:03:03:03"
+        },
+        "ipv4_up_address": {
+          "description": "上行接口IPv4地址设置",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "上行接口IPv4网关设置",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "下行接口IPv4地址设置",
+          "default": "192.168.2.100"
+        },
+        "ipv4_down_gateway": {
+          "description": "下行接口IPv4网关设置",
+          "default": "192.168.2.1"
+        }
+      }
+    },
+    "ospf_hello_packet": {
+      "description": "构造OSPF Hello包的参数",
+      "default": {
+        "incorrect_area_id": {
+          "description": "错误的Area ID用于测试丢弃Hello包",
+          "default": "2"
+        },
+        "correct_area_id": {
+          "description": "正确的Area ID用于建立邻接关系",
+          "default": "1"
+        },
+        "router_id": {
+          "description": "测试仪发送Hello包时使用的Router ID",
+          "default": "1.1.1.1"
+        },
+        "hello_interval": {
+          "description": "Hello包的发送间隔时间（秒）",
+          "default": "10"
+        },
+        "dead_interval": {
+          "description": "邻居失效时间（秒）",
+          "default": "40"
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortTesterA_1"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，例如配置接口的Mac地址、IPv4地址以及构造OSPF Hello包所需的参数。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1和PortTesterA_1。"
+  }
+}

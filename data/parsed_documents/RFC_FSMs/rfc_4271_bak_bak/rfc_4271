@@ -1,0 +1,28 @@
+// OSPF FSM (With Wildcards)
+digraph {
+	Idle
+	Connect
+	Active
+	OpenSent
+	OpenConfirm
+	Established
+	Idle -> Connect [label=ManualStart]
+	Idle -> Active [label=ManualStart_with_PassiveTcpEstablishment]
+	Idle -> Idle [label=ManualStop]
+	Connect -> Idle [label=AutomaticStop color=red style=dashed]
+	Active -> Idle [label=AutomaticStop color=red style=dashed]
+	OpenSent -> Idle [label=AutomaticStop color=red style=dashed]
+	OpenConfirm -> Idle [label=AutomaticStop color=red style=dashed]
+	Established -> Idle [label=AutomaticStop color=red style=dashed]
+	Connect -> Idle [label=ManualStop]
+	Connect -> Connect [label=ConnectRetryTimer_Expires]
+	Connect -> OpenSent [label=DelayOpenTimer_Expires]
+	Connect -> OpenSent [label=Tcp_CR_Acked]
+	Active -> Idle [label=ManualStop]
+	Active -> Connect [label=ConnectRetryTimer_Expires]
+	OpenSent -> Idle [label=ManualStop]
+	OpenSent -> OpenConfirm [label=BGPOpen]
+	OpenConfirm -> Idle [label=ManualStop]
+	OpenConfirm -> Established [label=KeepAliveMsg]
+	Established -> Idle [label=ManualStop]
+}

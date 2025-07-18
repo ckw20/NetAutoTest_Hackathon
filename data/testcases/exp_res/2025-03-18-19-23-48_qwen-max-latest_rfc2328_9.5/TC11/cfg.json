@@ -1,0 +1,70 @@
+
+{
+  "type": "Testcase",
+  "name": "Options字段多能力位兼容性测试",
+  "tc_no": "tc_11",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "仪表接口和DUT接口的IPv4地址、网关及OSPF配置参数",
+      "default": {
+        "ipv4_up_address_port1": {
+          "description": "TesterA Port1的IPv4地址",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway_port1": {
+          "description": "TesterA Port1的IPv4网关",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address_port1": {
+          "description": "DeviceA Port1的IPv4地址",
+          "default": "192.168.1.1"
+        },
+        "ipv4_up_address_port2": {
+          "description": "TesterA Port2的IPv4地址",
+          "default": "192.168.2.100"
+        },
+        "ipv4_up_gateway_port2": {
+          "description": "TesterA Port2的IPv4网关",
+          "default": "192.168.2.1"
+        },
+        "ipv4_down_address_port2": {
+          "description": "DeviceA Port2的IPv4地址",
+          "default": "192.168.2.1"
+        },
+        "ospf_options_mc": {
+          "description": "OSPF Options字段的MC位设置",
+          "default": "1"
+        },
+        "ospf_options_np": {
+          "description": "OSPF Options字段的NP位设置",
+          "default": "1"
+        },
+        "ospf_options_ea": {
+          "description": "OSPF Options字段的EA位设置",
+          "default": "1"
+        },
+        "ospf_options_dc": {
+          "description": "OSPF Options字段的DC位设置",
+          "default": "1"
+        },
+        "ospf_options_unknown": {
+          "description": "模拟发送未知能力位的值",
+          "default": "1"
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2", "PortDeviceA_3", "PortDeviceA_4"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，包括接口IPv4地址、网关及OSPF Options字段的能力位设置。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1、PortDeviceA_2、PortDeviceA_3和PortDeviceA_4。"
+  }
+}

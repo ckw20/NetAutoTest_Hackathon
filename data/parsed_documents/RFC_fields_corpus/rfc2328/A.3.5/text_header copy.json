@@ -1,0 +1,173 @@
+{
+  "protocol_header": {
+    "name": "Link State Update Packet",
+    "version": "OSPF Packet Type 4",
+    "description": "This packet type implements the flooding of LSAs in OSPF. Each packet carries a collection of LSAs one hop further from their origin and is used to ensure reliable flooding through acknowledgments and retransmissions.",
+    "fields": [
+      {
+        "name": "Version #",
+        "description": "The version number of the OSPF protocol.",
+        "size_bits": 8,
+        "constraints": [
+          "Must be a valid OSPF version number supported by the implementation."
+        ]
+      },
+      {
+        "name": "Packet Type",
+        "description": "Identifies this packet as a Link State Update packet.",
+        "size_bits": 8,
+        "constraints": [
+          "Fixed value of 4, indicating OSPF packet type 4."
+        ]
+      },
+      {
+        "name": "Packet Length",
+        "description": "The total length of the packet in bytes, including the header and all LSAs.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be greater than or equal to the size of the fixed header (24 bytes) plus the size of the LSAs included."
+        ]
+      },
+      {
+        "name": "Router ID",
+        "description": "The identifier of the router that originated this packet.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a unique 32-bit identifier within the OSPF domain."
+        ]
+      },
+      {
+        "name": "Area ID",
+        "description": "The identifier of the OSPF area to which this packet belongs.",
+        "size_bits": 32,
+        "constraints": [
+          "Must match the area ID of the OSPF area in which the packet is being flooded.",
+          "The Area ID must be deduced from the Link State Update packet header as LSAs do not contain an area field, except for AS-external-LSAs.",
+          "If the area has been configured as a stub area, AS-external-LSAs (LS type = 5) must not be flooded into or throughout the area."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A checksum calculated over the entire packet (excluding the authentication fields).",
+        "size_bits": 16,
+        "constraints": [
+          "Must be computed using the standard OSPF checksum algorithm.",
+          "Must be verified upon receipt to ensure packet integrity.",
+          "If the checksum of an LSA contained in the packet is invalid, the LSA must be discarded without further processing."
+        ]
+      },
+      {
+        "name": "AuType",
+        "description": "Specifies the type of authentication used for the packet.",
+        "size_bits": 16,
+        "constraints": [
+          "Valid values include 0 (no authentication), 1 (simple password), and 2 (cryptographic authentication).",
+          "Must match the authentication type configured for the OSPF area."
+        ]
+      },
+      {
+        "name": "Authentication",
+        "description": "The authentication data used to verify the packet's authenticity.",
+        "size_bits": 64,
+        "constraints": [
+          "If AuType is 0, this field must be zero.",
+          "If AuType is 1, this field contains an 8-character password.",
+          "If AuType is 2, this field contains cryptographic authentication data."
+        ]
+      },
+      {
+        "name": "# LSAs",
+        "description": "The number of LSAs included in this update packet.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a non-negative integer.",
+          "Must accurately reflect the number of LSAs included in the packet body.",
+          "Each LSA must be processed individually, and the flooding procedure must handle each LSA separately based on its LS type, LS age, and other attributes.",
+          "If an LSA's LS age equals MaxAge and there is no instance of the LSA in the router's link state database, and none of the router's neighbors are in states Exchange or Loading, the LSA must be acknowledged and discarded without further processing."
+        ]
+      },
+      {
+        "name": "LS age",
+        "description": "The time in seconds since the LSA was originated.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a 16-bit unsigned integer representing the age in seconds.",
+          "The value indicates the elapsed time since the LSA was generated, and it is used to determine the freshness of the LSA.",
+          "The maximum value for LS age is defined as MaxAge (typically 3600 seconds)."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "The optional capabilities supported by the described portion of the routing domain.",
+        "size_bits": 8,
+        "constraints": [
+          "Must be an 8-bit field encoding the optional capabilities supported by the router.",
+          "The specific options are documented in Section A.2 of the RFC and may include capabilities such as External Routing Capability (E-bit) and others."
+        ]
+      },
+      {
+        "name": "LS type",
+        "description": "The type of the LSA.",
+        "size_bits": 8,
+        "constraints": [
+          "Must be an 8-bit unsigned integer representing the type of the LSA.",
+          "Valid values include 1 (Router-LSAs), 2 (Network-LSAs), 3 (Summary-LSAs for IP networks), 4 (Summary-LSAs for ASBRs), and 5 (AS-external-LSAs).",
+          "The LS type determines the format of the LSA and the interpretation of other fields such as Link State ID."
+        ]
+      },
+      {
+        "name": "Link State ID",
+        "description": "This field identifies the portion of the internet environment that is being described by the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a 32-bit identifier whose interpretation depends on the LS type.",
+          "For example, in network-LSAs, the Link State ID is set to the IP interface address of the network's Designated Router, from which the network's IP address can be derived."
+        ]
+      },
+      {
+        "name": "Advertising Router",
+        "description": "The Router ID of the router that originated the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a 32-bit identifier representing the Router ID of the originating router.",
+          "In network-LSAs, this field is equal to the Router ID of the network's Designated Router."
+        ]
+      },
+      {
+        "name": "LS sequence number",
+        "description": "Detects old or duplicate LSAs.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a 32-bit signed integer used to detect outdated or duplicate LSAs.",
+          "Successive instances of an LSA are assigned successive LS sequence numbers, ensuring proper ordering and detection of newer LSAs."
+        ]
+      },
+      {
+        "name": "LS checksum",
+        "description": "The Fletcher checksum of the complete contents of the LSA.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a 16-bit Fletcher checksum computed over the entire LSA, including the LSA header but excluding the LS age field.",
+          "The checksum ensures the integrity of the LSA and must be verified upon receipt."
+        ]
+      },
+      {
+        "name": "length",
+        "description": "The length in bytes of the LSA.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a 16-bit unsigned integer representing the total length of the LSA in bytes, including the 20-byte LSA header.",
+          "The length field ensures proper parsing of the LSA and must accurately reflect the size of the LSA."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the Link State Update packet header in OSPF. The 'protocol_header' object contains metadata about the packet and an array of field definitions with detailed descriptions and constraints.",
+  "additional_constraints_from_rfc": [
+    "Each LSA begins with a standard 20-byte LSA header, as explained in Section A.4.1 of the RFC.",
+    "All LSAs are flooded throughout the OSPF routing domain using a reliable flooding algorithm, ensuring that all routers have the same collection of LSAs.",
+    "From the link-state database constructed from the LSAs, each router builds a shortest path tree with itself as the root, yielding a routing table.",
+    "The details of the routing table build process are described in Section 16 of the RFC.",
+    "Other types of LSAs may also be originated, as described in Section 12.4 of the RFC."
+  ]
+}

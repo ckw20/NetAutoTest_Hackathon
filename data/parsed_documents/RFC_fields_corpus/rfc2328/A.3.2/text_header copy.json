@@ -1,0 +1,95 @@
+{
+  "protocol_header": {
+    "name": "OSPF Hello Packet",
+    "description": "OSPF Hello packets are used to establish and maintain neighbor relationships on all interfaces, including virtual links. They are multicast on networks with broadcast or multicast capability to dynamically discover neighboring routers.",
+    "fields": [
+      {
+        "name": "Version #",
+        "description": "The version number of the OSPF protocol.",
+        "size_bits": 8,
+        "constraints": [
+          "Must be a valid OSPF version number."
+        ]
+      },
+      ...
+      {
+        "name": "HelloInterval",
+        "description": "The interval, in seconds, between successive Hello packets sent by the router.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a positive integer.",
+          "All routers on the same network must agree on this value."
+        ]
+      },
+      ...
+
+      
+      {3
+        "name": "Options",
+        "description": "Indicates the optional capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "Defined in Section A.2 of the RFC.",
+          "Must reflect the router's supported capabilities.",
+          "The setting of the E-bit in the Options field must match the ExternalRoutingCapability of the attached OSPF area. The rest of the bits in the Options field should be ignored.",
+          "Unrecognized bits in the Options field must be set to zero to ensure compatibility with future OSPF versions or extensions.",
+          "The E-bit must be set if and only if the attached area is capable of processing AS-external-LSAs (i.e., it is not a stub area). If the E-bit is set incorrectly, neighboring routers will refuse to accept the Hello Packet.",
+          "The Options field consists of five defined bits: E-bit, MC-bit, N/P-bit, EA-bit, and DC-bit. Each bit represents a specific optional capability of the router. The E-bit controls AS-external-LSA flooding, the MC-bit indicates support for IP multicast forwarding, the N/P-bit handles Type-7 LSAs, the EA-bit signals willingness to process External-Attributes-LSAs, and the DC-bit indicates support for demand circuits. Routers must reset unrecognized bits in the Options field when sending Hello packets, Database Description packets, or LSAs. Conversely, routers receiving packets with unrecognized Option bits should ignore those bits and process the packet/LSA normally."
+        ]
+      },
+      {4
+        "name": "Rtr Pri",
+        "description": "The priority of the router in the (Backup) Designated Router election process.",
+        "size_bits": 8,
+        "constraints": [
+          "If set to 0, the router is ineligible to become a (Backup) Designated Router.",
+          "Changes in this field may trigger the NeighborChange event for the receiving interface's state machine.",
+          "Higher values indicate higher priority in the election process, with the range typically being 0 to 255."
+        ]
+      },
+      {5
+        "name": "RouterDeadInterval",
+        "description": "The time, in seconds, after which a router is declared down if no Hello packets are received.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be greater than HelloInterval.",
+          "All routers on the same network must agree on this value.",
+          "Any mismatch between the RouterDeadInterval in the received packet and the configured value for the receiving interface causes the packet to be dropped.",
+          "This value defines the maximum permissible silence period before a neighbor is considered unreachable."
+        ]
+      },
+      {6
+        "name": "Designated Router",
+        "description": "The IP address of the Designated Router for the network.",
+        "size_bits": 32,
+        "constraints": [
+          "Set to 0.0.0.0 if there is no Designated Router.",
+          "If the neighbor declares itself as the Designated Router and its Backup Designated Router field is 0.0.0.0, and the receiving interface is in the Waiting state, the BackupSeen event is scheduled for the receiving interface's state machine.",
+          "The value in this field must correspond to a valid IPv4 address or 0.0.0.0 if no Designated Router has been elected yet."
+        ]
+      },
+      {7
+        "name": "Backup Designated Router",
+        "description": "The IP address of the Backup Designated Router for the network.",
+        "size_bits": 32,
+        "constraints": [
+          "Set to 0.0.0.0 if there is no Backup Designated Router.",
+          "If the neighbor declares itself as the Backup Designated Router and the receiving interface is in the Waiting state, the BackupSeen event is scheduled for the receiving interface's state machine.",
+          "The value in this field must correspond to a valid IPv4 address or 0.0.0.0 if no Backup Designated Router has been elected yet."
+        ]
+      },
+      {8
+        "name": "Neighbor",
+        "description": "The Router IDs of neighboring routers from whom valid Hello packets have been recently received.",
+        "size_bits": null,
+        "constraints": [
+          "Each entry must be a valid Router ID.",
+          "Recently means within the last RouterDeadInterval seconds.",
+          "If the router itself appears in this list, the neighbor state machine is executed with the event 2-WayReceived; otherwise, it is executed with the event 1-WayReceived, and processing stops.",
+          "The list ensures two-way communication between adjacent routers by confirming that each router has seen the other's Hello packets."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the OSPF Hello packet header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

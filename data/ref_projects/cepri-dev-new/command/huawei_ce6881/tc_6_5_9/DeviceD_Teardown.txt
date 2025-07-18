@@ -1,0 +1,4 @@
+#
+undo stp mode rstp
+undo stp pathcost-standard legacy
+commit

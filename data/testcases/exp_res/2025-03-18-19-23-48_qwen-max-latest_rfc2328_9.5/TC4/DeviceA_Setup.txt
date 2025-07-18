@@ -1,0 +1,67 @@
+
+#
+# 被测设备 (DeviceA) 配置文件 - Setup
+#
+
+# 配置接口 PortDeviceA_1
+interface ReplaceInterface_PortDeviceA_1
+ undo portswitch
+ ip address 192.168.1.1 255.255.255.0
+ ospf network-type broadcast
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf enable
+
+# 配置接口 PortDeviceA_2
+interface ReplaceInterface_PortDeviceA_2
+ undo portswitch
+ ip address 192.168.2.1 255.255.255.0
+ ospf network-type broadcast
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf enable
+
+# 配置接口 PortDeviceA_3
+interface ReplaceInterface_PortDeviceA_3
+ undo portswitch
+ ip address 192.168.3.1 255.255.255.0
+ ospf network-type broadcast
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf enable
+
+# 配置接口 PortDeviceA_4
+interface ReplaceInterface_PortDeviceA_4
+ undo portswitch
+ ip address 192.168.4.1 255.255.255.0
+ ospf network-type broadcast
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf enable
+
+# 启用OSPF协议并配置相关参数
+ospf 1
+ router-id 1.1.1.1
+ area 0.0.0.0
+  network 192.168.1.0 0.0.0.255
+  network 192.168.2.0 0.0.0.255
+  network 192.168.3.0 0.0.0.255
+  network 192.168.4.0 0.0.0.255
+  timers throttle spf 10 100 500
+  capability opaque
+  default-route-advertise always
+  silent-interface all
+  silent-interface disable ReplaceInterface_PortDeviceA_1
+  silent-interface disable ReplaceInterface_PortDeviceA_2
+  silent-interface disable ReplaceInterface_PortDeviceA_3
+  silent-interface disable ReplaceInterface_PortDeviceA_4
+
+# 确保所有未识别的Options字段位被置零
+ospf options dc-bit 0
+ospf options ea-bit 0
+ospf options np-bit 0
+ospf options mc-bit 0
+ospf options e-bit 0
+
+commit
+quit

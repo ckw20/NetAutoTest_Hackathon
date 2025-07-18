@@ -1,0 +1,4 @@
+
+  ospf 1
+  area 0 nssa
+  

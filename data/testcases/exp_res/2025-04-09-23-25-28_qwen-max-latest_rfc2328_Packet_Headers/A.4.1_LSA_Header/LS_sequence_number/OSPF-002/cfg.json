@@ -1,0 +1,59 @@
+
+{
+  "type": "Testcase",
+  "name": "验证LSA头部字段LS sequence number的负向约束",
+  "tc_no": "OSPF-002",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "仪表接口Mac地址和IPv4地址设置",
+      "default": {
+        "mac_up_address": {
+          "description": "上行接口Mac地址设置",
+          "default": "00:01:02:02:02:02"
+        },
+        "mac_down_address": {
+          "description": "下行接口Mac地址设置",
+          "default": "00:01:02:03:03:03"
+        },
+        "ipv4_up_address": {
+          "description": "上行接口IPv4地址设置",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "上行接口IPv4网关设置",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "下行接口IPv4地址设置",
+          "default": "192.168.2.100"
+        },
+        "ipv4_down_gateway": {
+          "description": "下行接口IPv4网关设置",
+          "default": "192.168.2.1"
+        }
+      }
+    },
+    "lsa_sequence_numbers": {
+      "description": "测试步骤中使用的LS sequence number值",
+      "default": {
+        "invalid_sequence_1": "0x80000000",
+        "invalid_sequence_2": "0xFFFFFFFF",
+        "valid_sequence_1": "0x80000001",
+        "valid_sequence_2": "0x80000000"
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，例如配置接口的Mac地址、IPv4地址以及测试步骤中使用的LS sequence number值。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1和PortDeviceA_2。"
+  }
+}

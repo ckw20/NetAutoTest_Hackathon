@@ -1,0 +1,59 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC101",
+      "title": "验证OSPF邻居状态机在NBMA网络中的完整路径切换",
+      "objective": "通过模拟NBMA网络环境，验证从Down状态到Full状态的完整FSM路径切换，并确保KillNbr事件能够正确将状态切换回Down。",
+      "test_reference": ["RFC2328 10.1", "RFC2328 10.2", "RFC2328 10.3", "RFC2328 10.4"],
+      "steps": [
+        {
+          "step_id": "TC101-1",
+          "description": "配置TesterA和DeviceA之间的连接为NBMA网络类型，并确保DeviceA的PortDeviceA_1处于Down状态。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态为Down。"
+        },
+        {
+          "step_id": "TC101-2",
+          "description": "在TesterA的PortTesterA_1上发送Hello包，触发Start事件。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从Down切换到Attempt，且Inactivity Timer已启动。"
+        },
+        {
+          "step_id": "TC101-3",
+          "description": "在TesterA的PortTesterA_1上继续发送Hello包，触发HelloReceived事件。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从Attempt切换到Init，且Inactivity Timer已重新启动。"
+        },
+        {
+          "step_id": "TC101-4",
+          "description": "在TesterA的PortTesterA_1上发送包含DeviceA标识的Hello包，触发2-WayReceived事件。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从Init切换到2-Way，且确定不建立邻接关系。"
+        },
+        {
+          "step_id": "TC101-5",
+          "description": "在TesterA的PortTesterA_1上触发AdjOK?事件，模拟需要建立邻接关系。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从2-Way切换到ExStart，且DD序列号已递增，开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-6",
+          "description": "在TesterA的PortTesterA_1上完成主从协商并交换DD序列号，触发NegotiationDone事件。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从ExStart切换到Exchange，且开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-7",
+          "description": "在TesterA的PortTesterA_1上完成数据库描述包的交换，触发ExchangeDone事件。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从Exchange切换到Loading，且开始发送Link State Request包。"
+        },
+        {
+          "step_id": "TC101-8",
+          "description": "在TesterA的PortTesterA_1上完成所有链路状态更新，触发LoadingDone事件。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从Loading切换到Full，且邻接关系完全建立。"
+        },
+        {
+          "step_id": "TC101-9",
+          "description": "在TesterA的PortTesterA_1上触发KillNbr事件，模拟邻居不可达。",
+          "expected_result": "DeviceA的PortDeviceA_1的邻居状态从Full切换到Down，且Link state retransmission list、Database summary list和Link state request list已被清空，Inactivity Timer已禁用。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

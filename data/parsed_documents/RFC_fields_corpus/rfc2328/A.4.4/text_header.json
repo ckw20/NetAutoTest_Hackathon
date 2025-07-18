@@ -1,0 +1,50 @@
+{
+  "protocol_header": {
+    "name": "Summary-LSAs",
+    "version": "Type 3 and Type 4",
+    "description": "Summary-LSAs are used to describe inter-area destinations, originated by area border routers. Type 3 is used for IP networks, and Type 4 is used for AS boundary routers.",
+    "fields": [
+      {
+        "name": "Network Mask",
+        "description": "For Type 3 LSAs, indicates the destination network's IP address mask. For Type 4 LSAs, this field must be zero.",
+        "size_bits": 32,
+        "constraints": [
+          "For Type 3: Must represent a valid subnet mask (e.g., 0xff000000 for a class A network).",
+          "For Type 4: Must be set to 0.",
+          "The network mask is used to determine the range of IP addresses covered by the summary-LSA.",
+          "When calculating AS external routes, the network mask is applied to the Link State ID to derive the destination address N."
+        ]
+      },
+      {
+        "name": "Metric",
+        "description": "The cost of the route, expressed in the same units as interface costs in router-LSAs.",
+        "size_bits": 24,
+        "constraints": [
+          "Value must be non-negative and consistent with OSPF metric units.",
+          "If the routing table cost equals or exceeds LSInfinity, a summary-LSA cannot be generated for the route.",
+          "During AS external route calculation, the metric Y specified in the LSA must be a type 1 or type 2 external metric."
+        ]
+      },
+      {
+        "name": "TOS",
+        "description": "The IP Type of Service (TOS) that this metric refers to.",
+        "size_bits": 8,
+        "constraints": [
+          "Encoding follows Section 12.3 of the OSPF specification, where the OSPF encoding is expressed as a decimal integer corresponding to specific RFC 1349 TOS binary values.",
+          "Valid values are integers from 0 to 30, representing specific TOS encodings: 0 (normal service), 2 (minimize monetary cost), 4 (maximize reliability), 8 (maximize throughput), and 16 (minimize delay), along with intermediate encodings as defined in Table 17 of the RFC.",
+          "TOS-specific metrics are optional and may not be supported in all implementations."
+        ]
+      },
+      {
+        "name": "TOS metric",
+        "description": "TOS-specific metric information for backward compatibility.",
+        "size_bits": 24,
+        "constraints": [
+          "Value must align with the corresponding TOS field.",
+          "TOS metrics are only included if the TOS field specifies a non-zero value."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

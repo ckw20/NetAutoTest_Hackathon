@@ -1,0 +1,25 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address
+ undo ospf network-type
+ undo ospf timer hello
+ undo ospf timer dead
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo ip address
+ undo ospf network-type
+ undo ospf timer hello
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_3
+ undo ip address
+ undo ospf network-type
+ undo ospf timer hello
+ portswitch
+#
+undo ospf 1
+commit
+quit

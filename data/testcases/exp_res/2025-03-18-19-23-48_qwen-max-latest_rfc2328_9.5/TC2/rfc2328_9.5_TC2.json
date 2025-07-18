@@ -1,0 +1,49 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC2",
+      "title": "Hello包时间间隔参数验证测试",
+      "objective": "验证被测设备拒绝HelloInterval或RouterDeadInterval不匹配的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "steps": [
+        {
+          "step_id": "TC2-1",
+          "description": "配置协议测试仪端口1，设置HelloInterval和RouterDeadInterval与被测设备接口配置不同的值。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC2-2",
+          "description": "开启协议测试仪端口1，向被测设备发送带有不同HelloInterval或RouterDeadInterval的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC2-3",
+          "description": "延迟20秒后，观察协议测试仪端口1的状态。",
+          "expected_result": "协议测试仪端口1应未到达2-WAY状态。"
+        },
+        {
+          "step_id": "TC2-4",
+          "description": "在被测设备上检查是否接收到协议测试仪端口1发送的Hello包。",
+          "expected_result": "被测设备应未接收到来自协议测试仪端口1的Hello包。"
+        },
+        {
+          "step_id": "TC2-5",
+          "description": "重新配置协议测试仪端口1，使其HelloInterval和RouterDeadInterval与被测设备接口配置一致。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC2-6",
+          "description": "延迟20秒后，观察协议测试仪端口1的状态。",
+          "expected_result": "协议测试仪端口1应到达2-WAY状态。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

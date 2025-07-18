@@ -1,0 +1,37 @@
+{
+    "API": {
+        "model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+        "model_type": "CrossEncoder",
+        "k": 30,
+        "BM25": {
+            "enable": false,
+            "k": 300
+        },
+        "doc": "./data/parsed_documents/API_docs/last_llm_result_with_names.json",
+        "specified": null
+    },
+    "LLMClient": {
+        "api_key": "sk-208810d2a9cf48b1aab8ac749cc2e767",
+        "base_url": "https://api.deepseek.com",
+        "model": "deepseek-chat"
+    },
+    "FeedbackAgent": {
+        "HL_enable": false
+    },
+    "Task": {
+        "dir": "./data/testcases/exp_res/from_examples/tc643",
+        "task": "task.json"
+    },
+    "Example": {
+        "dir": "./data/ref_projects/cepri-dev-new",
+        "model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+        "model_type": "CrossEncoder",
+        "k": 1,
+        "specified": null
+    },
+    "CodeGenerator": {
+        "system_prompt": "./data/prompts/tcg_system_prompt",
+        "max_iter": 2,
+        "remove_past_assistant": true
+    }
+}

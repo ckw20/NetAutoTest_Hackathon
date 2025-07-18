@@ -1,0 +1,131 @@
+
+{
+  "test_cases": [
+    {
+      "id": "OSPF-001",
+      "title": "验证LSA头部字段LS type的正向测试",
+      "objective": "验证DUT能够正确处理符合规范的LSA类型（1, 2, 3, 4, 5）。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.4.1, Section 12.1.3"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1) 上，依次发送包含LS type为1、2、3、4和5的LSA，并确保LSA格式符合RFC 2328定义。",
+          "expected_result": "DUT接收并正确处理所有LSA类型，且未丢弃任何LSA。"
+        },
+        {
+          "step_id": "3",
+          "description": "通过测试仪捕获DUT的响应，检查是否生成相应的LSA更新消息。",
+          "expected_result": "测试仪捕获到与发送的LSA类型对应的LSA更新消息，且内容正确。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA)的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-002",
+      "title": "验证LSA头部字段LS type的负向测试",
+      "objective": "验证DUT能够正确拒绝不符合规范的LSA类型（非1, 2, 3, 4, 5）。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.4.1, Section 12.1.3"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1) 上，发送包含无效LS type值（如6, 7, 255）的LSA。",
+          "expected_result": "DUT丢弃所有无效LS type值的LSA，未生成任何LSA更新消息。"
+        },
+        {
+          "step_id": "3",
+          "description": "通过测试仪捕获DUT的响应，检查是否生成任何LSA更新消息。",
+          "expected_result": "测试仪未捕获到任何与无效LS type值相关的LSA更新消息。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA)的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议。"
+          ]
+        }
+      ]
+    }
+  ]
+}

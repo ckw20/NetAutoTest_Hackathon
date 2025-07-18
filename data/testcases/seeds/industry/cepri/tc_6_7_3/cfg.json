@@ -1,0 +1,27 @@
+{
+ "type":"Testcase",
+ "name":"动态主机配置协议（DHCP)",
+ "tc_no":"tc_6_7_3",
+ "version": {
+  "description": "版本号，使用开发或修改日期",
+  "default": "v20240917"
+ },
+ "arg":{
+  "interface": {
+   "description": "仪表接口Mac地址设置",
+   "default": {
+     "ipv4_up_address":{
+      "description": "上行接口IPv4地址设置",
+      "default": "192.168.1.100"
+     },
+     "ipv4_up_gateway":{
+      "description": "上行接口IPv4网关设置",
+      "default": "192.168.1.1"
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2"]
+}

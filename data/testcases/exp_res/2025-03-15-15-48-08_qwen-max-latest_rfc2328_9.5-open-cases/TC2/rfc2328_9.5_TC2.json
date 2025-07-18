@@ -1,0 +1,66 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC2",
+      "title": "点对点网络掩码处理测试",
+      "objective": "验证在点对点网络和虚拟链路上忽略网络掩码检查",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "DUT:Port1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "Tester1:Port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC2-1",
+          "description": "配置被测设备（DUT）的端口1为点对点网络类型，并确保其Hello包中的Network Mask字段设置为0.0.0.0。",
+          "expected_result": "被测设备正确配置，且发送的Hello包中Network Mask字段为0.0.0.0。"
+        },
+        {
+          "step_id": "TC2-2",
+          "description": "配置协议测试仪的端口1模拟一个点对点邻居，并发送Hello包，其中Network Mask字段设置为非0.0.0.0的值（例如255.255.255.0）。",
+          "expected_result": "被测设备接受该Hello包，并与协议测试仪建立邻接关系。"
+        },
+        {
+          "step_id": "TC2-3",
+          "description": "延迟20秒后，观察被测设备与协议测试仪之间的邻接状态。",
+          "expected_result": "被测设备与协议测试仪之间的邻接状态达到FULL状态，表明网络掩码字段未影响邻接关系的建立。"
+        },
+        {
+          "step_id": "TC2-4",
+          "description": "重复步骤2，但将协议测试仪的Hello包中的Network Mask字段设置为0.0.0.0。",
+          "expected_result": "被测设备仍然接受该Hello包，并保持邻接关系处于FULL状态。"
+        },
+        {
+          "step_id": "TC2-5",
+          "description": "关闭协议测试仪的端口1，停止发送Hello包。",
+          "expected_result": "被测设备检测到邻居失效，并移除邻接关系。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

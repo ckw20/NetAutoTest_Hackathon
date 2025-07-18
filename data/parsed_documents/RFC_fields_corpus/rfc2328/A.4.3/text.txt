@@ -1,0 +1,48 @@
+A.4.3 Network-LSAs
+
+    Network-LSAs are the Type 2 LSAs.  A network-LSA is originated for
+    each broadcast and NBMA network in the area which supports two or
+    more routers.  The network-LSA is originated by the network's
+    Designated Router.  The LSA describes all routers attached to the
+    network, including the Designated Router itself.  The LSA's Link
+    State ID field lists the IP interface address of the Designated
+    Router.
+
+    The distance from the network to all attached routers is zero.  This
+    is why metric fields need not be specified in the network-LSA.  For
+    details concerning the construction of network-LSAs, see Section
+    12.4.2.
+
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |            LS age             |      Options  |      2        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                        Link State ID                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     Advertising Router                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     LS sequence number                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |         LS checksum           |             length            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                         Network Mask                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                        Attached Router                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                              ...                              |
+
+
+
+    Network Mask
+        The IP address mask for the network.  For example, a class A
+        network would have the mask 0xff000000.
+
+
+    Attached Router
+        The Router IDs of each of the routers attached to the network.
+        Actually, only those routers that are fully adjacent to the
+        Designated Router are listed.  The Designated Router includes
+        itself in this list.  The number of routers included can be
+        deduced from the LSA header's length field.

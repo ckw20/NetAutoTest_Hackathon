@@ -1,0 +1,44 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC8",
+      "title": "邻居列表维护测试",
+      "objective": "验证设备正确维护最近收到的邻居列表（RouterDeadInterval内）",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC8-1",
+          "description": "在协议测试仪上配置一个与被测设备直连的接口，设置HelloInterval和RouterDeadInterval参数，并启动OSPF协议。",
+          "expected_result": "协议测试仪与被测设备之间的OSPF邻居关系应成功建立。"
+        },
+        {
+          "step_id": "TC8-2",
+          "description": "在协议测试仪上发送包含有效Neighbor字段的Hello包，确保Hello包中包含协议测试仪的Router ID。",
+          "expected_result": "被测设备应正确接收并记录协议测试仪的Router ID到其邻居列表中。"
+        },
+        {
+          "step_id": "TC8-3",
+          "description": "停止协议测试仪发送Hello包，并等待超过RouterDeadInterval的时间。",
+          "expected_result": "被测设备应在邻居列表中移除协议测试仪的Router ID，因为未在RouterDeadInterval内收到Hello包。"
+        },
+        {
+          "step_id": "TC8-4",
+          "description": "重新启动协议测试仪发送Hello包，并观察被测设备的邻居列表。",
+          "expected_result": "被测设备应重新将协议测试仪的Router ID添加到邻居列表中。"
+        },
+        {
+          "step_id": "TC8-5",
+          "description": "修改协议测试仪的Hello包中的RouterDeadInterval值，使其与被测设备的配置不一致。",
+          "expected_result": "被测设备应拒绝接受来自协议测试仪的Hello包，并保持邻居关系未建立状态。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

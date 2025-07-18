@@ -1,0 +1,52 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC4",
+      "title": "未识别选项位处理测试",
+      "objective": "验证设备正确处理Hello包中未识别的Options字段位（置零处理）",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC4-1",
+          "description": "配置协议测试仪端口，使其发送包含未识别Options字段位的Hello包（例如设置未定义的DC、EA、N/P、MC或E位为1）。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-2",
+          "description": "在被测设备上启用OSPF协议，并确保其与协议测试仪端口建立邻居关系。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-3",
+          "description": "观察被测设备是否接受并处理来自协议测试仪的Hello包。",
+          "expected_result": "被测设备应忽略Hello包中未识别的Options字段位，并正常处理该Hello包。"
+        },
+        {
+          "step_id": "TC4-4",
+          "description": "检查被测设备发送的Hello包中的Options字段，确认未识别位是否被置零。",
+          "expected_result": "被测设备发送的Hello包中，所有未识别的Options字段位均应被置零。"
+        },
+        {
+          "step_id": "TC4-5",
+          "description": "停止协议测试仪端口的Hello包发送，并清除被测设备上的OSPF邻居关系。",
+          "expected_result": ""
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

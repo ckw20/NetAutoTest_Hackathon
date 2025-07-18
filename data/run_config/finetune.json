@@ -1,0 +1,32 @@
+{
+    "API": {
+        "doc": "./data/parsed_documents/API_docs/last_llm_result_with_names.json"
+    },
+    "Example": {
+        "dir": "./data/ref_projects/cepri-dev-new",
+        "dir_no_cfg_ignore_me_plz": "./data/ref_projects/Examples/Python"
+    },
+    "Finetune": {
+        "dataset_positive": {
+            "generate": {
+                "enable": false,
+                "save_path": "./data/api_retriever_dataset/origin_dataset_positive.json"
+            },
+            "load": {
+                "enable": true,
+                "path": "./data/api_retriever_dataset/origin_dataset_positive.json"
+            }
+        },
+        "dataset_negative": {
+            "enable": true,
+            "seed": 42,
+            "ratio": 0.1
+        },
+        "model": {
+            "type": "SentenceTransformer",
+            "name_or_path": "multi-qa-mpnet-base-cos-v1",
+            "output_path": "/mnt/ssd2/ckw/NetAutoTest/models",
+            "output_name": "multi-qa-mpnet-base-cos-v1"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ storm suppression broadcast cir 100
+ storm suppression multicast 80
+ storm suppression unknown-unicast cir 64
+ storm control broadcast min-rate 1000 max-rate 2000
+ storm control multicast min-rate 1000 max-rate 2000
+ storm control unicast min-rate 1000 max-rate 2000
+ storm control interval 90
+ storm control action error-down
+ storm control enable log
+
+
+                                                       
+#                                                                               
+interface ReplaceInterface_PortDeviceA_2
+ undo portswitch
+ ip address 192.168.11.1 255.255.255.0
+ ip forward-broadcast
+                                                         
+#
+commit
+quit

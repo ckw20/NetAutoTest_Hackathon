@@ -1,0 +1,54 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC6",
+      "title": "多网络类型Hello包发送测试",
+      "objective": "验证设备在不同网络类型（广播/P2P/NBMA）下正确使用组播/单播发送Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC6-1",
+          "description": "配置被测设备的端口1为广播网络类型，并设置HelloInterval和RouterDeadInterval参数。",
+          "expected_result": "被测设备的端口1成功应用广播网络类型的配置。"
+        },
+        {
+          "step_id": "TC6-2",
+          "description": "在协议测试仪上启动端口1，模拟广播网络环境，并开始监听组播地址AllSPFRouters上的Hello包。",
+          "expected_result": "协议测试仪能够接收到被测设备通过组播地址发送的Hello包，且Hello包的Network Mask、HelloInterval和RouterDeadInterval字段与配置一致。"
+        },
+        {
+          "step_id": "TC6-3",
+          "description": "配置被测设备的端口2为点对点（P2P）网络类型，并设置HelloInterval和RouterDeadInterval参数。",
+          "expected_result": "被测设备的端口2成功应用点对点网络类型的配置。"
+        },
+        {
+          "step_id": "TC6-4",
+          "description": "在协议测试仪上启动端口2，模拟点对点网络环境，并开始监听来自被测设备的单播Hello包。",
+          "expected_result": "协议测试仪能够接收到被测设备通过单播方式发送的Hello包，且Hello包的Network Mask字段为0.0.0.0，HelloInterval和RouterDeadInterval字段与配置一致。"
+        },
+        {
+          "step_id": "TC6-5",
+          "description": "配置被测设备的端口3为非广播多路访问（NBMA）网络类型，并设置HelloInterval和RouterDeadInterval参数。",
+          "expected_result": "被测设备的端口3成功应用NBMA网络类型的配置。"
+        },
+        {
+          "step_id": "TC6-6",
+          "description": "在协议测试仪上启动端口3，模拟NBMA网络环境，并指定邻居地址后开始监听单播Hello包。",
+          "expected_result": "协议测试仪能够接收到被测设备通过单播方式发送的Hello包，且Hello包的Network Mask字段为0.0.0.0，HelloInterval和RouterDeadInterval字段与配置一致。"
+        },
+        {
+          "step_id": "TC6-7",
+          "description": "关闭协议测试仪的所有端口，并恢复被测设备的默认配置。",
+          "expected_result": "所有端口正常关闭，被测设备恢复到初始状态。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

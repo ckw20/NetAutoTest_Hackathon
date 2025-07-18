@@ -1,0 +1,87 @@
+
+{
+  "type": "Testcase",
+  "name": "多网络类型Hello包发送测试",
+  "tc_no": "TC6",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "配置接口的Mac地址和IPv4地址等信息。",
+      "default": {
+        "mac_port1_address": {
+          "description": "端口1的Mac地址设置",
+          "default": "00:01:02:02:02:01"
+        },
+        "mac_port2_address": {
+          "description": "端口2的Mac地址设置",
+          "default": "00:01:02:02:02:02"
+        },
+        "mac_port3_address": {
+          "description": "端口3的Mac地址设置",
+          "default": "00:01:02:02:02:03"
+        },
+        "ipv4_port1_address": {
+          "description": "端口1的IPv4地址设置",
+          "default": "192.168.1.1"
+        },
+        "ipv4_port1_gateway": {
+          "description": "端口1的IPv4网关设置",
+          "default": "192.168.1.100"
+        },
+        "ipv4_port2_address": {
+          "description": "端口2的IPv4地址设置",
+          "default": "192.168.2.1"
+        },
+        "ipv4_port2_gateway": {
+          "description": "端口2的IPv4网关设置",
+          "default": "192.168.2.100"
+        },
+        "ipv4_port3_address": {
+          "description": "端口3的IPv4地址设置",
+          "default": "192.168.3.1"
+        },
+        "ipv4_port3_gateway": {
+          "description": "端口3的IPv4网关设置",
+          "default": "192.168.3.100"
+        }
+      }
+    },
+    "ospf_config": {
+      "description": "OSPF网络类型的配置参数",
+      "default": {
+        "port1_network_type": {
+          "description": "端口1的网络类型（广播）",
+          "default": "broadcast"
+        },
+        "port2_network_type": {
+          "description": "端口2的网络类型（点对点）",
+          "default": "p2p"
+        },
+        "port3_network_type": {
+          "description": "端口3的网络类型（NBMA）",
+          "default": "nbma"
+        },
+        "hello_interval": {
+          "description": "Hello包的时间间隔（秒）",
+          "default": 10
+        },
+        "router_dead_interval": {
+          "description": "Router Dead Interval时间（秒）",
+          "default": 40
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2", "PortDeviceA_3"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，例如配置接口的Mac地址、IPv4地址以及OSPF网络类型的参数。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1、PortDeviceA_2和PortDeviceA_3。"
+  }
+}

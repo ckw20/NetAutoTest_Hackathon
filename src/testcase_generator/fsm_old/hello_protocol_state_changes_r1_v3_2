@@ -1,0 +1,16 @@
+digraph "Hello Protocol State Changes" {
+	rankdir=LR
+	Down
+	Attempt
+	Init
+	"2-Way"
+	Down -> Attempt [label=Start]
+	Down -> Init [label=HelloReceived]
+	Attempt -> Init [label=HelloReceived]
+	Init -> "2-Way" [label="2-WayReceived"]
+	Init -> Init [label="1-WayReceived"]
+	"2-Way" -> Init [label="1-WayReceived"]
+	"2-Way" -> "2-Way" [label="2-WayReceived"]
+	Init -> Init [label=HelloReceived]
+	"2-Way" -> "2-Way" [label=HelloReceived]
+}

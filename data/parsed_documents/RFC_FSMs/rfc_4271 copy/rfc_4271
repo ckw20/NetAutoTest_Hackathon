@@ -1,0 +1,50 @@
+// OSPF FSM (With Wildcards)
+digraph {
+	Idle
+	Connect
+	Active
+	OpenSent
+	OpenConfirm
+	Established
+	Idle -> Connect [label=ManualStart]
+	Idle -> Active [label=ManualStart_with_PassiveTcpEstablishment]
+	Idle -> Connect [label=AutomaticStart]
+	Idle -> Active [label=AutomaticStart_with_PassiveTcpEstablishment]
+	Idle -> Idle [label=IdleHoldTimer_Expires]
+	Connect -> Idle [label=ManualStop]
+	Connect -> Connect [label=ConnectRetryTimer_Expires]
+	Connect -> OpenSent [label=DelayOpenTimer_Expires]
+	Connect -> OpenSent [label=TcpConnection_Valid]
+	Connect -> Active [label=TcpConnectionFails]
+	Connect -> Idle [label=TcpConnectionFails]
+	Connect -> OpenConfirm [label=BGPOpen_with_DelayOpenTimer_running]
+	Active -> Idle [label=ManualStop]
+	Active -> Connect [label=ConnectRetryTimer_Expires]
+	Active -> OpenSent [label=DelayOpenTimer_Expires]
+	Active -> Idle [label=TcpConnectionFails]
+	Active -> OpenConfirm [label=BGPOpen_with_DelayOpenTimer_running]
+	OpenSent -> Idle [label=ManualStop]
+	OpenSent -> Idle [label=AutomaticStop]
+	OpenSent -> Idle [label=HoldTimer_Expires]
+	OpenSent -> Active [label=TcpConnectionFails]
+	OpenSent -> OpenConfirm [label=BGPOpen]
+	OpenConfirm -> Idle [label=ManualStop]
+	OpenConfirm -> Idle [label=AutomaticStop]
+	OpenConfirm -> Idle [label=HoldTimer_Expires]
+	OpenConfirm -> OpenConfirm [label=KeepaliveTimer_Expires]
+	OpenConfirm -> Established [label=KeepAliveMsg]
+	Established -> Idle [label=ManualStop]
+	Established -> Idle [label=AutomaticStop]
+	Established -> Idle [label=HoldTimer_Expires]
+	Established -> Established [label=KeepaliveTimer_Expires]
+	Connect -> Idle [label=BGPHeaderErr color=red style=dashed]
+	Active -> Idle [label=BGPHeaderErr color=red style=dashed]
+	OpenSent -> Idle [label=BGPHeaderErr color=red style=dashed]
+	OpenConfirm -> Idle [label=BGPHeaderErr color=red style=dashed]
+	Established -> Idle [label=BGPHeaderErr color=red style=dashed]
+	Connect -> Idle [label=BGPOpenMsgErr color=red style=dashed]
+	Active -> Idle [label=BGPOpenMsgErr color=red style=dashed]
+	OpenSent -> Idle [label=BGPOpenMsgErr color=red style=dashed]
+	OpenConfirm -> Idle [label=BGPOpenMsgErr color=red style=dashed]
+	Established -> Idle [label=BGPOpenMsgErr color=red style=dashed]
+}

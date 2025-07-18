@@ -1,0 +1,87 @@
+{
+  "protocol_header": {
+    "name": "OSPF Packet Header",
+    "version": "2",
+    "description": "The standard 24-byte header for OSPF packets, containing information necessary to determine whether the packet should be accepted for further processing.",
+    "fields": [
+      {
+        "name": "Version #",
+        "description": "The OSPF version number. This specification documents version 2 of the protocol.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 2 for OSPF version 2."
+        ]
+      },
+      {
+        "name": "Type",
+        "description": "The OSPF packet type, indicating the purpose of the packet.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid values are: 1 (Hello), 2 (Database Description), 3 (Link State Request), 4 (Link State Update), 5 (Link State Acknowledgment).",
+          "Packets with type Hello are processed by the Hello Protocol, while all other types are sent/received only on adjacencies and must match an active neighbor."
+        ]
+      },
+      {
+        "name": "Packet length",
+        "description": "The length of the OSPF protocol packet in bytes, including the standard OSPF header.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be at least 24 bytes (the size of the OSPF header).",
+          "The length must accurately reflect the total size of the OSPF packet, including headers and payload, for proper verification during processing."
+        ]
+      },
+      {
+        "name": "Router ID",
+        "description": "The Router ID of the packet's source, uniquely identifying the router within the OSPF domain.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a valid 32-bit IPv4 address.",
+          "For virtual links, the Router ID must match the other end of a configured virtual link when the packet is associated with the backbone area."
+        ]
+      },
+      {
+        "name": "Area ID",
+        "description": "A 32-bit number identifying the area that this packet belongs to. All OSPF packets are associated with a single area.",
+        "size_bits": 32,
+        "constraints": [
+          "For virtual links, the value must be 0.0.0.0 (backbone Area ID).",
+          "Must be a valid 32-bit IPv4 address.",
+          "The Area ID must either match the receiving interface's Area ID (indicating a single-hop packet) or indicate the backbone (for virtual links). If matching the receiving interface's Area ID, the packet's IP source address must belong to the same network as the receiving interface, verified by masking both addresses with the interface mask. This check is not performed on point-to-point networks."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "The standard IP checksum of the entire contents of the packet, starting with the OSPF packet header but excluding the 64-bit authentication field.",
+        "size_bits": 16,
+        "constraints": [
+          "Calculated as the 16-bit one's complement of the one's complement sum of all the 16-bit words in the packet, excluding the authentication field.",
+          "If the packet length is not an integral number of 16-bit words, it is padded with a byte of zero before checksumming.",
+          "May be omitted for certain authentication types.",
+          "The checksum must be verified at the IP level before the packet is passed to OSPF for further processing."
+        ]
+      },
+      {
+        "name": "AuType",
+        "description": "Identifies the authentication procedure to be used for the packet.",
+        "size_bits": 16,
+        "constraints": [
+          "Refer to Appendix D for a list of currently defined authentication types.",
+          "The AuType specified in the packet must match the AuType configured for the associated area, and the packet must be authenticated using the corresponding authentication procedure.",
+          "Valid values for AuType are: 0 (Null authentication), 1 (Simple password), 2 (Cryptographic authentication). All other values are reserved for assignment by the IANA.",
+          "The AuType is configurable on a per-interface or per-network/subnet basis, and additional authentication data is also configurable on a per-interface basis."
+        ]
+      },
+      {
+        "name": "Authentication",
+        "description": "A 64-bit field for use by the authentication scheme.",
+        "size_bits": 64,
+        "constraints": [
+          "Refer to Appendix D for details on usage and format.",
+          "The authentication procedure may involve verifying the checksum field in the OSPF packet header, which is excluded from the checksum calculation itself.",
+          "The Authentication field contains 64 bits of data specific to the authentication scheme determined by the AuType field. For Null authentication (AuType 0), this field is unused. For Simple password (AuType 1), it contains a plaintext password. For Cryptographic authentication (AuType 2), it contains cryptographic data such as a key ID and message digest."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

@@ -1,0 +1,71 @@
+
+{
+  "type": "Testcase",
+  "name": "OSPFv2 Hello包发送与接收验证测试",
+  "tc_no": "OSPF-001",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "仪表接口Mac地址和IPv4地址设置",
+      "default": {
+        "mac_up_address": {
+          "description": "上行接口Mac地址设置",
+          "default": "00:01:02:02:02:02"
+        },
+        "mac_down_address": {
+          "description": "下行接口Mac地址设置",
+          "default": "00:03:04:04:04:04"
+        },
+        "ipv4_up_address": {
+          "description": "上行接口IPv4地址设置",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "上行接口IPv4网关设置",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "下行接口IPv4地址设置",
+          "default": "192.168.2.100"
+        },
+        "ipv4_down_gateway": {
+          "description": "下行接口IPv4网关设置",
+          "default": "192.168.2.1"
+        }
+      }
+    },
+    "ospf_config": {
+      "description": "OSPFv2配置参数",
+      "default": {
+        "hello_interval": {
+          "description": "Hello包发送间隔时间（秒）",
+          "default": 10
+        },
+        "router_dead_interval": {
+          "description": "Router Dead Interval时间（秒）",
+          "default": 40
+        },
+        "network_mask": {
+          "description": "网络掩码",
+          "default": "255.255.255.0"
+        },
+        "e_bit": {
+          "description": "E-bit设置（非Stub区域为1）",
+          "default": 1
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，例如配置接口的Mac地址、IPv4地址以及OSPFv2相关参数。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1和PortDeviceA_2。"
+  }
+}

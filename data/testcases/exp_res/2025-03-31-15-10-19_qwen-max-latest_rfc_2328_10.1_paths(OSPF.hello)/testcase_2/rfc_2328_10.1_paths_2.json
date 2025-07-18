@@ -1,0 +1,54 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC101",
+      "title": "验证OSPF邻居状态机从Down到Full再到Down的完整路径",
+      "objective": "确保设备在NBMA网络环境下正确处理OSPF邻居状态机的转换，包括从Down到Attempt、Init、2-Way、ExStart、Exchange、Full，以及最终回到Down的状态变化。",
+      "test_reference": ["RFC2328 10.1", "RFC2328 10.2", "RFC2328 10.3", "RFC2328 10.4"],
+      "steps": [
+        {
+          "step_id": "TC101-1",
+          "description": "配置测试拓扑为NBMA网络类型，并确保TesterA和DeviceA之间的连接处于初始状态（无任何通信）。",
+          "expected_result": "设备DUT的OSPF接口状态应为Down。"
+        },
+        {
+          "step_id": "TC101-2",
+          "description": "在TesterA上触发事件Start，向DeviceA发送Hello包并启动Inactivity Timer。",
+          "expected_result": "设备DUT的邻居状态应从Down变为Attempt，且Inactivity Timer已启动。"
+        },
+        {
+          "step_id": "TC101-3",
+          "description": "在TesterA上发送Hello包，模拟HelloReceived事件。",
+          "expected_result": "设备DUT的邻居状态应从Attempt变为Init，且Inactivity Timer已重新启动。"
+        },
+        {
+          "step_id": "TC101-4",
+          "description": "在TesterA上发送包含DUT路由器ID的Hello包，模拟2-WayReceived事件。",
+          "expected_result": "设备DUT的邻居状态应从Init变为2-Way，且Adjacency未建立（根据条件判断）。"
+        },
+        {
+          "step_id": "TC101-5",
+          "description": "触发AdjOK?事件，确认是否需要建立邻接关系，并执行相关操作（如DD序列号递增、声明Master等）。",
+          "expected_result": "设备DUT的邻居状态应从2-Way变为ExStart，且DD序列号已递增。"
+        },
+        {
+          "step_id": "TC101-6",
+          "description": "完成主从协商后，触发NegotiationDone事件，开始发送Database Description包。",
+          "expected_result": "设备DUT的邻居状态应从ExStart变为Exchange，且Database Description包已开始发送。"
+        },
+        {
+          "step_id": "TC101-7",
+          "description": "完成数据库交换后，触发ExchangeDone事件，确认Link State Request列表为空。",
+          "expected_result": "设备DUT的邻居状态应从Exchange变为Full，且Link State Request列表为空。"
+        },
+        {
+          "step_id": "TC101-8",
+          "description": "在TesterA上触发KillNbr事件，清除所有邻接相关的列表并禁用Inactivity Timer。",
+          "expected_result": "设备DUT的邻居状态应回到Down，且Link state retransmission list、Database summary list和Link state request list均已清空。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

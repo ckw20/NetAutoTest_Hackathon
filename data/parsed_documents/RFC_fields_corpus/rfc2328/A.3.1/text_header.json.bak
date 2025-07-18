@@ -1,0 +1,173 @@
+{
+  "protocol_header": {
+    "name": "OSPF Packet Header",
+    "version": "2",
+    "description": "The standard 24-byte header for OSPF packets, containing information necessary to determine whether the packet should be accepted for further processing.",
+    "fields": [
+      {
+        "name": "Version #",
+        "description": "The OSPF version number, documented as version 2 in this specification.",
+        "size_bits": 8,
+        "constraints": [
+          "The value must be 2 for this version of the protocol."
+        ]
+      },
+      {
+        "name": "Type",
+        "description": "The OSPF packet type, indicating the kind of OSPF packet being transmitted.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid values are: 1 (Hello), 2 (Database Description), 3 (Link State Request), 4 (Link State Update), and 5 (Link State Acknowledgment).",
+          "Packets with types other than Hello are only processed if they are received on adjacencies and match an active neighbor.",
+          "For Hello packets, further processing is handled by the Hello Protocol (Section 10.5).",
+          "When the Type field is set to 5 (Link State Acknowledgment), the packet is used to explicitly acknowledge flooded LSAs, ensuring reliable flooding. These packets may be sent to multicast addresses AllSPFRouters or AllDRouters, or as a unicast, depending on the state of the sending interface and the sender of the corresponding Link State Update packet."
+        ]
+      },
+      {
+        "name": "Packet length",
+        "description": "The total length of the OSPF protocol packet in bytes, including the standard OSPF header.",
+        "size_bits": 16,
+        "constraints": [
+          "The value must be at least 24 bytes, as the header itself is 24 bytes long.",
+          "The packet length determines the extent of data included in the packet, which must align with the packet type's requirements.",
+          "For Link State Acknowledgment packets (Type 5), the length must account for the size of all LSA headers included in the packet body, as multiple LSAs can be acknowledged in a single packet."
+        ]
+      },
+      {
+        "name": "Router ID",
+        "description": "A unique identifier for the source router of the packet.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a 32-bit number, typically represented in dotted-decimal notation.",
+          "On point-to-point networks or virtual links, the Router ID identifies the sender and must match an active neighbor in the receiving interface's neighbor list.",
+          "In Link State Acknowledgment packets, the Router ID is used to identify the sender of the acknowledgment, which must correspond to a valid neighbor relationship."
+        ]
+      },
+      {
+        "name": "Area ID",
+        "description": "A 32-bit number identifying the area that the packet belongs to.",
+        "size_bits": 32,
+        "constraints": [
+          "All OSPF packets are associated with a single area.",
+          "Packets traveling over a virtual link are labeled with the backbone Area ID of 0.0.0.0.",
+          "The Area ID must either match the receiving interface's Area ID (indicating a single-hop transmission) or indicate the backbone (indicating a virtual link transmission).",
+          "For single-hop transmissions, the packet's IP source address must belong to the same network as the receiving interface, verified by masking both addresses with the interface mask (except on point-to-point networks).",
+          "In Link State Acknowledgment packets, the Area ID ensures that the acknowledgment is scoped to the correct OSPF area, as acknowledgments are area-specific."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "The standard IP checksum of the entire packet contents, excluding the 64-bit authentication field.",
+        "size_bits": 16,
+        "constraints": [
+          "Calculated as the 16-bit one's complement of the one's complement sum of all 16-bit words in the packet.",
+          "If the packet length is not an integral number of 16-bit words, it is padded with a zero byte before checksumming.",
+          "For some authentication types, the checksum calculation may be omitted.",
+          "The checksum must be correct for the packet to be accepted at the IP level.",
+          "In Link State Acknowledgment packets, the checksum ensures the integrity of the packet, including the LSA headers being acknowledged."
+        ]
+      },
+      {
+        "name": "AuType",
+        "description": "Identifies the authentication procedure to be used for the packet.",
+        "size_bits": 16,
+        "constraints": [
+          "The AuType field specifies the authentication scheme to be used, with valid values defined as follows: 0 (Null authentication), 1 (Simple password), 2 (Cryptographic authentication), and all other values reserved for assignment by the IANA.",
+          "The AuType specified in the packet must match the AuType configured for the associated interface or network/subnet.",
+          "Authentication types are configurable on a per-interface basis, and additional authentication data is also configurable on a per-interface basis.",
+          "In Link State Acknowledgment packets, authentication ensures that acknowledgments are not tampered with during transmission."
+        ]
+      },
+      {
+        "name": "Authentication",
+        "description": "A 64-bit field used by the authentication scheme.",
+        "size_bits": 64,
+        "constraints": [
+          "This 64-bit field is used by the authentication scheme determined by the AuType field.",
+          "For Null authentication (AuType 0), this field is unused and must be set to zero.",
+          "For Simple password authentication (AuType 1), this field contains an 8-character password, padded with null characters if shorter than 8 characters.",
+          "For Cryptographic authentication (AuType 2), this field contains cryptographic data such as a key ID, authentication sequence number, and message digest.",
+          "The packet must be authenticated using the procedure indicated by the AuType field, which may involve verifying the checksum field in the OSPF packet header.",
+          "In Link State Acknowledgment packets, the Authentication field provides additional security to prevent unauthorized acknowledgments from being processed."
+        ]
+      },
+      {
+        "name": "Network Mask",
+        "description": "The network mask associated with this interface.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a 32-bit number, typically represented in hexadecimal or dotted-decimal notation.",
+          "For example, if the interface is to a class B network whose third byte is used for subnetting, the network mask is 0xffffff00.",
+          "All routers connected to a common network must agree on the Network Mask parameter; otherwise, neighbor relationships cannot be established."
+        ]
+      },
+      {
+        "name": "HelloInterval",
+        "description": "The number of seconds between this router's Hello packets.",
+        "size_bits": 16,
+        "constraints": [
+          "The value is a 16-bit unsigned integer, representing the interval in seconds.",
+          "All routers connected to a common network must agree on the HelloInterval parameter; otherwise, neighbor relationships cannot be established."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "The optional capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "The value is an 8-bit field where each bit represents a specific optional capability, as documented in Section A.2 of the RFC.",
+          "The Options field allows routers to advertise their capabilities and negotiate supported features during neighbor discovery."
+        ]
+      },
+      {
+        "name": "Rtr Pri",
+        "description": "This router's Router Priority, used in (Backup) Designated Router election.",
+        "size_bits": 8,
+        "constraints": [
+          "The value is an 8-bit unsigned integer, ranging from 0 to 255.",
+          "If set to 0, the router will be ineligible to become a (Backup) Designated Router.",
+          "Higher values indicate higher priority in the election process."
+        ]
+      },
+      {
+        "name": "RouterDeadInterval",
+        "description": "The number of seconds before declaring a silent router down.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a 32-bit unsigned integer, representing the interval in seconds.",
+          "All routers connected to a common network must agree on the RouterDeadInterval parameter; otherwise, neighbor relationships cannot be established."
+        ]
+      },
+      {
+        "name": "Designated Router",
+        "description": "The identity of the Designated Router for this network.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a 32-bit number, typically represented in dotted-decimal notation, corresponding to the IP interface address of the Designated Router.",
+          "Set to 0.0.0.0 if there is no Designated Router for the network."
+        ]
+      },
+      {
+        "name": "Backup Designated Router",
+        "description": "The identity of the Backup Designated Router for this network.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a 32-bit number, typically represented in dotted-decimal notation, corresponding to the IP interface address of the Backup Designated Router.",
+          "Set to 0.0.0.0 if there is no Backup Designated Router for the network."
+        ]
+      },
+      {
+        "name": "Neighbor",
+        "description": "The Router IDs of each router from whom valid Hello packets have been seen recently.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a 32-bit number, typically represented in dotted-decimal notation, corresponding to the Router ID of a neighboring router.",
+          "Each Neighbor entry represents a router whose Hello packets have been received within the last RouterDeadInterval seconds.",
+          "Multiple Neighbor fields may be present in the packet, depending on the number of active neighbors.",
+          "In Link State Acknowledgment packets, the Neighbor field is not directly used, as acknowledgments are based on LSA headers rather than neighbor relationships."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

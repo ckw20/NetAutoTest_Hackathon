@@ -1,0 +1,72 @@
+task_name: network_test_intent_rewrite
+description: >
+  Rewrite natural language task descriptions for any type of network testing scenario
+  into a standardized sequence of fine-grained subtasks. This supports automated planning,
+  API retrieval, and script generation for protocols like OSPF, BGP, IGMP, throughput, latency tests, etc.
+
+prompt_template: |
+  你是一位资深的网络测试专家，擅长将复杂的自然语言测试意图分解为可执行的细粒度操作步骤。
+
+  你将收到以下输入内容：
+
+  Task Intent：用自然语言描述的网络测试用例目标与流程
+  Code Snippet：测试脚本代码
+  API Functions：用于生成测试脚本的 API 接口列表
+
+  ---
+
+  你的任务是：
+
+  请根据上述输入，将 Task Intent 改写为一个标准化化、细粒度的子任务列表，用于驱动自动化测试脚本生成。
+ 
+  每个子任务应满足以下要求，重点注意！！！
+  1. 遵循逻辑执行顺序，反映实际网络测试的步骤先后关系；
+  2. 表述规范明确，便于后续通过语义匹配在 API Functions 中检索对应的函数；
+  3. 确保不遗漏任何关键的测试意图或判断条件（例如配置、验证、预期结果等）；
+  4. 任务之间具备上下文连贯性，确保后续任务能够衔接前面的输出。
+ 
+
+  ---
+
+  ## Input:
+  - Task Intent: 
+    {intent}
+  - Code Snippet: 
+    ```python
+    {code}
+    ```
+  - API Functions: 
+    {api_list}
+
+  ### 输出格式要求：
+
+  请以 JSON 格式返回，键为 `"子任务1"`, `"子任务2"` 等，值为该任务的具体描述，不要输出多余内容。例如：
+  {{
+    "子任务1": "初始化测试仪表（使用init_tester函数）",
+    "子任务2": "创建端口，并预约端口(使用reserve_port函数，指定端口位置参数)",
+    "子任务3": "在预约端口上创建网络接口，(使用create_interface函数，每个端口创建独立接口）",
+    "子任务4": "配置客户端侧接口参数（使用edit_interface函数，设置IPv4地址和网关）",
+    ...
+  }}
+
+
+example:
+  intent: |
+    测试目的：验证交换机对错误帧的处理能力。
+    步骤：
+    1. 使用测试仪向交换机端口发送带有错误校验码的以太网帧；
+    2. 检查交换机是否过滤这些错误帧；
+    3. 查看端口统计信息是否正确记录丢弃数量。
+
+  code: "<此处省略具体 Python 测试脚本>"
+
+  api_list:
+    - init_tester
+    - reserve_port
+    - create_interface
+    - add_stream
+    - set_error_frame_mode
+    - start_stream
+    - get_port_statistic
+    - release_port
+    - shutdown_tester

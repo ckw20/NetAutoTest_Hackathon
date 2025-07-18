@@ -1,0 +1,141 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-RTRPRI-POS",
+      "title": "OSPFv2 Hello Packet Rtr Pri Positive Test",
+      "objective": "Verify that the Rtr Pri field in OSPFv2 Hello packets correctly influences (Backup) Designated Router election when set to valid values.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure OSPFv2 on the DUT and enable Hello packet transmission on port1 with Rtr Pri set to a non-zero value (e.g., 1).",
+          "expected_result": "OSPFv2 configuration is successful, and Hello packets are transmitted with Rtr Pri = 1."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe the Tester's received Hello packets and verify that the Rtr Pri field matches the configured value.",
+          "expected_result": "The Tester receives Hello packets with Rtr Pri = 1."
+        },
+        {
+          "step_id": "4",
+          "description": "Check whether the DUT participates in (Backup) Designated Router election based on the Rtr Pri value.",
+          "expected_result": "The DUT is eligible for (Backup) Designated Router election."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "routing"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure physical connections between devices are stable.",
+        "2. Verify that OSPF is enabled on the DUT and Tester interfaces.",
+        "3. Clear OSPF states and routing tables before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-HELLO-RTRPRI-NEG",
+      "title": "OSPFv2 Hello Packet Rtr Pri Negative Test",
+      "objective": "Verify that the Rtr Pri field in OSPFv2 Hello packets makes the router ineligible for (Backup) Designated Router election when set to 0.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure OSPFv2 on the DUT and enable Hello packet transmission on port1 with Rtr Pri set to 0.",
+          "expected_result": "OSPFv2 configuration is successful, and Hello packets are transmitted with Rtr Pri = 0."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe the Tester's received Hello packets and verify that the Rtr Pri field matches the configured value.",
+          "expected_result": "The Tester receives Hello packets with Rtr Pri = 0."
+        },
+        {
+          "step_id": "4",
+          "description": "Check whether the DUT is excluded from (Backup) Designated Router election based on the Rtr Pri value.",
+          "expected_result": "The DUT is ineligible for (Backup) Designated Router election."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "routing"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure physical connections between devices are stable.",
+        "2. Verify that OSPF is enabled on the DUT and Tester interfaces.",
+        "3. Clear OSPF states and routing tables before testing."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Each test case ID follows the format TC-<PROTOCOL>-<PACKET>-<FIELD>-<TYPE>.",
+    "title": "Titles succinctly describe the test focus, including the protocol, packet, field, and test type.",
+    "objective": "Objectives clearly state the purpose of the test, focusing on the specific behavior of the Rtr Pri field.",
+    "test_reference": "References to RFC sections ensure compliance with standards.",
+    "topology": "A minimal topology is used to isolate the behavior of the Rtr Pri field.",
+    "steps": "Steps are designed to be concise, measurable, and focused on the Rtr Pri field.",
+    "tags": "Tags categorize the test cases for easy filtering.",
+    "appendix": "Appendices provide additional context and precautions for accurate testing."
+  }
+}

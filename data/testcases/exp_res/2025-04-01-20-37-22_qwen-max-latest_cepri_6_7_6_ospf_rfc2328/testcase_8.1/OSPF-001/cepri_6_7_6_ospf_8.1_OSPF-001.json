@@ -1,0 +1,45 @@
+{
+  "id": "OSPF-001",
+  "title": "OSPFv2协议包头字段验证测试",
+  "objective": "验证DUT在发送OSPF协议包时，正确填充标准OSPF包头字段。",
+  "test_reference": [
+    "RFC 2328, Section 8.1 (Sending protocol packets)",
+    "RFC 2328, Appendix A.3.1 (OSPF Packet Header Format)"
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "搭建测试环境：\n- 连接TesterA PortTesterA_1到DeviceA PortDeviceA_1\n- 连接TesterA PortTesterA_2到DeviceA PortDeviceA_2",
+      "expected_result": "物理连接建立成功"
+    },
+    {
+      "step_id": "2",
+      "description": "配置TesterA的IP地址：\n- PortTesterA_1: 192.168.1.100/24\n- PortTesterA_2: 192.168.2.100/24",
+      "expected_result": "IP地址配置成功，接口状态up"
+    },
+    {
+      "step_id": "3",
+      "description": "配置DeviceA的IP地址：\n- PortDeviceA_1: 192.168.1.1/24\n- PortDeviceA_2: 192.168.2.1/24",
+      "expected_result": "DeviceA接口IP配置成功"
+    },
+    {
+      "step_id": "4",
+      "description": "在DeviceA上启用并配置OSPFv2路由协议，确保其Router ID为1.1.1.1，Area ID为0.0.0.0。",
+      "expected_result": "OSPF配置成功，进程正常启动"
+    },
+    {
+      "step_id": "5",
+      "description": "通过TesterA向DeviceA发送Hello包，并捕获DeviceA发出的OSPF协议包。",
+      "expected_result": "能够捕获到DeviceA发出的OSPF协议包"
+    },
+    {
+      "step_id": "6",
+      "description": "验证捕获的OSPF协议包头字段是否符合以下要求：\n- Version #: 设置为2\n- Router ID: 设置为1.1.1.1\n- Area ID: 设置为0.0.0.0\n- Checksum: 校验和计算正确\n- AuType和Authentication: 符合配置的认证类型",
+      "expected_result": "OSPF协议包头字段均符合预期值"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ]
+}

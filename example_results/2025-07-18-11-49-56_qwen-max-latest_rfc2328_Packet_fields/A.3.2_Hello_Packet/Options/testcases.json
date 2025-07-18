@@ -1,0 +1,127 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-OPTIONS-VALID",
+      "title": "OSPFv2 Options Field Validity Test",
+      "objective": "Verify that the OSPFv2 Hello packet's Options field is correctly interpreted and processed by the device under test (DUT).",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with a valid Options field value (e.g., 0x02 for E-bit set).",
+          "expected_result": "Hello packet is sent successfully from the Tester."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe whether the DUT processes the Hello packet and establishes a neighbor relationship with the Tester.",
+          "expected_result": "Neighbor relationship is established, and the DUT acknowledges the Options field."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "options"
+      ],
+      "appendix": [
+        "Ensure the Tester and DUT are configured in the same OSPF area.",
+        "Clear OSPF states and routing tables of all devices before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-OPTIONS-INVALID",
+      "title": "OSPFv2 Options Field Invalidity Test",
+      "objective": "Verify that the OSPFv2 Hello packet's Options field with invalid values is rejected by the device under test (DUT).",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with an invalid Options field value (e.g., 0xFF).",
+          "expected_result": "Hello packet is sent successfully from the Tester."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe whether the DUT rejects the Hello packet and does not establish a neighbor relationship.",
+          "expected_result": "Neighbor relationship is not established, and the DUT logs or discards the invalid packet."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "options"
+      ],
+      "appendix": [
+        "Ensure the Tester and DUT are configured in the same OSPF area.",
+        "Clear OSPF states and routing tables of all devices before testing."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier for each test case.",
+    "title": "Brief description of the test content.",
+    "objective": "Purpose of the test, explaining the feature being verified.",
+    "test_reference": "Reference to RFC sections relevant to the test case.",
+    "topology": "Describes the network setup required for the test case.",
+    "steps": "Detailed steps to execute the test case.",
+    "tags": "Categories or filters for organizing test cases.",
+    "appendix": "Additional notes or prerequisites for the test case."
+  }
+}

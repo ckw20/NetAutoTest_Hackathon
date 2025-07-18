@@ -1,0 +1,14 @@
+{
+    "states": [],
+    "init_state": "",
+    "events": [],
+    "transitions": [
+        {
+            "from_state": "",
+            "to_state": "",
+            "event": "",
+            "actions": [],
+            "constraints": []
+        }
+    ]
+}

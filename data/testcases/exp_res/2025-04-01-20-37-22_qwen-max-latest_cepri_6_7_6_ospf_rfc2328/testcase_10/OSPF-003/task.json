@@ -1,0 +1,38 @@
+{
+  "id": "OSPF-003",
+  "title": "OSPFv2 邻居选项能力验证测试",
+  "objective": "验证DUT在邻居关系建立过程中正确处理Neighbor Options字段。",
+  "test_reference": [
+    "RFC 2328 (OSPFv2), Section 10"
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "tester port1 IP地址为192.168.1.100/24，port2为192.168.2.100/24；",
+      "expected_result": ""
+    },{
+      "step_id": "2",
+      "description": "DUT port1 IP地址为192.168.1.1/24，port2为 192.168.2.1/24；",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "在 DUT 上启用并配置OSPFv2路由协议。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "4",
+      "description": "在TesterA PortTesterA_1上模拟OSPF路由器，设置Neighbor Options字段为空（不支持任何可选功能）。",
+      "expected_result": "DeviceA拒绝建立邻居关系，因为存在关键能力不匹配。"
+    },
+    {
+      "step_id": "5",
+      "description": "在TesterA PortTesterA_1上更新Neighbor Options字段，添加支持的能力标志位（如E-bit）。",
+      "expected_result": "DeviceA成功建立邻居关系，状态达到FULL。"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ]
+}

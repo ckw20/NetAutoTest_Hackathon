@@ -1,0 +1,53 @@
+{
+  "protocol_header": {
+    "name": "Source Quench Message",
+    "version": "",
+    "description": "The Source Quench Message is an ICMP message type used to request a source host to reduce the rate of traffic sent to a specific destination. It may be sent by a gateway or destination host when it cannot handle incoming datagrams at the current rate.",
+    "fields": [
+      {1
+        "name": "Type",
+        "description": "Indicates the type of ICMP message. For Source Quench Messages, this field must have a value of 4.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 4."
+        ]
+      },
+      {2
+        "name": "Code",
+        "description": "Specifies additional information about the ICMP message. For Source Quench Messages, this field must have a value of 0.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 0."
+        ]
+      },
+      {3
+        "name": "Checksum",
+        "description": "A 16-bit ones' complement checksum of the ICMP message, starting with the ICMP Type field. When computing the checksum, the checksum field itself should be set to zero. This field may be updated in future implementations.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be computed as the 16-bit ones' complement of the one's complement sum of the ICMP message.",
+          "Field must initially be zero during checksum computation."
+        ]
+      },
+      {4
+        "name": "Unused",
+        "description": "A 32-bit unused field, reserved for future use. This field does not carry any meaningful data and should be set to zero.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must be zero."
+        ]
+      },
+      {5
+        "name": "Internet Header + 64 bits of Original Data Datagram",
+        "description": "Contains the internet header and the first 64 bits of the original datagram's data. This information helps the recipient match the message to the appropriate process. If a higher-level protocol uses port numbers, they are assumed to be included in the first 64 bits of the original datagram's data.",
+        "size_bits": null,
+        "constraints": [
+          "Includes the full internet header.",
+          "First 64 bits of the original datagram's data must be included.",
+          "If port numbers are used, they must be within the first 64 bits of the data."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

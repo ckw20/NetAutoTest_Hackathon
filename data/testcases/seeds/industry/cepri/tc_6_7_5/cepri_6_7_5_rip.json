@@ -1,0 +1,54 @@
+{
+    "test_cases": [
+      {
+        "id": "OSPF-001",
+        "title": "OSPFv2 LSA传播验证测试",
+        "objective": "验证DUT能够正确建立OSPF邻居关系并传播LSA信息",
+        "test_reference": [
+          "RFC 2328 (OSPFv2)",
+          "RFC 5340 (OSPF for IPv6)"
+        ],
+        "steps": [
+          {
+            "step_id": "1",
+            "description": "搭建测试环境：\n- 连接tester port1到DUT port1\n- 连接tester port2到DUT port2",
+            "expected_result": "物理连接建立成功"
+          },
+          {
+            "step_id": "2",
+            "description": "配置测试仪IP地址：\n- tester port1: 192.168.1.100/24\n- tester port2: 192.168.2.100/24",
+            "expected_result": "IP地址配置成功，接口状态up"
+          },
+          {
+            "step_id": "3",
+            "description": "配置DUT IP地址：\n- DUT port1: 192.168.1.1/24\n- DUT port2: 192.168.2.1/24",
+            "expected_result": "DUT接口IP配置成功"
+          },
+          {
+            "step_id": "4",
+            "description": "在DUT上启用并配置OSPFv2路由协议",
+            "expected_result": "OSPF配置成功，进程正常启动"
+          },
+          {
+            "step_id": "5",
+            "description": "测试仪建立OSPF路由器：\n- 在port1插入测试LSA\n- 确保port1与DUT port1达到FULL状态\n- 确保port2与DUT port2达到FULL状态",
+            "expected_result": "OSPF邻居关系建立成功，状态达到FULL"
+          },
+          {
+            "step_id": "6",
+            "description": "验证port2是否能收到port1插入的LSA",
+            "expected_result": "port2能够正确接收并处理来自port1的LSA信息"
+          }
+        ],
+        "tags": [
+          "function",
+          "protocol"
+        ]
+      }
+    ],
+    "comments": {
+      "test_environment": "建议使用专业测试仪如Ixia或Spirent进行测试",
+      "variations": "可考虑测试不同LSA类型(Type 1-5)的传播情况",
+      "extended_tests": "后续可增加OSPF收敛时间、路由计算正确性等性能测试"
+    }
+  }

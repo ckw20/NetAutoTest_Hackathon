@@ -1,0 +1,26 @@
+{
+    "type": "Testcase",
+    "name": "Test Case Name",
+    "tc_no": "Test Case Number",
+    "version": {
+      "description": "Version number, using the development or modification date",
+      "default": "Default Version Number"
+    },
+    "arg": {
+      "description": "Configure parameters of the test case according to actual needs",
+      "interface": {
+        "description": "For example, configure information such as the MAC address and IPv4 address of the interface.",
+        "default": {}
+      },
+      ...
+    },
+    "dut": ["Name of Device Under Test", ...],
+    "dut_cfg": ["Configuration 1 of Device Under Test", "Configuration 2 of Device Under Test", ...],
+    "port": ["Port 1 Used", "Port 2 Used", ...],
+    "comments": {
+      "arg": "Specific parameters generated according to the test case, such as configuring information like the MAC address and IPv4 address of the interface.",
+      "dut": "Name of the device under test, indicating that the test case targets DeviceA.",
+      "dut_cfg": "Scripts required for the device under test, including the configuration script (DeviceA_Setup) and cleanup script (DeviceA_Teardown) for DeviceA.",
+      "port": "Ports of the device under test required for the test case; this example includes PortDeviceA_1 and PortDeviceA_2."
+    }
+  }

@@ -1,0 +1,63 @@
+{
+  "id": "OSPF-001",
+  "title": "OSPF HelloInterval负向测试 - 验证HelloInterval字段不匹配时的行为",
+  "objective": "验证DUT在接收到与本地接口配置不一致的HelloInterval值时，能够正确丢弃Hello包并拒绝建立邻居关系。",
+  "test_reference": [
+    "RFC 2328 (OSPFv2), Section A.3.2"
+  ],
+  "topology": [
+    {
+      "name": "TesterA",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "PortTesterA_1",
+          "connected_to": "DeviceA:PortDeviceA_1"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "PortDeviceA_1",
+          "connected_to": "TesterA:PortTesterA_1"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "在测试仪端口1 (PortTesterA_1) 上配置HelloInterval为5秒，并启动OSPF协议。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "在被测设备DUT (DeviceA) 的端口1 (PortDeviceA_1) 上配置HelloInterval为10秒，并启动OSPF协议。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "验证测试仪端口1 (PortTesterA_1) 和被测设备端口1 (PortDeviceA_1) 是否能够建立OSPF邻居关系。",
+      "expected_result": "测试仪端口1 (PortTesterA_1) 和被测设备端口1 (PortDeviceA_1) 无法建立OSPF邻居关系，状态保持为Down或Init。"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ],
+  "appendix": [
+    {
+      "title": "设备初始化配置详情",
+      "content": [
+        "1. 测试仪 (TesterA) 的IP地址配置：",
+        "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+        "2. 被测设备DUT (DeviceA) 的IP地址配置：",
+        "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+        "3. 在测试仪和被测设备上启用并配置OSPF协议，确保HelloInterval字段不一致。"
+      ]
+    }
+  ]
+}

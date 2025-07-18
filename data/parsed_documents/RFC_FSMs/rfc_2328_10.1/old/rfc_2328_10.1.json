@@ -1,0 +1,188 @@
+{
+    "states": [
+        "Down",
+        "Attempt",
+        "Init",
+        "2-Way",
+        "ExStart",
+        "Exchange",
+        "Loading",
+        "Full"
+    ],
+    "events": [
+        "HelloReceived",
+        "Start",
+        "2-WayReceived",
+        "NegotiationDone",
+        "ExchangeDone",
+        "BadLSReq",
+        "LoadingDone",
+        "AdjOK?",
+        "SeqNumberMismatch",
+        "1-WayReceived",
+        "KillNbr",
+        "InactivityTimer",
+        "LLDown"
+    ],
+    "transitions": [
+        {
+            "from_state": "Down",
+            "to_state": "Attempt",
+            "event": "Start",
+            "actions": [
+                "Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)",
+                "Start the Inactivity Timer for the neighbor"
+            ],
+            "constraints": [
+                "network_type == 'NBMA'"
+            ]
+        },
+        {
+            "from_state": "Attempt",
+            "to_state": "Init",
+            "event": "HelloReceived",
+            "actions": [
+                "Restart the Inactivity Timer for the neighbor, since the neighbor has now been heard from"
+            ]
+        },
+        {
+            "from_state": "Down",
+            "to_state": "Init",
+            "event": "HelloReceived",
+            "actions": [
+                "Start the Inactivity Timer for the neighbor"
+            ]
+        },
+        {
+            "from_state": "Init",
+            "to_state": "2-Way",
+            "event": "2-WayReceived",
+            "actions": [
+                "Determine whether an adjacency should be established with the neighbor (see Section 10.4)"
+            ]
+        },
+        {
+            "from_state": "Init",
+            "to_state": "ExStart",
+            "event": "2-WayReceived",
+            "actions": [
+                "Increment the DD sequence number in the neighbor data structure",
+                "Declare itself master (sets the master/slave bit to master)",
+                "Start sending Database Description Packets, with the initialize (I), more (M) and master (MS) bits set"
+            ],
+            "constraints": [
+                "adjacency_required == true"
+            ]
+        },
+        {
+            "from_state": "ExStart",
+            "to_state": "Exchange",
+            "event": "NegotiationDone",
+            "actions": [
+                "List the contents of its entire area link state database in the neighbor Database summary list",
+                "Send Database Description packets"
+            ]
+        },
+        {
+            "from_state": "Exchange",
+            "to_state": "Loading",
+            "event": "ExchangeDone",
+            "actions": [
+                "Start (or continue) sending Link State Request packets to the neighbor"
+            ]
+        },
+        {
+            "from_state": "Exchange",
+            "to_state": "Full",
+            "event": "ExchangeDone",
+            "actions": [],
+            "constraints": [
+                "Link state request list is empty"
+            ]
+        },
+        {
+            "from_state": "Loading",
+            "to_state": "Full",
+            "event": "LoadingDone",
+            "actions": []
+        },
+        {
+            "from_state": "2-Way",
+            "to_state": "ExStart",
+            "event": "AdjOK?",
+            "actions": [
+                "Perform actions associated with state Init and event 2-WayReceived"
+            ],
+            "constraints": [
+                "adjacency_required == true"
+            ]
+        },
+        {
+            "from_state": "ExStart",
+            "to_state": "2-Way",
+            "event": "AdjOK?",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs"
+            ],
+            "constraints": [
+                "adjacency_required == false"
+            ]
+        },
+        {
+            "from_state": "Exchange",
+            "to_state": "ExStart",
+            "event": "SeqNumberMismatch",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs",
+                "Increment the DD sequence number in the neighbor data structure",
+                "Declare itself master (sets the master/slave bit to master)",
+                "Start sending Database Description Packets, with the initialize (I), more (M) and master (MS) bits set"
+            ]
+        },
+        {
+            "from_state": "Exchange",
+            "to_state": "ExStart",
+            "event": "BadLSReq",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs",
+                "Increment the DD sequence number in the neighbor data structure",
+                "Declare itself master (sets the master/slave bit to master)",
+                "Start sending Database Description Packets, with the initialize (I), more (M) and master (MS) bits set"
+            ]
+        },
+        {
+            "from_state": "*",
+            "to_state": "Down",
+            "event": "KillNbr",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs",
+                "Disable the Inactivity Timer"
+            ]
+        },
+        {
+            "from_state": "*",
+            "to_state": "Down",
+            "event": "LLDown",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs",
+                "Disable the Inactivity Timer"
+            ]
+        },
+        {
+            "from_state": "*",
+            "to_state": "Down",
+            "event": "InactivityTimer",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs"
+            ]
+        },
+        {
+            "from_state": "2-Way",
+            "to_state": "Init",
+            "event": "1-WayReceived",
+            "actions": [
+                "Clear Link state retransmission list, Database summary list and Link state request list of LSAs"
+            ]
+        }
+    ]
+}

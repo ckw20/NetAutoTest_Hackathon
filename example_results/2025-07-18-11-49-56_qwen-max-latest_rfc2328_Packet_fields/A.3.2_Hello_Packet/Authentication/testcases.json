@@ -1,0 +1,176 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-AUTH-01",
+      "title": "OSPFv2 Authentication Field Test - AuType 0 (Unused)",
+      "objective": "Verify that the Authentication field is unused when AuType is set to 0.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2)"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the OSPFv2 protocol on the DUT with AuType set to 0 and send a Hello packet from Tester to DUT.",
+          "expected_result": "Hello packet is sent successfully without any authentication data in the Authentication field."
+        },
+        {
+          "step_id": "3",
+          "description": "Capture the Hello packet on the Tester and verify the contents of the Authentication field.",
+          "expected_result": "The Authentication field is empty or contains no meaningful data as AuType is set to 0."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that the AuType field is explicitly set to 0 during configuration.",
+        "Clear all existing OSPF states before starting the test."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-AUTH-02",
+      "title": "OSPFv2 Authentication Field Test - AuType 1 (Simple Password)",
+      "objective": "Verify that the Authentication field contains a simple password when AuType is set to 1.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2)"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the OSPFv2 protocol on the DUT with AuType set to 1 and a predefined simple password. Send a Hello packet from Tester to DUT.",
+          "expected_result": "Hello packet is sent successfully with the Authentication field containing the simple password."
+        },
+        {
+          "step_id": "3",
+          "description": "Capture the Hello packet on the Tester and verify the contents of the Authentication field.",
+          "expected_result": "The Authentication field contains the predefined simple password as AuType is set to 1."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that the AuType field is explicitly set to 1 during configuration.",
+        "Use a predefined simple password for consistency across test runs."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-AUTH-03",
+      "title": "OSPFv2 Authentication Field Test - AuType 2 (Cryptographic Data)",
+      "objective": "Verify that the Authentication field contains cryptographic data when AuType is set to 2.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2)"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the OSPFv2 protocol on the DUT with AuType set to 2 and cryptographic data. Send a Hello packet from Tester to DUT.",
+          "expected_result": "Hello packet is sent successfully with the Authentication field containing cryptographic data."
+        },
+        {
+          "step_id": "3",
+          "description": "Capture the Hello packet on the Tester and verify the contents of the Authentication field.",
+          "expected_result": "The Authentication field contains cryptographic data as AuType is set to 2."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that the AuType field is explicitly set to 2 during configuration.",
+        "Use predefined cryptographic keys for consistency across test runs."
+      ]
+    }
+  ],
+  "comments": {
+    "general": "Each test case focuses on one specific constraint of the Authentication field based on the AuType value."
+  }
+}

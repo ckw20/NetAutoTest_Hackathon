@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Test Case Points Schema",
+  "type": "object",
+  "required": ["test_case_points"],
+  "properties": {
+    "test_case_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "objective", "test_reference", "tags"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "objective": {
+            "type": "string"
+          },
+          "test_reference": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

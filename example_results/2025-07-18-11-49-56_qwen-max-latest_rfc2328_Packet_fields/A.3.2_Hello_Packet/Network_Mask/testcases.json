@@ -1,0 +1,131 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-NETMASK-POS",
+      "title": "OSPFv2 Hello Packet Network Mask Positive Test",
+      "objective": "Verify that OSPFv2 Hello packets with valid Network Mask values are processed correctly by the device under test (DUT).",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester's port1 with an IP address of 192.168.1.100/24 and the DUT's port1 with an IP address of 192.168.1.1/24.",
+          "expected_result": "IP configurations for both Tester and DUT ports are successful."
+        },
+        {
+          "step_id": "3",
+          "description": "Send an OSPFv2 Hello packet from the Tester to the DUT with a valid Network Mask value (e.g., 0xffffff00 for a class B network with subnetting in the third byte).",
+          "expected_result": "The DUT processes the Hello packet and establishes a neighbor relationship with the Tester."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure the physical connection between the Tester and DUT is stable.",
+        "2. Use the correct subnet mask corresponding to the network type during testing.",
+        "3. Clear OSPF states and routing tables of all devices before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-HELLO-NETMASK-NEG",
+      "title": "OSPFv2 Hello Packet Network Mask Negative Test",
+      "objective": "Verify that OSPFv2 Hello packets with invalid Network Mask values are rejected by the device under test (DUT).",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester's port1 with an IP address of 192.168.1.100/24 and the DUT's port1 with an IP address of 192.168.1.1/24.",
+          "expected_result": "IP configurations for both Tester and DUT ports are successful."
+        },
+        {
+          "step_id": "3",
+          "description": "Send an OSPFv2 Hello packet from the Tester to the DUT with an invalid Network Mask value (e.g., 0xffff0000 for a mismatched subnet).",
+          "expected_result": "The DUT rejects the Hello packet and does not establish a neighbor relationship with the Tester."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure the physical connection between the Tester and DUT is stable.",
+        "2. Use an invalid subnet mask deliberately mismatched with the network type during testing.",
+        "3. Clear OSPF states and routing tables of all devices before testing."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Each test case ID uniquely identifies the test case based on its objective.",
+    "title": "Titles succinctly describe the test content, distinguishing between positive and negative tests.",
+    "objective": "Objectives clearly state the purpose of the test, focusing on the Network Mask field constraints.",
+    "test_reference": "References point to the relevant RFC sections for validation.",
+    "topology": "A minimal topology is used to ensure simplicity and relevance to the test case.",
+    "steps": "Steps are structured to cover initialization, configuration, and key test operations with measurable expected results.",
+    "tags": "Tags categorize the test cases for filtering and organization.",
+    "appendix": "Appendices provide additional context and precautions for accurate execution."
+  }
+}

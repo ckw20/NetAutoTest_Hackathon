@@ -1,0 +1,57 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC1",
+      "title": "Hello包参数一致性验证",
+      "objective": "验证接口拒绝HelloInterval不一致的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "steps": [
+        {
+          "step_id": "TC1-1",
+          "description": "在TesterA的PortTesterA_1端口上配置发送Hello包，设置HelloInterval为非默认值（例如5秒），并确保RouterDeadInterval保持一致。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC1-2",
+          "description": "启动TesterA的PortTesterA_1端口，向DeviceA的PortDeviceA_1发送配置后的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC1-3",
+          "description": "延迟20秒后，观察DeviceA的PortDeviceA_1接口状态。",
+          "expected_result": "DeviceA的PortDeviceA_1接口应未与TesterA的PortTesterA_1建立邻接关系（未到达2-WAY状态）。"
+        },
+        {
+          "step_id": "TC1-4",
+          "description": "在TesterA的PortTesterA_1端口上重新配置发送Hello包，将HelloInterval设置为与DeviceA一致的默认值（例如10秒），并保持RouterDeadInterval一致。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC1-5",
+          "description": "重新启动TesterA的PortTesterA_1端口，向DeviceA的PortDeviceA_1发送配置后的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC1-6",
+          "description": "延迟20秒后，观察DeviceA的PortDeviceA_1接口状态。",
+          "expected_result": "DeviceA的PortDeviceA_1接口应与TesterA的PortTesterA_1建立邻接关系（到达2-WAY状态）。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

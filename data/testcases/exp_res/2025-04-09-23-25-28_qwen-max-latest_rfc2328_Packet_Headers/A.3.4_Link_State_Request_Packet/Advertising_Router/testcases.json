@@ -1,0 +1,148 @@
+
+{
+  "test_cases": [
+    {
+      "id": "OSPF-001",
+      "title": "验证Link State Request Packet中Advertising Router字段的有效性（正向测试）",
+      "objective": "验证DUT能够正确处理Link State Request Packet中有效的Advertising Router字段。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.3.4"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1)上构造一个有效的Link State Request Packet，其中Advertising Router字段设置为一个合法的Router ID（例如192.168.1.1），并发送给DUT。",
+          "expected_result": "DUT接收并处理该Link State Request Packet，未生成BadLSReq事件。"
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否返回了请求的LSA实例。",
+          "expected_result": "DUT成功返回了请求的LSA实例，且LSA的内容与请求匹配。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA)的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议，并设置Router ID为192.168.1.1。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-002",
+      "title": "验证Link State Request Packet中Advertising Router字段的无效性（负向测试）",
+      "objective": "验证DUT能够正确检测并处理Link State Request Packet中无效的Advertising Router字段。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.3.4"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1)上构造一个无效的Link State Request Packet，其中Advertising Router字段设置为一个非法的Router ID（例如全零值0.0.0.0），并发送给DUT。",
+          "expected_result": "DUT检测到无效的Advertising Router字段，并生成BadLSReq事件。"
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否拒绝处理该请求并丢弃该Packet。",
+          "expected_result": "DUT未返回任何LSA实例，且未更新其数据库。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA)的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议，并设置Router ID为192.168.1.1。"
+          ]
+        }
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "topology": [
+      "测试用例所涉及的设备和端口连接信息，包含以下字段：",
+      "1. **name**: 设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+      "2. **type**: 设备的类型（例如：tester、DUT 等）。",
+      "3. **ports**: 设备的端口列表，描述设备的各个端口。",
+      "   - **name**: 端口的名称，用于唯一标识端口，例如port1等。",
+      "   - **connected_to**: 描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。"
+    ],
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']",
+    "appendix": "附录部分，可以包含额外的信息或说明，例如测试环境的配置、注意事项等。"
+  }
+}

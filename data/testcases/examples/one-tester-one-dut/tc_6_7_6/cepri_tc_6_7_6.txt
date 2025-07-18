@@ -1,0 +1,15 @@
+# =================================================================================
+# Objective   	:   Test Purpose: Open Shortest Path First Routing Protocol (OSPF)
+#
+# Step			:	Test Step 1: 1. Set up the test environment according to Figure 10;
+#                   Test Step 2: The IP address of tester port1 is 192.168.1.100/24, and that of port2 is 192.168.2.100/24;
+#                   Test Step 3: The IP address of DUT port1 is 192.168.1.1/24, and that of port2 is 192.168.2.1/24;
+#                   Test Step 4: Configure the OSPFv2 routing protocol on the DUT;
+#                   Test Step 5: The tester uses port1 and port2 to establish an OSPF router, inserts some LSAs into port1, and makes port1 and DUT's port1 reach the FULL state, and port2 and DUT's port2 reach the FULL state. Observe whether port2 can obtain the LSA from port1.
+#
+# Criteria    	:   Expected Result 1: OSPF is established successfully, and LSAs can be received
+#
+# Created by   	:  	Tester-006
+#
+# Bugs   	    :  	None
+# =================================================================================

@@ -1,0 +1,17 @@
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo port link-type
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo port link-type
+#
+undo inter Vlanif 10
+undo inter Vlanif 20
+
+undo vlan 10
+undo vlan 20
+
+#
+commit
+quit

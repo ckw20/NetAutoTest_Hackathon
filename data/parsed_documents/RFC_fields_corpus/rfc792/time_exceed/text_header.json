@@ -1,0 +1,53 @@
+{
+  "protocol_header": {
+    "name": "Time Exceeded Message",
+    "version": "",
+    "description": "This header is used in ICMP messages to indicate that a datagram has exceeded its time-to-live or fragment reassembly time.",
+    "fields": [
+      {
+        "name": "Type",
+        "description": "Indicates the type of ICMP message. For Time Exceeded Message, the value must be 11.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 11."
+        ]
+      },
+      {
+        "name": "Code",
+        "description": "Specifies the reason for the time exceeded condition. Code 0 indicates 'time to live exceeded in transit', and Code 1 indicates 'fragment reassembly time exceeded'.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be either 0 or 1.",
+          "Code 0 may be received from a gateway.",
+          "Code 1 may be received from a host."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A 16-bit ones' complement checksum of the ICMP message starting with the ICMP Type field. The checksum field must be set to zero during computation.",
+        "size_bits": 16,
+        "constraints": [
+          "Computed as the 16-bit ones' complement of the one's complement sum of the ICMP message.",
+          "The checksum field must initially be zero when computing the checksum."
+        ]
+      },
+      {
+        "name": "Unused",
+        "description": "A reserved field that is unused and should be set to zero.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must be zero."
+        ]
+      },
+      {
+        "name": "Internet Header + 64 bits of Original Data Datagram",
+        "description": "Includes the internet header plus the first 64 bits of the original datagram's data. This information helps the host match the message to the appropriate process. If higher-level protocols use port numbers, they are assumed to be in the first 64 data bits.",
+        "size_bits": null,
+        "constraints": [
+          "Must include the internet header and the first 64 bits of the original datagram's data."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

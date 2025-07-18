@@ -1,0 +1,18 @@
+system
+#
+vlan batch 100 4094
+#
+interface ReplaceInterface_PortDeviceA_1
+port link-type access
+port default vlan 100
+#
+interface ReplaceInterface_PortDeviceA_2
+port link-type access
+port default vlan 4094
+#
+interface ReplaceInterface_PortDeviceA_3
+port link-type trunk
+port trunk allow-pass vlan 100 4094
+#
+commit
+quit

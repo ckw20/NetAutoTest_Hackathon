@@ -1,0 +1,38 @@
+{
+    "API": {
+        "model": "multi-qa-mpnet-base-cos-v1",
+        "model_type": "SentenceTransformer",
+        "k": 40,
+        "BM25": {
+            "enable": false,
+            "k": 1000
+        },
+        "doc": "./data/parsed_documents/API_docs/last_llm_result_with_names.json",
+        "specified": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-001/spec_api.json"
+    },
+    "LLMClient": {
+        "api_key": "sk-d8bc4885814a43edae2daad399256d05",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "model": "qwen-max-latest"
+    },
+    "FeedbackAgent": {
+        "HL_enable": true
+    },
+    "Task": {
+        "dir": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-000",
+        "task": "task.json"
+    },
+    "Example": {
+        "dir": "./data/ref_projects/cepri-dev-new",
+        "dir_no_cfg": "./data/ref_projects/Examples/Python",
+        "model": "multi-qa-mpnet-base-cos-v1",
+        "model_type": "SentenceTransformer",
+        "k": 1,
+        "specified": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-001/spec_example.json"
+    },
+    "CodeGenerator": {
+        "system_prompt": "./data/prompts/tcg_system_prompt",
+        "max_iter": 3,
+        "remove_past_assistant": true
+    }
+}

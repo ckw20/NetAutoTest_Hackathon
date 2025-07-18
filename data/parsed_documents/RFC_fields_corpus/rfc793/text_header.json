@@ -1,0 +1,121 @@
+{
+  "protocol_header": {
+    "name": "TCP Header",
+    "version": "",
+    "description": "The TCP header follows the Internet Protocol header and provides information specific to the TCP protocol. It includes fields for connection control, data flow management, error checking, and optional configurations.",
+    "fields": [
+      {
+        "name": "Source Port",
+        "description": "The source port number used to identify the sending application or process.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a 16-bit value."
+        ]
+      },
+      {
+        "name": "Destination Port",
+        "description": "The destination port number used to identify the receiving application or process.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a 16-bit value."
+        ]
+      },
+      {
+        "name": "Sequence Number",
+        "description": "The sequence number of the first data octet in this segment unless the SYN flag is set, in which case it represents the Initial Sequence Number (ISN).",
+        "size_bits": 32,
+        "constraints": [
+          "If SYN is present, the first data octet is ISN+1.",
+          "Must be a 32-bit value."
+        ]
+      },
+      {
+        "name": "Acknowledgment Number",
+        "description": "Contains the next sequence number the sender expects to receive if the ACK control bit is set.",
+        "size_bits": 32,
+        "constraints": [
+          "Only valid when the ACK control bit is set.",
+          "Must be a 32-bit value."
+        ]
+      },
+      {
+        "name": "Data Offset",
+        "description": "Indicates the number of 32-bit words in the TCP header, showing where the data begins.",
+        "size_bits": 4,
+        "constraints": [
+          "Value must be an integer representing the length of the TCP header in 32-bit words.",
+          "Header length must be integral and padded to align with 32-bit boundaries."
+        ]
+      },
+      {
+        "name": "Reserved",
+        "description": "Reserved for future use and must always be zero.",
+        "size_bits": 6,
+        "constraints": [
+          "Must be exactly six bits.",
+          "All bits must be zero."
+        ]
+      },
+      {
+        "name": "Control Bits",
+        "description": "Six flags controlling various TCP functionalities: URG, ACK, PSH, RST, SYN, FIN.",
+        "size_bits": 6,
+        "constraints": [
+          "URG: Indicates whether the Urgent Pointer field is significant.",
+          "ACK: Indicates whether the Acknowledgment Number field is significant.",
+          "PSH: Push function flag.",
+          "RST: Reset the connection.",
+          "SYN: Synchronize sequence numbers during connection establishment.",
+          "FIN: No more data from sender."
+        ]
+      },
+      {
+        "name": "Window",
+        "description": "Specifies the number of data octets the sender is willing to accept starting from the acknowledgment field.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a 16-bit value."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A 16-bit one's complement of the one's complement sum of all 16-bit words in the header, text, and pseudo-header.",
+        "size_bits": 16,
+        "constraints": [
+          "Checksum covers the entire TCP header, payload, and a 96-bit pseudo-header.",
+          "Pseudo-header includes Source Address, Destination Address, Protocol, and TCP Length.",
+          "Checksum field itself is zeroed during computation."
+        ]
+      },
+      {
+        "name": "Urgent Pointer",
+        "description": "Points to the sequence number of the octet following urgent data when the URG control bit is set.",
+        "size_bits": 16,
+        "constraints": [
+          "Interpreted only when the URG control bit is set.",
+          "Must be a 16-bit value."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "Optional parameters that may occupy space at the end of the TCP header, aligned to octet boundaries.",
+        "size_bits": null,
+        "constraints": [
+          "Options are a multiple of 8 bits in length.",
+          "Includes End of Option List (Kind=0), No-Operation (Kind=1), and Maximum Segment Size (Kind=2).",
+          "Maximum Segment Size option (if present) must only be sent in segments with the SYN control bit set."
+        ]
+      },
+      {
+        "name": "Padding",
+        "description": "Ensures the TCP header ends on a 32-bit boundary by adding zeros as needed.",
+        "size_bits": null,
+        "constraints": [
+          "Padding is composed of zeros.",
+          "Variable length depending on header alignment requirements."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

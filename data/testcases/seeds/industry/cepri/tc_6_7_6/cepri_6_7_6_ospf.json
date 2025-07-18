@@ -1,0 +1,78 @@
+{
+  "test_cases": [
+    {
+      "id": "OSPF-000",
+      "title": "OSPFv2 LSA传播验证测试",
+      "objective": "验证DUT能够正确建立OSPF邻居关系并传播LSA信息",
+      "test_reference": [
+        "RFC 2328 (OSPFv2)",
+        "RFC 5340 (OSPF for IPv6)"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            },
+            {
+              "name": "PortTesterA_2",
+              "connected_to": "DeviceA:PortDeviceA_2"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            },
+            {
+              "name": "PortDeviceA_2",
+              "connected_to": "TesterA:PortTesterA_2"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "测试仪 (TesterA) 建立OSPF路由器：在测试仪端口1 (PortTesterA_1)插入测试LSA；确保测试仪端口1 (PortTesterA_1)与DUT端口1 (PortDeviceA_1)达到FULL状态；确保测试仪端口2 (PortTesterA_2)与DUT端口2 (PortDeviceA_2)达到FULL状态",
+          "expected_result": "OSPF邻居关系建立成功，测试仪两个端口状态都达到FULL"
+        },
+        {
+          "step_id": "3",
+          "description": "验证测试仪端口2 (PortTesterA_2)是否能收到测试仪端口1 (PortTesterA_1)插入的LSA",
+          "expected_result": "测试仪端口2 (PortTesterA_2)能够正确接收并处理来自测试仪端口1 (PortTesterA_1)的LSA信息"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "   - 测试仪端口2 (PortTesterA_2): 192.168.2.100/24",
+            "2. 被测设备DUT (DeviceA)的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "   - DUT端口2 (PortDeviceA_2): 192.168.2.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议"
+          ]
+        }
+      ]
+    }
+  ]
+}

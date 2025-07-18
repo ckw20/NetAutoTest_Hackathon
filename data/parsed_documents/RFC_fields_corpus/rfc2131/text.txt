@@ -1,0 +1,164 @@
+2. Protocol Summary
+
+   From the client's point of view, DHCP is an extension of the BOOTP
+   mechanism.  This behavior allows existing BOOTP clients to
+   interoperate with DHCP servers without requiring any change to the
+   clients' initialization software.  RFC 1542 [2] details the
+   interactions between BOOTP and DHCP clients and servers [9].  There
+   are some new, optional transactions that optimize the interaction
+   between DHCP clients and servers that are described in sections 3 and
+   4.
+
+   Figure 1 gives the format of a DHCP message and table 1 describes
+   each of the fields in the DHCP message.  The numbers in parentheses
+   indicate the size of each field in octets.  The names for the fields
+   given in the figure will be used throughout this document to refer to
+   the fields in DHCP messages.
+
+   There are two primary differences between DHCP and BOOTP.  First,
+   DHCP defines mechanisms through which clients can be assigned a
+   network address for a finite lease, allowing for serial reassignment
+   of network addresses to different clients.  Second, DHCP provides the
+   mechanism for a client to acquire all of the IP configuration
+   parameters that it needs in order to operate.
+
+   DHCP introduces a small change in terminology intended to clarify the
+   meaning of one of the fields.  What was the "vendor extensions" field
+   in BOOTP has been re-named the "options" field in DHCP. Similarly,
+   the tagged data items that were used inside the BOOTP "vendor
+   extensions" field, which were formerly referred to as "vendor
+   extensions," are now termed simply "options."
+
+
+
+   0                   1                   2                   3
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |     op (1)    |   htype (1)   |   hlen (1)    |   hops (1)    |
+   +---------------+---------------+---------------+---------------+
+   |                            xid (4)                            |
+   +-------------------------------+-------------------------------+
+   |           secs (2)            |           flags (2)           |
+   +-------------------------------+-------------------------------+
+   |                          ciaddr  (4)                          |
+   +---------------------------------------------------------------+
+   |                          yiaddr  (4)                          |
+   +---------------------------------------------------------------+
+   |                          siaddr  (4)                          |
+   +---------------------------------------------------------------+
+   |                          giaddr  (4)                          |
+   +---------------------------------------------------------------+
+   |                                                               |
+   |                          chaddr  (16)                         |
+   |                                                               |
+   |                                                               |
+   +---------------------------------------------------------------+
+   |                                                               |
+   |                          sname   (64)                         |
+   +---------------------------------------------------------------+
+   |                                                               |
+   |                          file    (128)                        |
+   +---------------------------------------------------------------+
+   |                                                               |
+   |                          options (variable)                   |
+   +---------------------------------------------------------------+
+
+                  Figure 1:  Format of a DHCP message
+
+   DHCP defines a new 'client identifier' option that is used to pass an
+   explicit client identifier to a DHCP server.  This change eliminates
+   the overloading of the 'chaddr' field in BOOTP messages, where
+   'chaddr' is used both as a hardware address for transmission of BOOTP
+   reply messages and as a client identifier.  The 'client identifier'
+   is an opaque key, not to be interpreted by the server; for example,
+   the 'client identifier' may contain a hardware address, identical to
+   the contents of the 'chaddr' field, or it may contain another type of
+   identifier, such as a DNS name.  The 'client identifier' chosen by a
+   DHCP client MUST be unique to that client within the subnet to which
+   the client is attached. If the client uses a 'client identifier' in
+   one message, it MUST use that same identifier in all subsequent
+   messages, to ensure that all servers correctly identify the client.
+
+   DHCP clarifies the interpretation of the 'siaddr' field as the
+   address of the server to use in the next step of the client's
+   bootstrap process.  A DHCP server may return its own address in the
+   'siaddr' field, if the server is prepared to supply the next
+   bootstrap service (e.g., delivery of an operating system executable
+   image).  A DHCP server always returns its own address in the 'server
+   identifier' option.
+
+   FIELD      OCTETS       DESCRIPTION
+   -----      ------       -----------
+
+   op            1  Message op code / message type.
+                    1 = BOOTREQUEST, 2 = BOOTREPLY
+   htype         1  Hardware address type, see ARP section in "Assigned
+                    Numbers" RFC; e.g., '1' = 10mb ethernet.
+   hlen          1  Hardware address length (e.g.  '6' for 10mb
+                    ethernet).
+   hops          1  Client sets to zero, optionally used by relay agents
+                    when booting via a relay agent.
+   xid           4  Transaction ID, a random number chosen by the
+                    client, used by the client and server to associate
+                    messages and responses between a client and a
+                    server.
+   secs          2  Filled in by client, seconds elapsed since client
+                    began address acquisition or renewal process.
+   flags         2  Flags (see figure 2).
+   ciaddr        4  Client IP address; only filled in if client is in
+                    BOUND, RENEW or REBINDING state and can respond
+                    to ARP requests.
+   yiaddr        4  'your' (client) IP address.
+   siaddr        4  IP address of next server to use in bootstrap;
+                    returned in DHCPOFFER, DHCPACK by server.
+   giaddr        4  Relay agent IP address, used in booting via a
+                    relay agent.
+   chaddr       16  Client hardware address.
+   sname        64  Optional server host name, null terminated string.
+   file        128  Boot file name, null terminated string; "generic"
+                    name or null in DHCPDISCOVER, fully qualified
+                    directory-path name in DHCPOFFER.
+   options     var  Optional parameters field.  See the options
+                    documents for a list of defined options.
+
+           Table 1:  Description of fields in a DHCP message
+
+   The 'options' field is now variable length. A DHCP client must be
+   prepared to receive DHCP messages with an 'options' field of at least
+   length 312 octets.  This requirement implies that a DHCP client must
+   be prepared to receive a message of up to 576 octets, the minimum IP
+   datagram size an IP host must be prepared to accept [3].  DHCP
+   clients may negotiate the use of larger DHCP messages through the
+   'maximum DHCP message size' option.  The options field may be further
+   extended into the 'file' and 'sname' fields.
+
+   In the case of a client using DHCP for initial configuration (before
+   the client's TCP/IP software has been completely configured), DHCP
+   requires creative use of the client's TCP/IP software and liberal
+   interpretation of RFC 1122.  The TCP/IP software SHOULD accept and
+   forward to the IP layer any IP packets delivered to the client's
+   hardware address before the IP address is configured; DHCP servers
+   and BOOTP relay agents may not be able to deliver DHCP messages to
+   clients that cannot accept hardware unicast datagrams before the
+   TCP/IP software is configured.
+
+   To work around some clients that cannot accept IP unicast datagrams
+   before the TCP/IP software is configured as discussed in the previous
+   paragraph, DHCP uses the 'flags' field [21].  The leftmost bit is
+   defined as the BROADCAST (B) flag.  The semantics of this flag are
+   discussed in section 4.1 of this document.  The remaining bits of the
+   flags field are reserved for future use.  They MUST be set to zero by
+   clients and ignored by servers and relay agents.  Figure 2 gives the
+   format of the 'flags' field.
+
+                                    1 1 1 1 1 1
+                0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                |B|             MBZ             |
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+                B:  BROADCAST flag
+
+                MBZ:  MUST BE ZERO (reserved for future use)
+
+                Figure 2:  Format of the 'flags' field

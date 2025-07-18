@@ -1,0 +1,22 @@
+
+system-view
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo portswitch
+ ip address 192.168.1.1 255.255.255.0
+ ospf timer hello 10
+ ospf timer dead 40
+ ip forward-broadcast
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo portswitch
+ ip address 192.168.2.1 255.255.255.0
+ ip forward-broadcast
+#
+ospf 1
+ area 0
+  network 192.168.1.0 0.0.0.255
+  network 192.168.2.0 0.0.0.255
+#
+commit
+quit

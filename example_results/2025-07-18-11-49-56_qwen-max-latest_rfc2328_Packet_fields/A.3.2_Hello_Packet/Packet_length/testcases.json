@@ -1,0 +1,138 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-PKTLEN-POS",
+      "title": "OSPFv2 Hello Packet Length Positive Test",
+      "objective": "Verify that the OSPFv2 Hello packet length field is correctly validated when it meets the minimum size constraint.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPF Hello packet with a valid packet length equal to the minimum size of the Hello packet.",
+          "expected_result": "The Tester sends the OSPF Hello packet successfully."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe whether the DUT accepts the Hello packet and establishes a neighbor relationship with the Tester.",
+          "expected_result": "The DUT accepts the Hello packet, and the neighbor relationship is established successfully."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure all interfaces have normal physical connections.",
+        "2. Ensure the OSPF area ID is consistent between the Tester and the DUT.",
+        "3. Clear OSPF states and routing tables of all devices before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-HELLO-PKTLEN-NEG",
+      "title": "OSPFv2 Hello Packet Length Negative Test",
+      "objective": "Verify that the OSPFv2 Hello packet length field is correctly rejected when it is less than the minimum size of the Hello packet.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPF Hello packet with a packet length less than the minimum size of the Hello packet.",
+          "expected_result": "The Tester sends the OSPF Hello packet successfully."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe whether the DUT rejects the Hello packet and does not establish a neighbor relationship with the Tester.",
+          "expected_result": "The DUT rejects the Hello packet, and no neighbor relationship is established."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure all interfaces have normal physical connections.",
+        "2. Ensure the OSPF area ID is consistent between the Tester and the DUT.",
+        "3. Clear OSPF states and routing tables of all devices before testing."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "The unique identifier of the test case. Often abbr. of title of objective.",
+    "title": "The title of the test case, briefly describing the test content.",
+    "objective": "The purpose of the test, explaining the function or feature that this test case intends to verify.",
+    "test_reference": "Reference documents for the test case, such as sections of RFCs, etc.",
+    "topology": [
+      "Information about the devices and port connections involved in the test case, including the following fields:",
+      "1. **name**: The name of the device, used to uniquely identify the device, such as tester, DUT1, DeviceA, etc.",
+      "2. **type**: The type of the device (e.g., tester, DUT, etc.).",
+      "3. **ports**: A list of the device's ports, describing each port of the device.",
+      "   - **name**: The name of the port, used to uniquely identify the port, such as port1, etc.",
+      "   - **connected_to**: Describes the device and port that this port is connected to, in the format 'device name:port name'."
+    ],
+    "steps": "A detailed description of the test steps, each step including:\nstep_id: The unique identifier of the step.\ndescription: The specific operation or configuration of the step.\nexpected_result: The expected result of the step.",
+    "tags": "Tags for the test case, used to categorize or filter test cases. Types include: ['function', 'performance']",
+    "appendix": "Appendix section, containing additional information or explanations, such as configuration parameters of the test environment, precautions, etc."
+  }
+}

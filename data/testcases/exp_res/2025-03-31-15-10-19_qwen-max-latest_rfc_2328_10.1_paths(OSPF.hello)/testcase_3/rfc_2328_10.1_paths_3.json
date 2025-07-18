@@ -1,0 +1,49 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC101",
+      "title": "验证OSPF邻居状态机从Down到ExStart再到Exchange的完整路径",
+      "objective": "验证在NBMA网络类型下，OSPF邻居状态机从Down状态开始，经过Attempt、Init、2-Way、ExStart，最终到达Exchange状态的完整路径。",
+      "test_reference": ["RFC2328 10.1", "RFC2328 10.2", "RFC2328 10.3"],
+      "steps": [
+        {
+          "step_id": "TC101-1",
+          "description": "配置设备DeviceA和TesterA之间的连接为NBMA网络类型，并确保初始状态下邻居关系处于Down状态。",
+          "expected_result": "设备DeviceA和TesterA之间的邻居状态显示为Down。"
+        },
+        {
+          "step_id": "TC101-2",
+          "description": "在TesterA上触发Start事件，向DeviceA发送Hello包，并启动Inactivity Timer。",
+          "expected_result": "设备DeviceA的邻居状态从Down变为Attempt，且Inactivity Timer已启动。"
+        },
+        {
+          "step_id": "TC101-3",
+          "description": "在TesterA上模拟接收到来自DeviceA的Hello包（HelloReceived事件）。",
+          "expected_result": "设备DeviceA的邻居状态从Attempt变为Init，且Inactivity Timer被重新启动。"
+        },
+        {
+          "step_id": "TC101-4",
+          "description": "在TesterA上模拟接收到包含自身Router ID的Hello包（2-WayReceived事件），但不满足建立邻接关系的条件。",
+          "expected_result": "设备DeviceA的邻居状态从Init变为2-Way，且未尝试建立邻接关系。"
+        },
+        {
+          "step_id": "TC101-5",
+          "description": "在TesterA上触发AdjOK?事件，检查是否需要建立邻接关系，并确认满足条件后触发邻接关系建立。",
+          "expected_result": "设备DeviceA的邻居状态从2-Way变为ExStart，DD序列号递增，且开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-6",
+          "description": "在TesterA上模拟完成主从协商并交换DD序列号（NegotiationDone事件）。",
+          "expected_result": "设备DeviceA的邻居状态从ExStart变为Exchange，且开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-7",
+          "description": "在TesterA上模拟接收到具有不匹配DD序列号的Database Description包（SeqNumberMismatch事件）。",
+          "expected_result": "设备DeviceA的邻居状态从Exchange回退到ExStart，且重新开始主从协商过程。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

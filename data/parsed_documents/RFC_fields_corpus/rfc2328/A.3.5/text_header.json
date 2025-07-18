@@ -1,0 +1,28 @@
+{
+  "protocol_header": {
+    "name": "Link State Update Packet",
+    "version": "OSPF Packet Type 4",
+    "description": "This packet type implements the flooding of LSAs in OSPF. Each packet carries a collection of LSAs one hop further from their origin and is used to ensure reliable flooding through acknowledgments and retransmissions.",
+    "fields": [
+      {
+        "name": "# LSAs",
+        "description": "The number of LSAs included in this update packet.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a non-negative integer.",
+          "Must accurately reflect the number of LSAs included in the packet body.",
+          "Each LSA must be processed individually, and the flooding procedure must handle each LSA separately based on its LS type, LS age, and other attributes.",
+          "If an LSA's LS age equals MaxAge and there is no instance of the LSA in the router's link state database, and none of the router's neighbors are in states Exchange or Loading, the LSA must be acknowledged and discarded without further processing."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the Link State Update packet header in OSPF. The 'protocol_header' object contains metadata about the packet and an array of field definitions with detailed descriptions and constraints.",
+  "additional_constraints_from_rfc": [
+    "Each LSA begins with a standard 20-byte LSA header, as explained in Section A.4.1 of the RFC.",
+    "All LSAs are flooded throughout the OSPF routing domain using a reliable flooding algorithm, ensuring that all routers have the same collection of LSAs.",
+    "From the link-state database constructed from the LSAs, each router builds a shortest path tree with itself as the root, yielding a routing table.",
+    "The details of the routing table build process are described in Section 16 of the RFC.",
+    "Other types of LSAs may also be originated, as described in Section 12.4 of the RFC."
+  ]
+}

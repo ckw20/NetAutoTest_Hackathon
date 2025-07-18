@@ -1,0 +1,219 @@
+
+{
+  "test_cases": [
+    {
+      "id": "OSPF-000",
+      "title": "OSPF Hello Packet Neighbor字段正向测试",
+      "objective": "验证DUT能够正确处理有效的Neighbor字段，并确保邻居状态机按预期执行。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1) 上发送包含有效Neighbor字段的Hello包，Neighbor字段包括DUT的Router ID。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否将邻居状态机事件2-WayReceived触发，并进入2-Way状态。",
+          "expected_result": "通过测试仪捕获DUT发出的后续Hello包，确认其Neighbor字段中包含测试仪的Router ID，表明邻居关系已建立。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA) 的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议，Router ID为1.1.1.1。",
+            "4. 测试仪 (TesterA) 配置Router ID为2.2.2.2。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-001",
+      "title": "OSPF Hello Packet Neighbor字段负向测试（无效Router ID）",
+      "objective": "验证DUT在接收到包含无效Neighbor字段的Hello包时，能够正确处理并停止邻居状态机。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1) 上发送包含无效Neighbor字段的Hello包，Neighbor字段为一个不存在的Router ID（例如0.0.0.0）。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否将邻居状态机事件1-WayReceived触发，并停止进一步处理。",
+          "expected_result": "通过测试仪捕获DUT发出的后续Hello包，确认其Neighbor字段中不包含测试仪的Router ID，表明邻居关系未建立。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA) 的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议，Router ID为1.1.1.1。",
+            "4. 测试仪 (TesterA) 配置Router ID为2.2.2.2。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-002",
+      "title": "OSPF Hello Packet Neighbor字段负向测试（超时Neighbor）",
+      "objective": "验证DUT在接收到超出RouterDeadInterval时间的Neighbor字段时，能够正确移除邻居。",
+      "test_reference": [
+        "RFC 2328 (OSPFv2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口1 (PortTesterA_1) 上发送包含有效Neighbor字段的Hello包，Neighbor字段包括DUT的Router ID。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "3",
+          "description": "等待超过RouterDeadInterval时间后，停止发送Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "4",
+          "description": "验证DUT是否移除邻居关系。",
+          "expected_result": "通过测试仪捕获DUT发出的后续Hello包，确认其Neighbor字段中不再包含测试仪的Router ID，表明邻居关系已被移除。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+            "2. 被测设备DUT (DeviceA) 的IP地址配置：",
+            "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+            "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议，Router ID为1.1.1.1，RouterDeadInterval设置为40秒。",
+            "4. 测试仪 (TesterA) 配置Router ID为2.2.2.2。"
+          ]
+        }
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "topology": [
+      "测试用例所涉及的设备和端口连接信息，包含以下字段：",
+      "1. **name**: 设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+      "2. **type**: 设备的类型（例如：tester、DUT 等）。",
+      "3. **ports**: 设备的端口列表，描述设备的各个端口。",
+      "   - **name**: 端口的名称，用于唯一标识端口，例如port1等。",
+      "   - **connected_to**: 描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。"
+    ],
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']",
+    "appendix": "附录部分，可以包含额外的信息或说明，例如测试环境的配置、注意事项等。"
+  }
+}

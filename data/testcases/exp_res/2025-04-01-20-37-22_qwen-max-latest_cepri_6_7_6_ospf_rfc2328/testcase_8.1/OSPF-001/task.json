@@ -1,0 +1,30 @@
+{
+  "id": "OSPF-001",
+  "title": "OSPFv2协议包头字段验证测试",
+  "objective": "验证DUT在发送OSPF协议包时，正确填充标准OSPF包头字段。",
+  "test_reference": [
+    "RFC 2328, Section 8.1 (Sending protocol packets)",
+    "RFC 2328, Appendix A.3.1 (OSPF Packet Header Format)"
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "配置TesterA的IP地址：PortTesterA_1: 192.168.1.100/24; - PortTesterA_2: 192.168.2.100/24",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "通过 TesterA 向 DeviceA (DUT) 发送 Hello 包，并捕获 DeviceA 发出的 OSPF 协议包。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "验证捕获的 OSPF 协议包头字段是否符合以下要求：- Version : 设置为2; - Router ID: 设置为1.1.1.1; - Area ID: 设置为0.0.0.0; - Checksum: 校验和计算正确; - AuType和Authentication: 符合配置的认证类型",
+      "expected_result": "OSPF协议包头字段均符合预期值"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ]
+}

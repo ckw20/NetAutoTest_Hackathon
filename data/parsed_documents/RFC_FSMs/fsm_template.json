@@ -1,0 +1,14 @@
+{
+    "states": ["Down", "Init", ...],
+    "init_state": "Down",
+    "events": ["HelloReceived", "Start", ...],
+    "transitions": [
+    {
+        "from_state": "Down",
+        "to_state": "Attempt",
+        "event": "Start",
+        "actions": ["Send Hello Packet", "Start Inactivity Timer"],
+        "constraints": ["network_type == 'NBMA'"]
+    }
+    ]
+}

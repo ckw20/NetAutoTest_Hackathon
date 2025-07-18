@@ -1,0 +1,57 @@
+{
+  "protocol_header": {
+    "name": "ICMP Redirect Message",
+    "version": "",
+    "description": "The ICMP Redirect Message is used by gateways to inform hosts of a better route to a destination network or host.",
+    "fields": [
+      {
+        "name": "Type",
+        "description": "Identifies the type of ICMP message. For Redirect Messages, the value is always 5.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 5."
+        ]
+      },
+      {
+        "name": "Code",
+        "description": "Specifies the reason for the redirect. Possible values indicate whether the redirect applies to a network, host, or both with Type of Service considerations.",
+        "size_bits": 8,
+        "constraints": [
+          "0: Redirect datagrams for the Network.",
+          "1: Redirect datagrams for the Host.",
+          "2: Redirect datagrams for the Type of Service and Network.",
+          "3: Redirect datagrams for the Type of Service and Host."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A 16-bit ones' complement checksum of the ICMP message, computed with the checksum field set to zero. This field may be updated in future implementations.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be calculated as the 16-bit ones' complement of the one's complement sum of the ICMP message starting from the ICMP Type field.",
+          "Checksum field should be zero during computation."
+        ]
+      },
+      {
+        "name": "Gateway Internet Address",
+        "description": "The IP address of the gateway to which traffic for the specified network should be redirected.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a valid IPv4 address.",
+          "Should represent the gateway on the same network as the host identified by the source address of the original datagram."
+        ]
+      },
+      {
+        "name": "Internet Header + 64 bits of Original Data Datagram",
+        "description": "Includes the original datagram's internet header and the first 64 bits of its data. This information helps the host match the message to the appropriate process.",
+        "size_bits": null,
+        "constraints": [
+          "Must include the full internet header of the original datagram.",
+          "Must include the first 64 bits of the original datagram's data.",
+          "If a higher-level protocol uses port numbers, they are assumed to be within the first 64 bits of the data."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

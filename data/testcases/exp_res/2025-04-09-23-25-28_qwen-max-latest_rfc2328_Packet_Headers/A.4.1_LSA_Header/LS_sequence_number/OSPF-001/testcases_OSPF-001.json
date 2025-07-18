@@ -1,0 +1,78 @@
+{
+  "id": "OSPF-001",
+  "title": "验证LSA头部字段LS sequence number的正向约束",
+  "objective": "验证DUT能够正确处理符合规范的LS sequence number字段值，包括初始值、最大值及递增逻辑。",
+  "test_reference": [
+    "RFC 2328 (OSPFv2), Section A.4.1, Section 12.1.6"
+  ],
+  "topology": [
+    {
+      "name": "TesterA",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "PortTesterA_1",
+          "connected_to": "DeviceA:PortDeviceA_1"
+        },
+        {
+          "name": "PortTesterA_2",
+          "connected_to": "DeviceA:PortDeviceA_2"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "PortDeviceA_1",
+          "connected_to": "TesterA:PortTesterA_1"
+        },
+        {
+          "name": "PortDeviceA_2",
+          "connected_to": "TesterA:PortTesterA_2"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "根据提供的配置初始化设备测试环境",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "在测试仪端口1 (PortTesterA_1) 发送LSA，设置LS sequence number为InitialSequenceNumber（0x80000001）。",
+      "expected_result": "测试仪端口2 (PortTesterA_2) 收到并接受该LSA，且LS sequence number未被修改。"
+    },
+    {
+      "step_id": "3",
+      "description": "在测试仪端口1 (PortTesterA_1) 发送新的LSA，设置LS sequence number为MaxSequenceNumber（0x7fffffff）。",
+      "expected_result": "测试仪端口2 (PortTesterA_2) 收到并接受该LSA，且LS sequence number未被修改。"
+    },
+    {
+      "step_id": "4",
+      "description": "在测试仪端口1 (PortTesterA_1) 发送两个连续的LSA，分别设置LS sequence number为0x80000001和0x80000002。",
+      "expected_result": "测试仪端口2 (PortTesterA_2) 收到两个LSA，且第二个LSA被认为比第一个更近期。"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ],
+  "appendix": [
+    {
+      "title": "设备初始化配置详情",
+      "content": [
+        "1. 测试仪 (TesterA) 的IP地址配置：",
+        "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+        "   - 测试仪端口2 (PortTesterA_2): 192.168.2.100/24",
+        "2. 被测设备DUT (DeviceA)的IP地址配置：",
+        "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+        "   - DUT端口2 (PortDeviceA_2): 192.168.2.1/24",
+        "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "protocol_header": {
+    "name": "Router-LSA",
+    "version": "OSPF Type 1 LSA",
+    "description": "Describes the state and cost of a router's links (interfaces) to an OSPF area. Flooded throughout a single area only.",
+    "fields": [
+      {
+        "name": "V bit",
+        "description": "Indicates whether the router is an endpoint of one or more virtual links.",
+        "size_bits": 1,
+        "constraints": [
+          "Set to 1 if the router is a virtual link endpoint; otherwise, 0.",
+          "Enables other routers in the area to discover whether the area supports transit traffic."
+        ]
+      },
+      {
+        "name": "E bit",
+        "description": "Indicates whether the router is an AS boundary router.",
+        "size_bits": 1,
+        "constraints": [
+          "Set to 1 if the router is an AS boundary router; otherwise, 0.",
+          "Must never be set in a router-LSA for a stub area as stub areas cannot contain AS boundary routers."
+        ]
+      },
+      {
+        "name": "B bit",
+        "description": "Indicates whether the router is an area border router.",
+        "size_bits": 1,
+        "constraints": [
+          "Set to 1 if the router is an area border router; otherwise, 0.",
+          "Should be set whenever the router is actively attached to two or more areas, even if not currently attached to the OSPF backbone area."
+        ]
+      },
+      {
+        "name": "# links",
+        "description": "The number of router links described in this LSA.",
+        "size_bits": 16,
+        "constraints": [
+          "Must equal the total number of router links (interfaces) to the area."
+        ]
+      },
+      {
+        "name": "Link ID",
+        "description": "Identifies the object that this router link connects to, depending on the link's Type.",
+        "size_bits": 32,
+        "constraints": [
+          "For Type 1: Neighboring router's Router ID.",
+          "For Type 2: IP address of Designated Router.",
+          "For Type 3: IP network/subnet number.",
+          "For Type 4: Neighboring router's Router ID."
+        ]
+      },
+      {
+        "name": "Link Data",
+        "description": "Specifies additional information about the link, depending on its Type.",
+        "size_bits": 32,
+        "constraints": [
+          "For stub networks: Network's IP address mask.",
+          "For unnumbered point-to-point connections: Interface's MIB-II ifIndex value.",
+          "For other types: Router interface's IP address.",
+          "Provides 32 bits of extra information for the link, required by the routing table calculation.",
+          "When the parent vertex is a Point-to-MultiPoint network, the Link Data field belonging to the Point-to-MultiPoint network provides the IP address of the next hop router."
+        ]
+      },
+      {
+        "name": "Type",
+        "description": "Describes the kind of link being represented.",
+        "size_bits": 8,
+        "constraints": [
+          "1: Point-to-point connection to another router.",
+          "2: Connection to a transit network.",
+          "3: Connection to a stub network.",
+          "4: Virtual link.",
+          "When the destination is a router connected via a Point-to-MultiPoint network, links pointing back to the calculating router and having a Link Data field belonging to the Point-to-MultiPoint network determine the next hop IP address(es)."
+        ]
+      },
+      {
+        "name": "# TOS",
+        "description": "The number of different TOS metrics given for this link, excluding the required TOS 0 metric.",
+        "size_bits": 8,
+        "constraints": [
+          "Range: 0 to 255.",
+          "Set to 0 if no additional TOS metrics are provided."
+        ]
+      },
+      {
+        "name": "metric",
+        "description": "The cost of using this router link.",
+        "size_bits": 16,
+        "constraints": [
+          "Range: 1 to 65535.",
+          "Lower values indicate lower cost.",
+          "Must be non-zero for all link types except links to stub networks."
+        ]
+      },
+      {
+        "name": "TOS",
+        "description": "The IP Type of Service (TOS) that this metric refers to.",
+        "size_bits": 8,
+        "constraints": [
+          "Encoded as per Section 12.3 of the OSPF specification.",
+          "Represents TOS values defined in RFC 1349, encoded as decimal integers ranging from 0 to 30 with specific binary mappings. For example, 0 corresponds to 'normal service' (binary 0000), 2 corresponds to 'minimize monetary cost' (binary 0001), and 16 corresponds to 'minimize delay' (binary 1000). Unused intermediate values are reserved and should not appear in valid TOS fields."
+        ]
+      },
+      {
+        "name": "TOS metric",
+        "description": "TOS-specific metric information for the link.",
+        "size_bits": 16,
+        "constraints": [
+          "Range: 1 to 65535.",
+          "Lower values indicate lower cost."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the Router-LSA protocol header, including fields such as LS age, Options, Link State ID, and others, with detailed constraints and descriptions. The constraints have been updated based on the RFC document to include additional details about the unique identification of LSAs using LS type, Link State ID, and Advertising Router, as well as the maintenance of the most up-to-date LSA instance in the database. New constraints were added regarding the use of the Link Data field in determining next hop IP addresses for Point-to-MultiPoint networks and the role of links pointing back to the calculating router in such cases. Additionally, the TOS field now includes detailed encoding rules and mappings to RFC 1349 TOS values as specified in Section 12.3 of the OSPF specification."
+}

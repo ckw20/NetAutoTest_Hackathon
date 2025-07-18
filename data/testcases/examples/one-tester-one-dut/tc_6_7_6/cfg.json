@@ -1,0 +1,43 @@
+{
+ "type":"Testcase",
+ "name":"Open Shortest Path First Routing Protocol (OSPF)",
+ "tc_no":"tc_6_7_6",
+ "version": {
+  "description": "Version number, using the development or modification date",
+  "default": "v20240917"
+ },
+ "arg":{
+  "interface": {
+   "description": "Instrument interface MAC address settings",
+   "default": {
+     "mac_up_address": {
+      "description": "Upstream interface MAC address settings",
+      "default": "00:01:02:02:02:02"
+     },
+     "mac_down_address":{
+      "description": "Downstream interface MAC address settings",
+      "default": "00:01:02:02:02:02"
+     },
+     "ipv4_up_address":{
+      "description": "Upstream interface IPv4 address settings",
+      "default": "192.168.1.100"
+     },
+     "ipv4_up_gateway":{
+      "description": "Upstream interface IPv4 gateway settings",
+      "default": "192.168.1.1"
+     },
+     "ipv4_down_address":{
+      "description": "Downstream interface IPv4 address settings",
+      "default": "192.168.2.100"
+     },
+     "ipv4_down_gateway":{
+      "description": "Downstream interface IPv4 gateway settings",
+      "default": "192.168.2.1"
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2"]
+}

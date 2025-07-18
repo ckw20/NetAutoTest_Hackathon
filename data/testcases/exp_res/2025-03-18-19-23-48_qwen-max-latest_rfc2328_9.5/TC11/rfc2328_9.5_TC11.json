@@ -1,0 +1,52 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC11",
+      "title": "Options字段多能力位兼容性测试",
+      "objective": "验证设备正确处理MC/NP/EA/DC等能力位（置零不处理/不中断邻居关系）",
+      "test_reference": [
+        "RFC2328.A.2",
+        "RFC2328.4.5"
+      ],
+      "steps": [
+        {
+          "step_id": "TC11-1",
+          "description": "在被测设备的OSPF接口上，配置Options字段的所有能力位（MC、NP、EA、DC）为已知值，并确保E-bit与区域类型匹配。",
+          "expected_result": "被测设备正常发送Hello包，且邻居关系能够成功建立。"
+        },
+        {
+          "step_id": "TC11-2",
+          "description": "在协议测试仪端口上，模拟发送带有未识别能力位（例如设置为1的未知位）的Hello包。",
+          "expected_result": "被测设备忽略未识别的能力位，继续维持邻居关系，并记录日志或调试信息以确认该行为。"
+        },
+        {
+          "step_id": "TC11-3",
+          "description": "在协议测试仪端口上，模拟发送带有MC、NP、EA、DC能力位全部置零的Hello包。",
+          "expected_result": "被测设备正常接收并处理Hello包，邻居关系保持稳定，未因能力位置零而中断。"
+        },
+        {
+          "step_id": "TC11-4",
+          "description": "在协议测试仪端口上，模拟发送带有与被测设备能力位不匹配的Hello包（例如MC位不一致）。",
+          "expected_result": "被测设备根据能力位差异选择性处理LSA，但邻居关系仍能维持，未因能力位不匹配而中断。"
+        },
+        {
+          "step_id": "TC11-5",
+          "description": "在协议测试仪端口上，模拟发送带有E-bit与区域类型不匹配的Hello包（例如在Stub区域中E-bit置1）。",
+          "expected_result": "被测设备拒绝接收该Hello包，并记录日志或调试信息以确认该行为。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

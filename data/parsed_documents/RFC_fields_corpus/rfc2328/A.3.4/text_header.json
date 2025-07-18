@@ -1,0 +1,41 @@
+{
+  "protocol_header": {
+    "name": "Link State Request Packet",
+    "version": "OSPF Packet Type 3",
+    "description": "The Link State Request packet is used to request specific pieces of the neighbor's link-state database that are more up-to-date after exchanging Database Description packets.",
+    "fields": [
+      {
+        "name": "LS Type",
+        "description": "Specifies the type of Link-State Advertisement (LSA) being requested.",
+        "size_bits": 32,
+        "constraints": [
+          "Must correspond to a valid OSPF LSA type.",
+          "Examples include Router-LSA (1), Network-LSA (2), and Summary-LSA (3 or 4)."
+        ]
+      },
+      {
+        "name": "Link State ID",
+        "description": "Identifies the specific LSA instance being requested, along with the LS Type and Advertising Router.",
+        "size_bits": 32,
+        "constraints": [
+          "Must uniquely identify the LSA within the OSPF domain.",
+          "Interpretation depends on the LS Type field.",
+          "Represents the beginning of the Link state request list when requesting LSAs from a neighbor.",
+          "If an LSA cannot be located in the database during processing, it indicates a failure in the Database Exchange process, and the BadLSReq event should be generated."
+        ]
+      },
+      {
+        "name": "Advertising Router",
+        "description": "Identifies the router that originated the LSA being requested.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a valid Router ID.",
+          "Together with LS Type and Link State ID, it uniquely identifies the LSA.",
+          "Used to verify the origin of the LSA during retransmission intervals of RxmtInterval.",
+          "If an LSA cannot be found in the database during processing, it indicates a failure in the Database Exchange process, and the BadLSReq event should be generated."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON structure describes the Link State Request packet header used in OSPF. Each field includes its name, description, size in bits, and detailed constraints to ensure proper implementation and validation."
+}

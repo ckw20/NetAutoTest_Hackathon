@@ -1,0 +1,35 @@
+
+system-view
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address
+ undo ospf timer hello
+ undo ospf timer dead
+ undo ospf network-type
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo ip address
+ undo ospf timer hello
+ undo ospf timer dead
+ undo ospf network-type
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_3
+ undo ip address
+ undo ospf timer hello
+ undo ospf timer dead
+ undo ospf network-type
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_4
+ undo ip address
+ undo ospf timer hello
+ undo ospf timer dead
+ undo ospf network-type
+ portswitch
+#
+undo ospf 1
+undo virtual-link 192.168.2.1
+commit
+quit

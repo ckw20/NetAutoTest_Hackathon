@@ -1,0 +1,13 @@
+测试步骤：
+1.建立测试环境，在 OLT 的一个 PON 口下连接一个 ONU，并注册上线。
+2.开启OLT的DHCP Option82功能。 
+3.通过网络分析仪向ONU的一个端口发送DHCP请求，进行DHCP拨号。
+4.在OLT上抓包并分析Option82报文。 
+5.开启OLT的PPPoe+功能。
+6.通过网络分析仪向ONU的一个端口发送PPPoe+请求，进行PPPOE拨号。
+在OLT上抓包并分析PPPoe+报文。
+预期结果：
+1.步骤2中，在OLT上，可以正常配置DHCP Option82功能。
+2.步骤4中，OLT支持DHCP Option82功能，网络侧发出去的报文携带Option82标签，符合规范要求。
+3.步骤5中，在OLT上，可以正常配置PPPoe+功能。
+步骤7中，OLT支持PPPoe+功能，网络侧发出去的报文携带PPPoe+标签，符合规范要求。

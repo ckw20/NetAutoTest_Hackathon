@@ -1,0 +1,27 @@
+{
+  "devices": [
+    {
+      "name": "device_name",
+      "type": "device_type",
+      "ports": [
+        {
+          "name": "port_name",
+          "ip": "ip_address/subnet",
+          "connected_to": "connected_device_name:port_name",
+          "area": "area_name"
+        }
+      ]
+    }
+  ],
+  "comments": [
+    "字段解释如下：",
+    "1. **devices**: 设备列表，包含所有设备的详细信息。",
+    "   - **name**: 设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+    "   - **type**: 设备的类型（例如：tester、DUT 等）。",
+    "   - **ports**: 设备的端口列表，描述设备的各个端口。",
+    "     - **name**: 端口的名称，用于唯一标识端口。",
+    "     - **ip**: 端口的 IP 地址和子网掩码，格式为 'IP地址/子网掩码'。",
+    "     - **connected_to**: 描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。",
+    "     - **area**: 设备所属区域，用于区分不同区域的端口。"
+  ]
+}

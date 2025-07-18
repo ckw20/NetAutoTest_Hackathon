@@ -1,0 +1,187 @@
+# =================================================================================
+# Objective   	:   Test Objective : 6.8.1 Error Frame Filtering Function
+#
+# Step			:	Test Step 1: According to Figure 4, arbitrarily select two switch ports as test ports;
+#                   Test Step 2: Port 1 sends CRC check error frames to port 2, observe the receiving status;
+#                   Test Step 3: Port 1 sends source MAC address error frames to port 2, observe the receiving status.
+#
+# Criteria    	:   Expected Result 1:
+#
+# Created by   	:  	Tester-006
+#
+# Bugs   	    :  	None
+# =================================================================================
+import time
+import sys
+import os
+
+dirname, filename = os.path.split(os.path.abspath(__file__))
+ntolibrary_path = os.path.join(dirname, os.path.pardir, os.path.pardir)
+
+# 将库的路径添加到 sys.path
+if ntolibrary_path not in sys.path:
+    sys.path.append(ntolibrary_path)
+
+from CustomLibrary.common import cfg, testbed, setup, teardown, printf, temp_dir, get_locations, CustomData, edit_port_params
+from NtoLibrary.common import NTO
+from TesterLibrary.base import *
+
+
+dirname, filename = os.path.split(os.path.abspath(__file__))
+data = CustomData()
+# 测试前下发配罿
+device = setup(cfg, testbed)
+
+verdict = 'pass'
+errInfo = ''
+
+try:
+    # 初始化仪表
+    printf(message='Initialize tester')
+    if testbed['tester']['rtsm']['ip']:
+        init_tester(Rtsm=testbed['tester']['rtsm']['ip'])
+    else:
+        init_tester()
+
+    locations = get_locations(cfg['port'])
+    # 创建端口，并预约端口
+    ports = reserve_port(Locations=locations, Force=testbed['tester']['force']['default'], Debug=testbed['tester']['debug']['default'], WaitForStatusUp=False)
+    port_up, port_down = ports
+    if testbed['nto']['enable']['default']:
+        nto = NTO(host=testbed['nto']['ip']['default'], port=testbed['nto']['port']['default'], username=testbed['nto']['username']['default'], password=testbed['nto']['password']['default'], content_type='multipart/form-data')
+        nto.actions_import(os.path.join(dirname, 'topu.ata'))
+    if not testbed['tester']['debug']['default']:
+        for k, v in testbed['tester'].items():
+            edit_port_kwargs = {}
+            if k in edit_port_params:
+                edit_port_kwargs.update({k: v['default']})
+        if edit_port_kwargs:
+            edit_port(Ports=ports, **edit_port_kwargs)
+            time.sleep(10)
+        if  testbed['tester']['wait_for_status_up']['default']:
+            wait_port_state(ports)
+
+    # 创建接口
+    interfaces_up = create_interface(Port=port_up, Layers=['ipv4'])
+    interfaces_down = create_interface(Port=port_down, Layers=['ipv4'])
+    edit_interface(Interface=interfaces_up,
+                   Layer='EthIILayer',
+                   Address=cfg['arg']['interface']['default']['mac_up_address']['default'])
+
+    edit_interface(Interface=interfaces_down,
+                   Layer='EthIILayer',
+                   Address=cfg['arg']['interface']['default']['mac_down_address']['default'])
+
+    edit_interface(Interface=interfaces_up,
+                   Layer='IPv4Layer',
+                   Address=cfg['arg']['interface']['default']['ipv4_up_address']['default'],
+                   Gateway=cfg['arg']['interface']['default']['ipv4_up_gateway']['default'])
+
+    edit_interface(Interface=interfaces_down,
+                   Layer='IPv4Layer',
+                   Address=cfg['arg']['interface']['default']['ipv4_down_address']['default'],
+                   Gateway=cfg['arg']['interface']['default']['ipv4_down_gateway']['default'])
+
+    port1, port2 = ports
+    edit_port_load_profile(Ports=port1,
+                           LoadProfileType='PORT_BASE',
+                           Unit='FRAME_PER_SEC',
+                           TransmitMode="CONTINUOUS",
+                           Rate=100,
+                           GenerateError='CRC')
+
+    smac_address_list = ['00:00:00:13:40:21']
+    dmac_address_list = ['00:00:01:13:40:20']
+
+    stream1 = add_stream(Ports=port1, Names=f'stream1')
+    edit_stream(Stream=stream1, FixedLength=64)
+    create_stream_header(Stream=stream1, HeaderTypes=['ethernetii', 'ipv4'])
+    edit_header_ethernet(Stream=stream1, SourceMacAdd=smac_address_list[0], DestMacAdd=dmac_address_list[0])
+
+
+    stream2 = add_stream(Ports=port1, Names=f'stream2')
+    edit_stream(Stream=stream2, FixedLength=64)
+    create_stream_header(Stream=stream2, HeaderTypes=['ethernetii', 'ipv4'])
+    edit_header_ethernet(Stream=stream2, SourceMacAdd='00:00:00:00:00:00', DestMacAdd=dmac_address_list[0])
+
+    # 订阅统计视图
+    subscribe_result(Types=['PortStats', 'StreamBlockStats'])
+
+    # 保存配置文件
+    save_case(Path=os.path.join(temp_dir, 'xcfg', '{}.xcfg'.format(cfg['tc_no'])))
+    printf(message='Save case to xcfg')
+
+
+    if not testbed['tester']['debug']['default']:
+        printf(message='Test start')
+        # 执行测试
+
+        # 端口1测试
+        # 启动二层学习
+        start_l2_learning()
+        time.sleep(3)
+        # 启动流量测试
+        start_stream(Type='stream', Objects=stream1)
+        time.sleep(10)
+        stop_stream()
+        time.sleep(3)
+
+        # 检查统计结果
+        # 获取端口流量结果
+        Result = get_streamblock_statistic(Stream=stream1, StaItems=['TxStreamFrames', 'RxStreamFrames'])
+        TxStreamFrames = Result['TxStreamFrames']
+        RxStreamFrames = Result['RxStreamFrames']
+        if TxStreamFrames > 0 and RxStreamFrames == 0:
+            CustomData.verdict, CustomData.errInfo = printf(
+                message=f'stream1 RxStreamFrames({RxStreamFrames}) is equal to 0',
+                step=3, result=True)
+        else:
+            CustomData.verdict, CustomData.errInfo = printf(
+                message=f'stream1 RxStreamFrames({RxStreamFrames}) is equal to 0',
+                step=3, result=False)
+
+        clear_result()
+        edit_port_load_profile(Ports=port1,
+                               LoadProfileType='PORT_BASE',
+                               Unit='FRAME_PER_SEC',
+                               TransmitMode="CONTINUOUS",
+                               Rate=100,
+                               GenerateError='NO_ERROR')
+        # 启动二层学习
+        start_l2_learning()
+        time.sleep(3)
+        # 启动流量测试
+        start_stream(Type='stream', Objects=stream2)
+        time.sleep(10)
+        stop_stream()
+        time.sleep(3)
+
+        # 检查统计结果
+        # 获取端口流量结果
+        Result = get_streamblock_statistic(Stream=stream2, StaItems=['TxStreamFrames', 'RxStreamFrames'])
+        TxStreamFrames = Result['TxStreamFrames']
+        RxStreamFrames = Result['RxStreamFrames']
+        if TxStreamFrames == RxStreamFrames and  RxStreamFrames > 0:
+            CustomData.verdict, CustomData.errInfo = printf(
+                message=f'stream2 RxStreamFrames({RxStreamFrames}) is equal to TxStreamFrames({TxStreamFrames})',
+                step=5, result=True)
+        else:
+            CustomData.verdict, CustomData.errInfo = printf(
+                message=f'stream2 RxStreamFrames({RxStreamFrames}) is not equal to TxStreamFrames({TxStreamFrames})',
+                step=5, result=False)
+        # 测试结束
+        printf(message='Test completed')
+
+        # 释放端口资源
+        release_port(locations)
+
+except Exception as e:
+    CustomData.verdict = 'fail'
+    CustomData.errInfo = repr(e)
+finally:
+    # 关闭仪表进程
+    shutdown_tester()
+    # 测试结束清除配置
+    teardown(cfg, testbed)
+    print(f'errInfo:\n{CustomData.errInfo}', flush=True)
+    print(f'verdict:{CustomData.verdict}', flush=True)

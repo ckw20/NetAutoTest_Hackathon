@@ -1,0 +1,381 @@
+{
+  "test_case_points": [
+    {
+      "id": "TC1",
+      "title": "Hello包网络掩码验证测试",
+      "objective": "确保被测设备拒绝网络掩码不匹配的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC2",
+      "title": "Hello包时间间隔参数验证测试",
+      "objective": "验证被测设备拒绝HelloInterval或RouterDeadInterval不匹配的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC3",
+      "title": "E-bit选项兼容性测试",
+      "objective": "确保设备正确处理区域类型与E-bit设置的匹配关系",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5",
+        "RFC2328.4.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC4",
+      "title": "未识别选项位处理测试",
+      "objective": "验证设备正确处理Hello包中未识别的Options字段位（置零处理）",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC5",
+      "title": "虚拟链路网络掩码处理测试",
+      "objective": "确保在虚拟链路上忽略Network Mask字段验证",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC6",
+      "title": "多网络类型Hello包发送测试",
+      "objective": "验证设备在不同网络类型（广播/P2P/NBMA）下正确使用组播/单播发送Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC7",
+      "title": "DR/BDR字段有效性测试",
+      "objective": "确保设备正确处理DR/BDR字段为0.0.0.0的情况",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC8",
+      "title": "邻居列表维护测试",
+      "objective": "验证设备正确维护最近收到的邻居列表（RouterDeadInterval内）",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC9",
+      "title": "路由器优先级处理测试",
+      "objective": "验证路由器优先级(Rtr Pri)为0时设备不参与DR/BDR选举",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC10",
+      "title": "邻居状态机事件触发测试",
+      "objective": "验证Hello包处理正确触发2-Way/1-Way事件和NeighborChange事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC11",
+      "title": "Options字段多能力位兼容性测试",
+      "objective": "验证设备正确处理MC/NP/EA/DC等能力位（置零不处理/不中断邻居关系）",
+      "test_reference": [
+        "RFC2328.A.2",
+        "RFC2328.4.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC12",
+      "title": "区域ID一致性验证测试",
+      "objective": "确保设备拒绝Area ID与接收接口所属区域不一致的Hello包",
+      "test_reference": [
+        "RFC2328.10.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC13",
+      "title": "虚拟链路Hello单播发送验证",
+      "objective": "确认虚拟链路上按HelloInterval间隔发送单播Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC14",
+      "title": "邻居失效超时处理测试",
+      "objective": "验证在RouterDeadInterval超时后正确移除邻居条目",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "reliability"
+      ]
+    },
+    {
+      "id": "TC15",
+      "title": "认证字段验证测试",
+      "objective": "确保设备拒绝AuType/Authentication不匹配的Hello包",
+      "test_reference": [
+        "RFC2328.A.3.2",
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "TC16",
+      "title": "DR/BDR声明状态机事件触发测试",
+      "objective": "验证邻居声明为DR/BDR时正确触发BackupSeen和NeighborChange事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC17",
+      "title": "NBMA网络Hello响应机制测试",
+      "objective": "确认在NBMA网络上接收到Hello包后按规范要求发送响应",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.9.5.1"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC18",
+      "title": "路由器优先级动态变更测试",
+      "objective": "验证邻居优先级变化时正确触发接口NeighborChange事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC19",
+      "title": "点对点网络掩码忽略测试",
+      "objective": "确保在物理P2P网络类型下忽略Network Mask字段验证",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC20",
+      "title": "点对多点网络Hello发送模式验证",
+      "objective": "验证设备在P2MP网络类型下按每个邻居单独发送Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC21",
+      "title": "邻居列表排除自身处理测试",
+      "objective": "当Hello包中不包含自身Router ID时，验证触发1-WayReceived事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC22",
+      "title": "NBMA网络Waiting状态DR处理测试",
+      "objective": "当接口处于Waiting状态时，验证收到DR声明0.0.0.0时触发BackupSeen事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC23",
+      "title": "Hello包Options位清零发送测试",
+      "objective": "验证设备发送的Hello包中未识别Options位自动置零",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC24",
+      "title": "接口Waiting状态事件触发测试",
+      "objective": "当接口处于Waiting状态时，验证收到有效BDR声明触发BackupSeen事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC25",
+      "title": "邻居初次发现及状态初始化测试",
+      "objective": "验证首次收到Hello包时正确创建Down状态邻居结构并触发HelloReceived事件",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC26",
+      "title": "点对点网络邻居IP地址绑定测试",
+      "objective": "确认在物理P2P网络中邻居IP地址正确取自Hello包源地址",
+      "test_reference": [
+        "RFC2328.10.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC27",
+      "title": "NBMA网络Hello单播发送验证",
+      "objective": "验证在NBMA网络类型下按HelloInterval间隔向指定邻居单播发送Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC28",
+      "title": "DC-bit选项兼容性测试",
+      "objective": "验证设备正确处理Hello包中DC-bit设置（置零时不中断邻居关系）",
+      "test_reference": [
+        "RFC2328.A.2",
+        "RFC2328.4.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC29",
+      "title": "虚拟链路邻居标识方式测试",
+      "objective": "验证在虚拟链路上邻居识别基于Hello包的Router ID而非IP源地址",
+      "test_reference": [
+        "RFC2328.10.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC30",
+      "title": "Hello包邻居列表发送正确性测试",
+      "objective": "验证设备发送的Hello包Neighbor字段包含RouterDeadInterval内有效邻居",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC31",
+      "title": "EA-bit选项兼容性测试",
+      "objective": "验证设备正确处理Hello包EA-bit设置（未支持时维持邻居关系）",
+      "test_reference": [
+        "RFC2328.A.2",
+        "RFC2328.4.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    },
+    {
+      "id": "TC32",
+      "title": "N/P-bit选项兼容性测试",
+      "objective": "验证设备正确处理Hello包N/P-bit设置（未支持时维持邻居关系）",
+      "test_reference": [
+        "RFC2328.A.2",
+        "RFC2328.4.5"
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": "测试用例覆盖Hello包处理的核心功能要求，包含参数验证、选项处理、网络类型适配和状态机维护等关键方面。"
+}

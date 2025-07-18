@@ -1,0 +1,46 @@
+A.3.4 The Link State Request packet
+
+    Link State Request packets are OSPF packet type 3.  After exchanging
+    Database Description packets with a neighboring router, a router may
+    find that parts of its link-state database are out-of-date.  The
+    Link State Request packet is used to request the pieces of the
+    neighbor's database that are more up-to-date.  Multiple Link State
+    Request packets may need to be used.
+
+    A router that sends a Link State Request packet has in mind the
+    precise instance of the database pieces it is requesting. Each
+    instance is defined by its LS sequence number, LS checksum, and LS
+    age, although these fields are not specified in the Link State
+    Request Packet itself.  The router may receive even more recent
+    instances in response.
+
+    The sending of Link State Request packets is documented in Section
+    10.9.  The reception of Link State Request packets is documented in
+    Section 10.7.
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |   Version #   |       3       |         Packet length         |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                          Router ID                            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                           Area ID                             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |           Checksum            |             AuType            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                          LS type                              |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Link State ID                           |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     Advertising Router                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                              ...                              |
+    Each LSA requested is specified by its LS type, Link State ID, and
+    Advertising Router.  This uniquely identifies the LSA, but not its
+    instance.  Link State Request packets are understood to be requests
+    for the most recent instance (whatever that might be).

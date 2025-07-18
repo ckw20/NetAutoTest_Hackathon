@@ -1,0 +1,131 @@
+{
+  "protocol_field": {
+    "name": "Hello Packet",
+    "version": "OSPF packet type 1",
+    "description": "Periodically sent on all interfaces to establish and maintain neighbor relationships. Includes parameters for neighbor relationship validation.",
+    "fields": [
+      {
+        "name": "Version #",
+        "description": "The OSPF version number.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must correspond to the OSPF version in use."
+        ]
+      },
+      {
+        "name": "Packet length",
+        "description": "The length of the OSPF packet in bytes, including the header.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be greater than or equal to the minimum size of the Hello packet."
+        ]
+      },
+      {
+        "name": "Router ID",
+        "description": "The identifier of the router originating the packet.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a unique 32-bit value within the OSPF domain."
+        ]
+      },
+      {
+        "name": "Area ID",
+        "description": "The identifier of the OSPF area to which the packet belongs.",
+        "size_bits": 32,
+        "constraints": [
+          "Must match the area ID of the interface sending the packet."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A checksum of the entire OSPF packet for error detection.",
+        "size_bits": 16,
+        "constraints": [
+          "Calculated using the standard OSPF checksum algorithm."
+        ]
+      },
+      {
+        "name": "AuType",
+        "description": "The type of authentication used for the packet.",
+        "size_bits": 16,
+        "constraints": [
+          "0 means no authentication, 1 means simple password, 2 means cryptographic authentication."
+        ]
+      },
+      {
+        "name": "Authentication",
+        "description": "Authentication data, usage depends on the AuType field.",
+        "size_bits": 64,
+        "constraints": [
+          "If AuType is 0, this field is unused; if AuType is 1, contains a simple password; if AuType is 2, contains cryptographic data."
+        ]
+      },
+      {
+        "name": "Network Mask",
+        "description": "The subnet mask associated with the interface.",
+        "size_bits": 32,
+        "constraints": [
+          "For example, 0xffffff00 for a class B network with subnetting in the third byte."
+        ]
+      },
+      {
+        "name": "HelloInterval",
+        "description": "The interval in seconds between Hello packets sent by the router.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be agreed upon by all routers on the same network."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "Optional capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "Defined in Section A.2 of the RFC document."
+        ]
+      },
+      {
+        "name": "Rtr Pri",
+        "description": "The priority of the router for (Backup) Designated Router election.",
+        "size_bits": 8,
+        "constraints": [
+          "0 makes the router ineligible for (Backup) Designated Router role."
+        ]
+      },
+      {
+        "name": "RouterDeadInterval",
+        "description": "The time in seconds before declaring a silent router down.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be consistent across all routers on the same network."
+        ]
+      },
+      {
+        "name": "Designated Router",
+        "description": "The IP address of the Designated Router for the network.",
+        "size_bits": 32,
+        "constraints": [
+          "Set to 0.0.0.0 if no Designated Router exists."
+        ]
+      },
+      {
+        "name": "Backup Designated Router",
+        "description": "The IP address of the Backup Designated Router for the network.",
+        "size_bits": 32,
+        "constraints": [
+          "Set to 0.0.0.0 if no Backup Designated Router exists."
+        ]
+      },
+      {
+        "name": "Neighbor",
+        "description": "The Router IDs of neighboring routers from whom valid Hello packets have been received recently.",
+        "size_bits": null,
+        "constraints": [
+          "Each entry is a 32-bit Router ID.",
+          "Listed neighbors must have sent Hello packets within the last RouterDeadInterval seconds."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the OSPF Hello packet fields based on the provided RFC section."
+}

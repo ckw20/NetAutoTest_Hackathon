@@ -1,0 +1,52 @@
+{
+    "devices": [
+      {
+        "name": "tester",
+        "type": "tester",
+        "ports": [
+          {
+            "name": "port1",
+            "ip": "192.168.1.100/24",
+            "connected_to": "DUT1:port1"
+          },
+          {
+            "name": "port2",
+            "ip": "192.168.2.100/24",
+            "connected_to": "DUT2:port2"
+          }
+        ]
+      },
+      {
+        "name": "DUT1",
+        "type": "DUT",
+        "ports": [
+          {
+            "name": "port1",
+            "ip": "192.168.1.1/24",
+            "connected_to": "tester:port1"
+          },
+          {
+            "name": "port2",
+            "ip": "1.1.1.1/24",
+            "connected_to": "DUT2:port1"
+          }
+        ]
+      },
+      {
+        "name": "DUT2",
+        "type": "DUT",
+        "ports": [
+          {
+            "name": "port1",
+            "ip": "1.1.1.2/24",
+            "connected_to": "DUT1:port2"
+          },
+          {
+            "name": "port2",
+            "ip": "192.168.2.1/24",
+            "connected_to": "tester:port2"
+          }
+        ]
+      }
+    ]
+  }

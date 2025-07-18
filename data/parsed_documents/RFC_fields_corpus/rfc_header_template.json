@@ -1,0 +1,16 @@
+{
+    "protocol_header": {
+      "name": "",
+      "version": "",
+      "description": "",
+      "fields": [
+        {
+          "name": "",
+          "description": "",
+          "size_bits": null,
+          "constraints": ["", ""]
+        }
+      ]
+    },
+    "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

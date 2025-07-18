@@ -1,0 +1,86 @@
+{
+  "test_cases": [
+    {
+      "id": "OSPFv2-LSA-PROP-VER",
+      "title": "OSPFv2 LSA Propagation Verification Test",
+      "objective": "Verify that the DUT can correctly establish OSPF neighbor relationships and propagate LSA information",
+      "test_reference": [
+        "RFC 2328 (OSPFv2)",
+        "RFC 5340 (OSPF for IPv6)"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            },
+            {
+              "name": "PortTesterA_2",
+              "connected_to": "DeviceA:PortDeviceA_2"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            },
+            {
+              "name": "PortDeviceA_2",
+              "connected_to": "TesterA:PortTesterA_2"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "Tester (TesterA) establishes an OSPF router: Insert a test LSA into Tester Port 1 (PortTesterA_1); Ensure that Tester Port 1 (PortTesterA_1) and DUT Port 1 (PortDeviceA_1) reach the FULL state; Ensure that Tester Port 2 (PortTesterA_2) and DUT Port 2 (PortDeviceA_2) reach the FULL state",
+          "expected_result": "OSPF neighbor relationships are successfully established, and both ports of the tester reach the FULL state"
+        },
+        {
+          "step_id": "3",
+          "description": "Verify whether Tester Port 2 (PortTesterA_2) can receive the LSA inserted by Tester Port 1 (PortTesterA_1)",
+          "expected_result": "Tester Port 2 (PortTesterA_2) can correctly receive and process the LSA information from Tester Port 1 (PortTesterA_1)"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "Details of Device Initialization Configuration",
+          "content": [
+            "1. IP address configuration of the tester (TesterA):",
+            "   - Tester Port 1 (PortTesterA_1): 192.168.1.100/24",
+            "   - Tester Port 2 (PortTesterA_2): 192.168.2.100/24",
+            "2. IP address configuration of the Device Under Test (DeviceA):",
+            "   - DUT Port 1 (PortDeviceA_1): 192.168.1.1/24",
+            "   - DUT Port 2 (PortDeviceA_2): 192.168.2.1/24",
+            "3. Enable and configure the OSPFv2 routing protocol on the Device Under Test (DeviceA)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-xxx",
+      ...
+    },
+    {
+      "id": "OSPF-xxx",
+      ...
+    }
+  ]
+}

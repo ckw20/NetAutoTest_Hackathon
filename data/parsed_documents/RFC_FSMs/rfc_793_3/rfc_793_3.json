@@ -1,0 +1,257 @@
+{
+    "states": [
+        "CLOSED",
+        "LISTEN",
+        "SYN-SENT",
+        "SYN-RECEIVED",
+        "ESTABLISHED",
+        "FIN-WAIT-1",
+        "FIN-WAIT-2",
+        "CLOSE-WAIT",
+        "CLOSING",
+        "LAST-ACK",
+        "TIME-WAIT"
+    ],
+    "init_state": "CLOSED",
+    "events": [
+        "OPEN",
+        "SEND",
+        "RECEIVE",
+        "CLOSE",
+        "ABORT",
+        "STATUS",
+        "SEGMENT_ARRIVES",
+        "USER_TIMEOUT",
+        "RETRANSMISSION_TIMEOUT",
+        "TIME-WAIT_TIMEOUT",
+        "RST_RECEIVED",
+        "SYN_RECEIVED",
+        "ACK_RECEIVED",
+        "FIN_RECEIVED"
+    ],
+    "transitions": [
+        {
+            "from_state": "CLOSED",
+            "to_state": "LISTEN",
+            "event": "OPEN",
+            "actions": [
+                "Create TCB",
+                "Set LISTEN state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "CLOSED",
+            "to_state": "SYN-SENT",
+            "event": "OPEN",
+            "actions": [
+                "Create TCB",
+                "Send SYN",
+                "Set SND.UNA, SND.NXT",
+                "Set SYN-SENT state"
+            ],
+            "constraints": [
+                "Active OPEN"
+            ]
+        },
+        {
+            "from_state": "*",
+            "to_state": "CLOSED",
+            "event": "ABORT",
+            "actions": [
+                "Send RST",
+                "Delete TCB",
+                "Flush queues"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "LISTEN",
+            "to_state": "SYN-RECEIVED",
+            "event": "SYN_RECEIVED",
+            "actions": [
+                "Create TCB",
+                "Send SYN,ACK",
+                "Set RCV.NXT, IRS",
+                "Set SYN-RECEIVED state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "LISTEN",
+            "to_state": "SYN-SENT",
+            "event": "SEND",
+            "actions": [
+                "Send SYN",
+                "Set SND.UNA, SND.NXT",
+                "Set SYN-SENT state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-SENT",
+            "to_state": "SYN-RECEIVED",
+            "event": "SYN_RECEIVED",
+            "actions": [
+                "Send SYN,ACK",
+                "Set RCV.NXT, IRS",
+                "Set SYN-RECEIVED state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-SENT",
+            "to_state": "ESTABLISHED",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments",
+                "Set ESTABLISHED state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-RECEIVED",
+            "to_state": "ESTABLISHED",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments",
+                "Set ESTABLISHED state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "ESTABLISHED",
+            "to_state": "FIN-WAIT-1",
+            "event": "CLOSE",
+            "actions": [
+                "Send FIN",
+                "Set FIN-WAIT-1 state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "ESTABLISHED",
+            "to_state": "CLOSE-WAIT",
+            "event": "FIN_RECEIVED",
+            "actions": [
+                "Send ACK",
+                "Set CLOSE-WAIT state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "FIN-WAIT-1",
+            "to_state": "FIN-WAIT-2",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Set FIN-WAIT-2 state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "FIN-WAIT-1",
+            "to_state": "CLOSING",
+            "event": "FIN_RECEIVED",
+            "actions": [
+                "Send ACK",
+                "Set CLOSING state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "FIN-WAIT-2",
+            "to_state": "TIME-WAIT",
+            "event": "FIN_RECEIVED",
+            "actions": [
+                "Send ACK",
+                "Start TIME-WAIT timer",
+                "Set TIME-WAIT state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "CLOSE-WAIT",
+            "to_state": "LAST-ACK",
+            "event": "CLOSE",
+            "actions": [
+                "Send FIN",
+                "Set LAST-ACK state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "CLOSING",
+            "to_state": "TIME-WAIT",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Start TIME-WAIT timer",
+                "Set TIME-WAIT state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "LAST-ACK",
+            "to_state": "CLOSED",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Delete TCB",
+                "Set CLOSED state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "TIME-WAIT",
+            "to_state": "CLOSED",
+            "event": "TIME-WAIT_TIMEOUT",
+            "actions": [
+                "Delete TCB",
+                "Set CLOSED state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "*",
+            "to_state": "CLOSED",
+            "event": "RST_RECEIVED",
+            "actions": [
+                "Delete TCB",
+                "Flush queues"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-SENT",
+            "to_state": "CLOSED",
+            "event": "RST_RECEIVED",
+            "actions": [
+                "Signal user 'connection refused'",
+                "Delete TCB"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-RECEIVED",
+            "to_state": "LISTEN",
+            "event": "RST_RECEIVED",
+            "actions": [
+                "Return to LISTEN state"
+            ],
+            "constraints": [
+                "Passive OPEN"
+            ]
+        },
+        {
+            "from_state": "ESTABLISHED",
+            "to_state": "CLOSED",
+            "event": "RST_RECEIVED",
+            "actions": [
+                "Signal user 'connection reset'",
+                "Delete TCB"
+            ],
+            "constraints": []
+        }
+    ]
+}

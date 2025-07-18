@@ -1,0 +1,57 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC2",
+      "title": "网络掩码字段处理验证",
+      "objective": "验证在unnumbered点对点网络和虚拟链路上Network Mask字段置0的正确性",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC2-1",
+          "description": "配置被测设备DeviceA的PortDeviceA_1为unnumbered点对点网络接口。",
+          "expected_result": "PortDeviceA_1成功配置为unnumbered点对点网络接口。"
+        },
+        {
+          "step_id": "TC2-2",
+          "description": "配置TesterA的PortTesterA_1与PortDeviceA_1建立OSPF邻居关系，并确保Hello包发送功能正常。",
+          "expected_result": "TesterA的PortTesterA_1与DeviceA的PortDeviceA_1之间成功建立OSPF邻居关系。"
+        },
+        {
+          "step_id": "TC2-3",
+          "description": "捕获并分析从DeviceA的PortDeviceA_1发送到TesterA的PortTesterA_1的Hello包，检查Network Mask字段是否设置为0.0.0.0。",
+          "expected_result": "Hello包中的Network Mask字段应设置为0.0.0.0。"
+        },
+        {
+          "step_id": "TC2-4",
+          "description": "配置被测设备DeviceA的PortDeviceA_2为虚拟链路接口，并与TesterA的PortTesterA_2建立虚拟链路。",
+          "expected_result": "PortDeviceA_2成功配置为虚拟链路接口，并与PortTesterA_2建立虚拟链路。"
+        },
+        {
+          "step_id": "TC2-5",
+          "description": "捕获并分析从DeviceA的PortDeviceA_2发送到TesterA的PortTesterA_2的Hello包，检查Network Mask字段是否设置为0.0.0.0。",
+          "expected_result": "Hello包中的Network Mask字段应设置为0.0.0.0。"
+        },
+        {
+          "step_id": "TC2-6",
+          "description": "关闭所有测试端口，清理配置。",
+          "expected_result": "所有测试端口关闭，配置清理完成。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

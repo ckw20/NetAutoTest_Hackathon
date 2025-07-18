@@ -1,0 +1,63 @@
+
+{
+  "type": "Testcase",
+  "name": "虚拟链路网络掩码处理测试",
+  "tc_no": "TC5",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "配置接口的Mac地址和IPv4地址等信息。",
+      "default": {
+        "mac_up_address": {
+          "description": "上行接口Mac地址设置",
+          "default": "00:01:02:02:02:02"
+        },
+        "mac_down_address": {
+          "description": "下行接口Mac地址设置",
+          "default": "00:01:02:02:02:03"
+        },
+        "ipv4_up_address": {
+          "description": "上行接口IPv4地址设置",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "上行接口IPv4网关设置",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "下行接口IPv4地址设置",
+          "default": "192.168.2.100"
+        },
+        "ipv4_down_gateway": {
+          "description": "下行接口IPv4网关设置",
+          "default": "192.168.2.1"
+        }
+      }
+    },
+    "hello_packet_config": {
+      "description": "配置Hello包的Network Mask字段。",
+      "default": {
+        "network_mask_non_zero": {
+          "description": "非零值的Network Mask字段。",
+          "default": "255.255.255.0"
+        },
+        "network_mask_zero": {
+          "description": "零值的Network Mask字段。",
+          "default": "0.0.0.0"
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2", "PortDeviceA_3", "PortDeviceA_4"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，例如配置接口的Mac地址、IPv4地址以及Hello包的Network Mask字段。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1、PortDeviceA_2、PortDeviceA_3和PortDeviceA_4。"
+  }
+}

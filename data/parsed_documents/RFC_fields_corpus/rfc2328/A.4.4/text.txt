@@ -1,0 +1,70 @@
+A.4.4 Summary-LSAs
+
+    Summary-LSAs are the Type 3 and 4 LSAs.  These LSAs are originated
+    by area border routers. Summary-LSAs describe inter-area
+    destinations.  For details concerning the construction of summary-
+    LSAs, see Section 12.4.3.
+
+    Type 3 summary-LSAs are used when the destination is an IP network.
+    In this case the LSA's Link State ID field is an IP network number
+    (if necessary, the Link State ID can also have one or more of the
+    network's "host" bits set; see Appendix E for details). When the
+    destination is an AS boundary router, a Type 4 summary-LSA is used,
+    and the Link State ID field is the AS boundary router's OSPF Router
+    ID.  (To see why it is necessary to advertise the location of each
+    ASBR, consult Section 16.4.)  Other than the difference in the Link
+    State ID field, the format of Type 3 and 4 summary-LSAs is
+    identical.
+
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |            LS age             |     Options   |    3 or 4     |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                        Link State ID                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     Advertising Router                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     LS sequence number                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |         LS checksum           |             length            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                         Network Mask                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |      0        |                  metric                       |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |     TOS       |                TOS  metric                    |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                              ...                              |
+
+
+
+    For stub areas, Type 3 summary-LSAs can also be used to describe a
+    (per-area) default route.  Default summary routes are used in stub
+    areas instead of flooding a complete set of external routes.  When
+    describing a default summary route, the summary-LSA's Link State ID
+    is always set to DefaultDestination (0.0.0.0) and the Network Mask
+    is set to 0.0.0.0.
+
+    Network Mask
+        For Type 3 summary-LSAs, this indicates the destination
+        network's IP address mask.  For example, when advertising the
+        location of a class A network the value 0xff000000 would be
+        used.  This field is not meaningful and must be zero for Type 4
+        summary-LSAs.
+
+    metric
+        The cost of this route.  Expressed in the same units as the
+        interface costs in the router-LSAs.
+
+    Additional TOS-specific information may also be included, for
+    backward compatibility with previous versions of the OSPF
+    specification ([Ref9]). For each desired TOS, TOS-specific
+    information is encoded as follows:
+
+    TOS IP Type of Service that this metric refers to.  The encoding of
+        TOS in OSPF LSAs is described in Section 12.3.
+
+    TOS metric
+        TOS-specific metric information.

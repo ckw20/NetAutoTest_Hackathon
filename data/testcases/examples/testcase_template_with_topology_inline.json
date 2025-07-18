@@ -1,0 +1,32 @@
+{
+    "test_cases": [
+      {
+        "id": "测试用例的唯一标识符。",
+        "title": "测试用例的标题，简要描述测试内容。",
+        "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+        "test_reference": "测试用例的参考文档，如RFC的章节号等",
+        "topology": [
+          {
+            "name": "设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+            "type": "设备的类型（例如 tester、DUT 等）。",
+            "ports": [
+              {
+                "name": "端口的名称，用于唯一标识端口，例如port1等。",
+                "connected_to": "描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。"
+              }
+            ]
+          }
+        ],
+        "steps": [
+          {
+            "step_id": "步骤的唯一标识符。",
+            "description": "步骤的具体操作或配置。",
+            "expected_result": "该步骤的预期结果。"
+          }
+        ],
+        "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+      }
+    ]
+  }
+
+

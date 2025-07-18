@@ -1,0 +1,62 @@
+
+{
+  "test_case_points": [
+    {
+      "id": "TC1",
+      "title": "Hello包网络掩码验证测试",
+      "objective": "验证被测设备拒绝网络掩码不匹配的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC2",
+      "title": "点对点网络掩码处理测试",
+      "objective": "验证在点对点网络和虚拟链路上忽略网络掩码检查",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC3",
+      "title": "Hello时间参数一致性验证",
+      "objective": "确保被测设备拒绝HelloInterval/RouterDeadInterval不匹配的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC4",
+      "title": "E-bit选项兼容性测试",
+      "objective": "验证设备正确处理区域类型与E-bit设置的匹配关系",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5", "RFC2328.4.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC5",
+      "title": "未知选项位处理测试",
+      "objective": "验证设备正确处理Hello包中未识别的选项位（置零处理）",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC6",
+      "title": "多网络类型Hello发送验证",
+      "objective": "验证在不同网络类型（广播/NBMA/点对多点）正确使用多播/单播发送Hello包",
+      "test_reference": ["RFC2328.9.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC7",
+      "title": "DR/BDR字段初始化验证",
+      "objective": "确保未选举DR/BDR时对应字段值为0.0.0.0",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC8",
+      "title": "邻居列表完整性测试",
+      "objective": "验证Hello包包含最近RouterDeadInterval内收到的所有邻居信息",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    }
+  ],
+  "comments": "测试用例覆盖RFC2328第9.5节及相关章节核心要求，包含网络参数验证、选项字段处理、邻居发现机制和DR/BDR选举相关功能验证。"
+}

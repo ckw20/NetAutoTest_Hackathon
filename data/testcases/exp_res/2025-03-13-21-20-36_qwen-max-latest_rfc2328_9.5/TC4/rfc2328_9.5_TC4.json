@@ -1,0 +1,54 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC4",
+      "title": "未知选项位处理验证",
+      "objective": "验证设备正确处理Hello包Options字段未识别位（应置零）",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC4-1",
+          "description": "在TesterA的PortTesterA_1端口上，配置发送带有未识别Options位设置为非零值的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-2",
+          "description": "启动TesterA的PortTesterA_1端口，向DeviceA的PortDeviceA_1发送上述配置的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-3",
+          "description": "等待20秒后，观察DeviceA的PortDeviceA_1是否接受该Hello包并建立邻接关系。",
+          "expected_result": "DeviceA的PortDeviceA_1不应接受该Hello包，且邻接关系不应建立。"
+        },
+        {
+          "step_id": "TC4-4",
+          "description": "在TesterA的PortTesterA_1端口上，重新配置发送带有未识别Options位设置为零值的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-5",
+          "description": "再次启动TesterA的PortTesterA_1端口，向DeviceA的PortDeviceA_1发送上述配置的Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC4-6",
+          "description": "等待20秒后，观察DeviceA的PortDeviceA_1是否接受该Hello包并建立邻接关系。",
+          "expected_result": "DeviceA的PortDeviceA_1应接受该Hello包，并与TesterA的PortTesterA_1建立邻接关系。"
+        },
+        {
+          "step_id": "TC4-7",
+          "description": "关闭TesterA的PortTesterA_1端口，停止发送Hello包。",
+          "expected_result": ""
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

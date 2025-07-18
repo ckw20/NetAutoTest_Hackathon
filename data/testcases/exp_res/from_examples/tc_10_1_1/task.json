@@ -1,0 +1,20 @@
+
+{
+    "id": "_tc_10_1_1",
+    "title": "接口的 ACL 验证",
+    "objective": "验证接口的ACL功能",
+    "test_reference": [],
+    "steps": [
+      {
+        "step_id": "TC1-1",
+        "description": "tester port A 和 DUT port 1 相连，tester port B 和 DUT port 2 相连，从测试仪端口 A 向被测设备发送数据流，在测试仪端口 B 处观察流量接收情况",
+        "expected_result": "测试仪端口 B 处应可以观察到数据流量"
+      },
+      {
+        "step_id": "TC1-2",
+        "description": "在被测设备端口 2 上配置ACL，拒绝该接口所有出方向流量",
+        "expected_result": "测试仪端口 B 处应无流量"
+      }
+    ]
+  }
+  

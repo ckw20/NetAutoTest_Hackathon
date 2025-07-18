@@ -1,0 +1,60 @@
+
+system-view
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo portswitch
+ ip address 192.168.1.1 255.255.255.0
+ ospf enable
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf network-type broadcast
+ ospf options mc 1
+ ospf options np 1
+ ospf options ea 1
+ ospf options dc 1
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo portswitch
+ ip address 192.168.2.1 255.255.255.0
+ ospf enable
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf network-type broadcast
+ ospf options mc 1
+ ospf options np 1
+ ospf options ea 1
+ ospf options dc 1
+#
+interface ReplaceInterface_PortDeviceA_3
+ undo portswitch
+ ip address 192.168.3.1 255.255.255.0
+ ospf enable
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf network-type broadcast
+ ospf options mc 1
+ ospf options np 1
+ ospf options ea 1
+ ospf options dc 1
+#
+interface ReplaceInterface_PortDeviceA_4
+ undo portswitch
+ ip address 192.168.4.1 255.255.255.0
+ ospf enable
+ ospf timer hello 10
+ ospf timer dead 40
+ ospf network-type broadcast
+ ospf options mc 1
+ ospf options np 1
+ ospf options ea 1
+ ospf options dc 1
+#
+ospf 1
+ area 0.0.0.0
+  network 192.168.1.0 0.0.0.255
+  network 192.168.2.0 0.0.0.255
+  network 192.168.3.0 0.0.0.255
+  network 192.168.4.0 0.0.0.255
+#
+commit
+quit

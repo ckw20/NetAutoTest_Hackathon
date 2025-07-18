@@ -1,0 +1,245 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-AuType-01",
+      "title": "OSPFv2 Hello Packet AuType Field - No Authentication Test",
+      "objective": "Verify that OSPFv2 Hello packets with AuType set to 0 (no authentication) are processed correctly.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with AuType set to 0 (no authentication).",
+          "expected_result": "Hello packet with AuType=0 is sent successfully."
+        },
+        {
+          "step_id": "3",
+          "description": "Verify that the DUT processes the Hello packet and establishes a neighbor relationship.",
+          "expected_result": "Neighbor relationship is established successfully between Tester and DUT."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that no authentication is configured on the DUT's OSPF interface before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-AuType-02",
+      "title": "OSPFv2 Hello Packet AuType Field - Simple Password Authentication Test",
+      "objective": "Verify that OSPFv2 Hello packets with AuType set to 1 (simple password authentication) are processed correctly.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure both Tester and DUT with the same simple password for OSPF authentication.",
+          "expected_result": "Simple password authentication is configured successfully on both devices."
+        },
+        {
+          "step_id": "3",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with AuType set to 1 and the correct password.",
+          "expected_result": "Hello packet with AuType=1 is sent successfully."
+        },
+        {
+          "step_id": "4",
+          "description": "Verify that the DUT processes the Hello packet and establishes a neighbor relationship.",
+          "expected_result": "Neighbor relationship is established successfully between Tester and DUT."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that simple password authentication is configured consistently on both Tester and DUT interfaces."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-AuType-03",
+      "title": "OSPFv2 Hello Packet AuType Field - Cryptographic Authentication Test",
+      "objective": "Verify that OSPFv2 Hello packets with AuType set to 2 (cryptographic authentication) are processed correctly.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure both Tester and DUT with the same cryptographic key for OSPF authentication.",
+          "expected_result": "Cryptographic authentication is configured successfully on both devices."
+        },
+        {
+          "step_id": "3",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with AuType set to 2 and the correct cryptographic key.",
+          "expected_result": "Hello packet with AuType=2 is sent successfully."
+        },
+        {
+          "step_id": "4",
+          "description": "Verify that the DUT processes the Hello packet and establishes a neighbor relationship.",
+          "expected_result": "Neighbor relationship is established successfully between Tester and DUT."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that cryptographic authentication is configured consistently on both Tester and DUT interfaces."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-AuType-04",
+      "title": "OSPFv2 Hello Packet AuType Field - Invalid Authentication Test",
+      "objective": "Verify that OSPFv2 Hello packets with invalid AuType values are rejected.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with an invalid AuType value (e.g., 3).",
+          "expected_result": "Hello packet with invalid AuType is sent successfully."
+        },
+        {
+          "step_id": "3",
+          "description": "Verify that the DUT rejects the Hello packet and does not establish a neighbor relationship.",
+          "expected_result": "Neighbor relationship is not established, and the DUT logs an error or discards the packet."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "authentication"
+      ],
+      "appendix": [
+        "Ensure that the DUT is configured with valid authentication settings before testing."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Each test case ID is unique and corresponds to a specific AuType constraint.",
+    "title": "Titles describe the specific test scenario for each AuType value.",
+    "objective": "Objectives focus on verifying the behavior of OSPFv2 Hello packets under different AuType configurations.",
+    "test_reference": "References point to the relevant RFC section for AuType constraints.",
+    "topology": "The topology is minimal, consisting of a Tester and a DUT connected via a single link.",
+    "steps": "Steps include initialization, configuration, packet transmission, and verification of expected results.",
+    "tags": "Tags categorize the test cases as functional tests related to OSPF and authentication.",
+    "appendix": "Appendices provide additional configuration details or precautions for each test case."
+  }
+}

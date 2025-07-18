@@ -1,0 +1,32 @@
+  {
+    "function": "run_script_api_simulate",
+    "description": "执行测试脚本（main.py）并返回统一结构化结果。",
+    "parameters": [
+      {
+        "name": "main_path",
+        "type": "string",
+        "required": true,
+        "description": "要执行的测试脚本路径，通常为 main.py 的绝对路径。"
+      },
+      {
+        "name": "cfg_path",
+        "type": "string",
+        "required": true,
+        "description": "cfg.json 配置文件路径，包含流量参数、接口配置等测试内容。"
+      },
+      {
+        "name": "testbed_path",
+        "type": "string",
+        "required": true,
+        "description": "testbed.json 测试环境资源配置路径，包含 DUT 和 tester 的信息。"
+      },
+      {
+        "name": "timeout",
+        "type": "int",
+        "required": false,
+        "default": 1200,
+        "description": "脚本最大允许的执行时间（单位：秒），默认 1200 秒（20 分钟）。"
+      }
+    ]
+  }
+  

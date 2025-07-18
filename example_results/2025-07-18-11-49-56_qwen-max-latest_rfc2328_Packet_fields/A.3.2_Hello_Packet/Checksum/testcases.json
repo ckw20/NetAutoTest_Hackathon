@@ -1,0 +1,121 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-CHKSUM-POS",
+      "title": "OSPFv2 Checksum Positive Test",
+      "objective": "Verify that OSPF Hello packets with a valid checksum are correctly processed by the device under test (DUT).",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Send an OSPF Hello packet with a valid checksum from Tester:port1 to DUT:port1.",
+          "expected_result": "The DUT processes the Hello packet and establishes a neighbor relationship."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "checksum"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure the physical connection between Tester and DUT is stable.",
+        "2. Use the standard OSPF checksum algorithm to calculate the checksum for the Hello packet.",
+        "3. Clear all OSPF states on the DUT before starting the test."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-CHKSUM-NEG",
+      "title": "OSPFv2 Checksum Negative Test",
+      "objective": "Verify that OSPF Hello packets with an invalid checksum are discarded by the device under test (DUT).",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Send an OSPF Hello packet with an invalid checksum from Tester:port1 to DUT:port1.",
+          "expected_result": "The DUT discards the Hello packet, and no neighbor relationship is established."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "checksum"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure the physical connection between Tester and DUT is stable.",
+        "2. Modify the checksum field of the Hello packet to an incorrect value for this test.",
+        "3. Clear all OSPF states on the DUT before starting the test."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier for the test case, following the format TC-[Protocol]-[Field]-[TestType].",
+    "title": "Brief description of the test case content, focusing on the field being tested and the type of test.",
+    "objective": "Clear explanation of the purpose of the test case, specifying the behavior being verified.",
+    "test_reference": "References to relevant RFC sections or other documentation supporting the test case.",
+    "topology": "Minimal topology required to execute the test case, ensuring simplicity and clarity.",
+    "steps": "Step-by-step instructions for executing the test, with measurable expected results for key steps.",
+    "tags": "Tags used for categorizing the test case, such as 'function' or 'performance'.",
+    "appendix": "Additional information or notes to ensure proper execution of the test case."
+  }
+}

@@ -1,0 +1,6 @@
+system im
+#
+igmp snooping enable
+vlan 100
+ igmp snooping enable
+quit

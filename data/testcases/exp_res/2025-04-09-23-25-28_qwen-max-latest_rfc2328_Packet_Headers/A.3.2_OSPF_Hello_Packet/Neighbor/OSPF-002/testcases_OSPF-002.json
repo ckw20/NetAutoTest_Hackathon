@@ -1,0 +1,69 @@
+{
+  "id": "OSPF-002",
+  "title": "OSPF Hello Packet Neighbor字段负向测试（超时Neighbor）",
+  "objective": "验证DUT在接收到超出RouterDeadInterval时间的Neighbor字段时，能够正确移除邻居。",
+  "test_reference": [
+    "RFC 2328 (OSPFv2), Section A.3.2"
+  ],
+  "topology": [
+    {
+      "name": "TesterA",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "PortTesterA_1",
+          "connected_to": "DeviceA:PortDeviceA_1"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "PortDeviceA_1",
+          "connected_to": "TesterA:PortTesterA_1"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "根据提供的配置初始化设备测试环境",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "在测试仪端口1 (PortTesterA_1) 上发送包含有效Neighbor字段的Hello包，Neighbor字段包括DUT的Router ID。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "测试仪停止发送Hello包，等待超过Dead Interval（40秒）。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "4",
+      "description": "验证DUT是否移除邻居关系。",
+      "expected_result": "通过测试仪捕获DUT发出的后续Hello包，确认其Neighbor字段中不再包含测试仪的Router ID，表明邻居关系已被移除。"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ],
+  "appendix": [
+    {
+      "title": "设备初始化配置详情",
+      "content": [
+        "1. 测试仪 (TesterA) 的IP地址配置：",
+        "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+        "2. 被测设备DUT (DeviceA) 的IP地址配置：",
+        "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+        "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议，Router ID为1.1.1.1，RouterDeadInterval设置为40秒。",
+        "4. 测试仪 (TesterA) 配置Router ID为2.2.2.2。"
+      ]
+    }
+  ]
+}

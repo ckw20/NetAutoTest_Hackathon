@@ -1,0 +1,73 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-VERSION",
+      "title": "OSPFv2 Hello Packet Version Field Test",
+      "objective": "Verify that the Version # field in OSPFv2 Hello packets adheres to the specified constraints.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "The test environment is initialized successfully, and devices are connected as per the topology."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with the Version # field set to 2.",
+          "expected_result": "The DUT processes the Hello packet without errors, and neighbor adjacency is established."
+        },
+        {
+          "step_id": "3",
+          "description": "Configure the Tester to send an OSPFv2 Hello packet with the Version # field set to an invalid value (e.g., 1 or 3).",
+          "expected_result": "The DUT discards the Hello packet, and no neighbor adjacency is formed."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello"
+      ],
+      "appendix": [
+        "Test Precautions:",
+        "1. Ensure that the Tester and DUT are connected via a single link.",
+        "2. Clear all OSPF states and routing tables on the DUT before starting the test.",
+        "3. Use a network analyzer or equivalent tool to verify packet transmission and reception."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier for the test case.",
+    "title": "Describes the focus of the test case, specifically the Version # field in OSPFv2 Hello packets.",
+    "objective": "Explains the purpose of the test, which is to validate the constraints of the Version # field.",
+    "test_reference": "References the relevant RFC section for the test.",
+    "topology": "Describes the minimal setup required for the test, including devices and their connections.",
+    "steps": "Provides step-by-step instructions for executing the test, with measurable expected results.",
+    "tags": "Categorizes the test case for filtering and organization purposes.",
+    "appendix": "Includes additional notes or precautions for conducting the test."
+  }
+}

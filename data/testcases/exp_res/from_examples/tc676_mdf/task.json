@@ -1,0 +1,39 @@
+
+{
+    "id": "tc676",
+    "title": "OSPF",
+    "objective": "开放式最短路径优先路由协议（OSPF)",
+    "test_reference": [],
+    "steps": [
+      {
+        "step_id": "TC1-1",
+        "description": "tester port1 IP地址为192.168.1.100/24，port2为192.168.2.100/24；",
+        "expected_result": ""
+      },
+      {
+        "step_id": "TC1-2",
+        "description": "DUT port1 IP地址为192.168.1.1/24，port2为 192.168.2.1/24；",
+        "expected_result": ""
+      },
+      {
+        "step_id": "TC1-3",
+        "description": "在DUT上配置OSPFv2路由协议；",
+        "expected_result": ""
+      },
+      {
+        "step_id": "TC1-4",
+        "description": "测试仪tester使用port1、port2建立OSPF路由器，在port1插入一些LSA，并使port1和DUT的port1达到FULL状态，port2和DUT的port2达到FULL状态，观察port2是否能得到port1的LSA。",
+        "expected_result": "ospf建立成功，可以收到lsa。"
+      }
+    ],
+    "tags": [],
+    "comments": {
+      "id": "测试用例的唯一标识符。",
+      "title": "测试用例的标题，简要描述测试内容。",
+      "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+      "test_reference": "测试用例的参考文档，如RFC的章节号等。",
+      "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+      "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+    }
+  }
+  

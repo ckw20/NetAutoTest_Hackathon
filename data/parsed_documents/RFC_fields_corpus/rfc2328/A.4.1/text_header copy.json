@@ -1,0 +1,110 @@
+{
+  "protocol_header": {
+    "name": "LSA Header",
+    "version": "",
+    "description": "The LSA header is a 20-byte common header for all LSAs in OSPF, containing fields to uniquely identify the LSA and determine its recency.",
+    "fields": [
+      {1
+        "name": "LS age",
+        "description": "The time in seconds since the LSA was originated. It is used to determine the freshness of the LSA.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be in the range 0 to 65535.",
+          "Values closer to 3600 indicate older LSAs."
+        ]
+      },
+      {2 PC
+        "name": "Options",
+        "description": "The optional capabilities supported by the described portion of the routing domain. These are documented in Section A.2 of the RFC.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid values depend on the OSPF options defined in Section A.2.",
+          "Each bit represents a specific optional capability.",
+          "The E-bit describes AS-external-LSA flooding behavior as detailed in Sections 3.6, 9.5, 10.8, and 12.1.2 of the RFC.",
+          "The MC-bit indicates whether IP multicast datagrams are forwarded according to [Ref18].",
+          "The N/P-bit specifies handling of Type-7 LSAs as per [Ref19].",
+          "The EA-bit indicates the router's willingness to receive and forward External-Attributes-LSAs as per [Ref20].",
+          "The DC-bit describes the router's handling of demand circuits as per [Ref21].",
+          "Unrecognized bits should be cleared when sending Hello packets, Database Description packets, or originating LSAs.",
+          "Routers receiving unrecognized Option bits should ignore the capability but process the packet/LSA normally."
+        ]
+      },
+      {3
+        "name": "LS type",
+        "description": "The type of the LSA, which determines the format of the advertisement. Defined types include Router-LSAs (1), Network-LSAs (2), Summary-LSAs (3 and 4), and AS-external-LSAs (5).",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be one of the defined LSA types: 1, 2, 3, 4, or 5.",
+          "Refer to Section 12.1.3 for further explanation of each type.",
+          "The LS type field dictates the format and function of the LSA, with different types corresponding to different names such as router-LSAs or network-LSAs.",
+          "All LSA types defined by this memo, except AS-external-LSAs (LS type = 5), are flooded throughout a single area only.",
+          "AS-external-LSAs are flooded throughout the entire Autonomous System, except in stub areas as described in Section 3.6."
+        ]
+      },
+      {4
+        "name": "Link State ID",
+        "description": "Identifies the portion of the internet environment described by the LSA. Its content depends on the LSA's LS type. For example, in network-LSAs, it is set to the IP interface address of the network's Designated Router.",
+        "size_bits": 32,
+        "constraints": [
+          "Value depends on the specific LSA type and context.",
+          "For LS type 1 (Router-LSAs), the Link State ID is the originating router's Router ID.",
+          "For LS type 2 (Network-LSAs), the Link State ID is the IP interface address of the network's Designated Router.",
+          "For LS type 3 (Summary-LSAs describing routes to networks), the Link State ID is the destination network's IP address, with the freedom to set certain host bits to differentiate networks with the same address but different masks.",
+          "For LS type 4 (Summary-LSAs describing routes to AS boundary routers), the Link State ID is the Router ID of the described AS boundary router.",
+          "For LS type 5 (AS-external-LSAs), the Link State ID is the destination network's IP address, with the freedom to set certain host bits to differentiate networks with the same address but different masks. When describing a default route, the Link State ID is set to DefaultDestination (0.0.0.0).",
+          "When the LSA describes a network (LS type = 2, 3, or 5), the network's IP address can be derived by masking the Link State ID with the network/subnet mask contained in the body of the LSA.",
+          "When the LSA describes a router (LS type = 1 or 4), the Link State ID is always the described router's OSPF Router ID.",
+          "Refer to Section 12.1.4 for further details."
+        ]
+      },
+      {5
+        "name": "Advertising Router",
+        "description": "The Router ID of the router that originated the LSA. For example, in network-LSAs, this field equals the Router ID of the network's Designated Router.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must be a valid Router ID.",
+          "It uniquely identifies the originating router."
+        ]
+      },
+      {6
+        "name": "LS sequence number",
+        "description": "Detects old or duplicate LSAs. Successive instances of an LSA are given successive LS sequence numbers.",
+        "size_bits": 32,
+        "constraints": [
+          "Value must be a valid sequence number.",
+          "Refer to Section 12.1.6 for details on sequence number management.",
+          "The sequence number is a signed 32-bit integer, linearly ordered such that larger values represent more recent LSAs.",
+          "The smallest sequence number is -N + 1 (0x80000001), referred to as InitialSequenceNumber, and is used the first time a router originates any LSA.",
+          "The sequence number -N (0x80000000) is reserved and unused.",
+          "The maximum sequence number is N - 1 (0x7fffffff), referred to as MaxSequenceNumber.",
+          "When incrementing the sequence number past MaxSequenceNumber, the current instance of the LSA must first be flushed from the routing domain by prematurely aging it and reflooding it.",
+          "After flushing, a new instance can be originated with the sequence number reset to InitialSequenceNumber.",
+          "In rare cases, a router may need to promote the sequence number of one of its LSAs if a more recent instance is unexpectedly received during the flooding process."
+        ]
+      },
+      {7
+        "name": "LS checksum",
+        "description": "The Fletcher checksum of the complete contents of the LSA, including the LSA header but excluding the LS age field.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be a valid Fletcher checksum.",
+          "Refer to Section 12.1.7 for checksum calculation details.",
+          "The checksum is computed over the entire LSA except the LS age field, which allows the LS age to be incremented without recalculating the checksum.",
+          "The checksum cannot take on the value of zero; a zero value should be treated as a checksum failure.",
+          "Checksum verification occurs in two scenarios: when the LSA is received in a Link State Update Packet and during the aging process of the link state database.",
+          "If two instances of an LSA have identical LS sequence numbers, the LS checksum is compared to determine recency, with the larger checksum indicating the more recent instance."
+        ]
+      },
+      {8
+        "name": "length",
+        "description": "The length in bytes of the LSA, including the 20-byte LSA header.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be at least 20 bytes.",
+          "It must accurately reflect the total size of the LSA."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON describes the structure of the LSA header in OSPF, including detailed constraints and descriptions for each field."
+}

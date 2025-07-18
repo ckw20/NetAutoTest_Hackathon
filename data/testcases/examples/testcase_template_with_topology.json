@@ -1,0 +1,48 @@
+{
+  "test_cases": [
+    {
+      "id": "",
+      "title": "",
+      "objective": "",
+      "test_reference": [],
+      "topology": [
+        {
+          "name": "device_name",
+          "type": "device_type",
+          "ports": [
+            {
+              "name": "port_name",
+              "connected_to": "connected_device_name:port_name"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "",
+          "description": "",
+          "expected_result": ""
+        }
+      ],
+      "tags": [],
+      "appendix": []
+    }
+  ],
+  "comments": {
+    "id": "The unique identifier of the test case. Often abbr. of title of objective.",
+    "title": "The title of the test case, briefly describing the test content.",
+    "objective": "The purpose of the test, explaining the function or feature that this test case intends to verify.",
+    "test_reference": "Reference documents for the test case, such as sections of RFCs, etc.",
+    "topology": [
+      "Information about the devices and port connections involved in the test case, including the following fields:",
+      "1. **name**: The name of the device, used to uniquely identify the device, such as tester, DUT1, DeviceA, etc.",
+      "2. **type**: The type of the device (e.g., tester, DUT, etc.).",
+      "3. **ports**: A list of the device's ports, describing each port of the device.",
+      "   - **name**: The name of the port, used to uniquely identify the port, such as port1, etc.",
+      "   - **connected_to**: Describes the device and port that this port is connected to, in the format 'device name:port name'."
+    ],
+    "steps": "A detailed description of the test steps, each step including:\nstep_id: The unique identifier of the step.\ndescription: The specific operation or configuration of the step.\nexpected_result: The expected result of the step.",
+    "tags": "Tags for the test case, used to categorize or filter test cases. Types include: ['function', 'performance']",
+    "appendix": "Appendix section, containing additional information or explanations, such as configuration parameters of the test environment, precautions, etc."
+  }
+}

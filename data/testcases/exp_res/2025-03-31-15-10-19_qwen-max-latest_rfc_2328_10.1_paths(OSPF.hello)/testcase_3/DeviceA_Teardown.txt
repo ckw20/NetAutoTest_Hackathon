@@ -1,0 +1,22 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address 192.168.1.1 255.255.255.0
+ undo ospf network-type nbma
+ undo ospf hello-interval 10
+ undo ospf dead-interval 40
+ undo ip forward-broadcast
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo ip address 192.168.2.1 255.255.255.0
+ undo ospf network-type nbma
+ undo ospf hello-interval 10
+ undo ospf dead-interval 40
+ undo ip forward-broadcast
+ portswitch
+#
+undo ospf 1
+commit
+quit

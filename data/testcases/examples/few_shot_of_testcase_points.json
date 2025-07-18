@@ -1,0 +1,18 @@
+{
+  "test_case_points": [
+    {
+      "id": "TC1",
+      "title": "发送/接收hello包的正确性测试",
+      "objective": "保证被测设备不接受域ID不匹配的hello包",
+      "test_reference": ["RFC2328.9.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC2",
+      "title": "发送/接收hello包的正确性测试",
+      "objective": "保证被测设备不接受hello间隔不匹配的hello包",
+      "test_reference": ["RFC2328.9.5"],
+      "tags": ["function"]
+    }
+  ],
+}

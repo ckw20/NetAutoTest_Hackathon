@@ -1,0 +1,92 @@
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-LSA-PROP",
+      "title": "OSPFv2 LSA Propagation Test",
+      "objective": "Verify that LSAs (Link-State Advertisements) in the OSPFv2 protocol can propagate correctly",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2)",
+        "RFC 5340 (OSPF for IPv6)"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1",
+              "ip": "192.168.1.100/24"
+            },
+            {
+              "name": "port2",
+              "connected_to": "DUT:port2",
+              "ip": "192.168.2.100/24"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1",
+              "ip": "192.168.1.1/24"
+            },
+            {
+              "name": "port2",
+              "connected_to": "Tester:port2",
+              "ip": "192.168.2.1/24"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Set up the test environment and connect devices according to the topology diagram",
+          "expected_result": "Physical connections are established successfully"
+        },
+        {
+          "step_id": "2",
+          "description": "Configure IP addresses for the tester ports: set port1 to 192.168.1.100/24 and port2 to 192.168.2.100/24",
+          "expected_result": "IP configuration for tester ports is successful"
+        },
+        {
+          "step_id": "3",
+          "description": "Configure IP addresses for the DUT ports: set port1 to 192.168.1.1/24 and port2 to 192.168.2.1/24",
+          "expected_result": "IP configuration for DUT ports is successful"
+        },
+        {
+          "step_id": "4",
+          "description": "Configure the OSPFv2 routing protocol on the DUT",
+          "expected_result": "OSPFv2 configuration is successful"
+        },
+        {
+          "step_id": "5",
+          "description": "The tester establishes OSPF routers using port1 and port2, inserts an LSA into port1, and ensures that port1 and DUT's port1 reach the FULL state, and port2 and DUT's port2 reach the FULL state",
+          "expected_result": "OSPF neighbor relationships are established successfully and reach the FULL state"
+        },
+        {
+          "step_id": "6",
+          "description": "Observe whether port2 can receive the LSA from port1",
+          "expected_result": "port2 can receive the LSA inserted into port1"
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "routing"
+      ],
+      "appendix": [
+        "Test precautions:",
+        "1. Ensure all interfaces have normal physical connections",
+        "2. Ensure the area ID is consistent when configuring OSPF",
+        "3. Clear OSPF states and routing tables of all devices before testing"
+      ]
+    }
+  ],
+  "comments": {
+  }
+} 

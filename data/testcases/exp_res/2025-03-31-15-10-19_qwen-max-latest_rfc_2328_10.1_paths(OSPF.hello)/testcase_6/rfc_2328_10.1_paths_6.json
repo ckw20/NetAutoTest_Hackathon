@@ -1,0 +1,44 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC101",
+      "title": "测试NBMA网络中邻居状态从Down到Attempt再到Init，最终达到2-Way并回退到Init的完整路径",
+      "objective": "验证在NBMA网络环境中，设备能够正确处理邻居状态变化事件，并按照RFC规范执行相应动作。",
+      "test_reference": ["RFC2328 10.1", "RFC2328 10.2", "RFC2328 10.3"],
+      "steps": [
+        {
+          "step_id": "TC101-1",
+          "description": "配置设备A（DUT）和协议测试仪TesterA之间的连接为NBMA网络类型，并确保初始状态下邻居关系处于Down状态。",
+          "expected_result": "设备A与TesterA之间的邻居状态应为Down。"
+        },
+        {
+          "step_id": "TC101-2",
+          "description": "在TesterA上触发Start事件，向设备A发送Hello包，并启动Inactivity Timer。",
+          "expected_result": "设备A的邻居状态应从Down变为Attempt，且Inactivity Timer已启动。"
+        },
+        {
+          "step_id": "TC101-3",
+          "description": "在TesterA上发送一个Hello包给设备A，模拟HelloReceived事件。",
+          "expected_result": "设备A的邻居状态应从Attempt变为Init，且Inactivity Timer已重新启动。"
+        },
+        {
+          "step_id": "TC101-4",
+          "description": "在TesterA上发送一个包含设备A自身Router ID的Hello包，模拟2-WayReceived事件。",
+          "expected_result": "设备A的邻居状态应从Init变为2-Way，且设备A应根据条件决定是否建立邻接关系。如果决定不建立邻接关系，则保持在2-Way状态。"
+        },
+        {
+          "step_id": "TC101-5",
+          "description": "在TesterA上发送一个未包含设备A自身Router ID的Hello包，模拟1-WayReceived事件。",
+          "expected_result": "设备A的邻居状态应从2-Way回退到Init，且Link state retransmission list、Database summary list和Link state request list应被清空。"
+        },
+        {
+          "step_id": "TC101-6",
+          "description": "关闭TesterA端口，停止所有通信。",
+          "expected_result": "设备A的邻居状态应回到Down，且Inactivity Timer应被禁用。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

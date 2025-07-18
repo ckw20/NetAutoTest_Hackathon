@@ -1,0 +1,250 @@
+{
+  "protocol_header": {
+    "name": "OSPF Packet Header",
+    "version": "2",
+    "description": "The standard 24-byte header for OSPF packets, containing information necessary to determine whether the packet should be accepted for further processing.",
+    "fields": [
+      {
+        "name": "Version #",
+        "description": "The OSPF version number. This specification documents version 2 of the protocol.",
+        "size_bits": 8,
+        "constraints": [
+          "The value must be 2 for this version of the protocol."
+        ]
+      },
+      {
+        "name": "Type",
+        "description": "The OSPF packet type, indicating the kind of OSPF packet being transmitted.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid values are integers from 1 to 5.",
+          "1: Hello, 2: Database Description, 3: Link State Request, 4: Link State Update, 5: Link State Acknowledgment.",
+          "Packets with types other than Hello can only be received on established adjacencies, and the sender must be identified as an active neighbor based on the receiving interface's network type (e.g., broadcast, point-to-point)."
+        ]
+      },
+      {
+        "name": "Packet length",
+        "description": "The total length of the OSPF protocol packet in bytes, including the standard OSPF header.",
+        "size_bits": 16,
+        "constraints": [
+          "The value must be at least 24 bytes, as the header itself is 24 bytes.",
+          "The packet length must match the actual size of the packet, including all headers and payload, and must be consistent with the IP layer's reported length."
+        ]
+      },
+      {
+        "name": "Router ID",
+        "description": "A 32-bit identifier for the source router of the packet.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a unique identifier for the router within the OSPF domain.",
+          "For packets received over virtual links, the Router ID must match the configured virtual link's peer router ID, and the receiving router must verify that the packet's source router is the other end of the virtual link."
+        ]
+      },
+      {
+        "name": "Area ID",
+        "description": "A 32-bit number identifying the area to which the packet belongs.",
+        "size_bits": 32,
+        "constraints": [
+          "All OSPF packets are associated with a single area.",
+          "Packets traveling over a virtual link are labeled with the backbone Area ID of 0.0.0.0.",
+          "The Area ID must either match the receiving interface's Area ID (indicating a single-hop transmission) or indicate the backbone (indicating a virtual link). If neither condition is met, the packet must be discarded."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "The standard IP checksum of the packet contents, excluding the 64-bit authentication field.",
+        "size_bits": 16,
+        "constraints": [
+          "Calculated as the 16-bit one's complement of the one's complement sum of all 16-bit words in the packet, excluding the authentication field.",
+          "If the packet length is not an integral number of 16-bit words, it is padded with a zero byte before checksumming.",
+          "For some authentication types, the checksum calculation may be omitted.",
+          "The checksum must pass verification; otherwise, the packet is discarded."
+        ]
+      },
+      {
+        "name": "AuType",
+        "description": "Identifies the authentication procedure to be used for the packet.",
+        "size_bits": 16,
+        "constraints": [
+          "The AuType field specifies the authentication scheme to be used, with valid values defined as follows: 0 for Null authentication, 1 for Simple password, and 2 for Cryptographic authentication. All other values are reserved for future assignment by the IANA.",
+          "The AuType specified in the packet must match the AuType configured for the associated interface or network/subnet; otherwise, the packet is discarded.",
+          "Authentication types are configurable on a per-interface basis, and additional authentication data is also configurable on a per-interface basis."
+        ]
+      },
+      {
+        "name": "Authentication",
+        "description": "A 64-bit field used by the authentication scheme.",
+        "size_bits": 64,
+        "constraints": [
+          "This field contains 64 bits of data used by the authentication scheme determined by the AuType field.",
+          "For AuType 0 (Null authentication), this field is unused and must be set to zero.",
+          "For AuType 1 (Simple password), this field contains a plaintext password configured on a per-interface basis.",
+          "For AuType 2 (Cryptographic authentication), this field contains cryptographic data such as a keyed message digest.",
+          "The packet must be authenticated using the configured Authentication keys, and the authentication procedure must succeed; otherwise, the packet is discarded."
+        ]
+      },
+      {
+        "name": "Network Mask",
+        "description": "The network mask associated with this interface.",
+        "size_bits": 32,
+        "constraints": [
+          "The value represents the subnet mask in dotted-decimal notation, such as 0xffffff00 for a class B network with subnetting.",
+          "All routers connected to the same network must agree on the Network Mask value; otherwise, neighbor relationships cannot be established."
+        ]
+      },
+      {
+        "name": "HelloInterval",
+        "description": "The number of seconds between this router's Hello packets.",
+        "size_bits": 16,
+        "constraints": [
+          "The value must be a positive integer representing the interval in seconds.",
+          "All routers on the same network must agree on the HelloInterval value; otherwise, neighbor relationships cannot be established."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "The optional capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "The value is a bitmask representing optional OSPF capabilities as documented in Section A.2 of the RFC.",
+          "The Options field must be consistent with the capabilities supported by the router and agreed upon by neighboring routers."
+        ]
+      },
+      {
+        "name": "Rtr Pri",
+        "description": "This router's Router Priority.",
+        "size_bits": 8,
+        "constraints": [
+          "The value is an integer ranging from 0 to 255.",
+          "A value of 0 indicates that the router is ineligible to become a Designated Router or Backup Designated Router.",
+          "Higher values increase the likelihood of being elected as the Designated Router or Backup Designated Router."
+        ]
+      },
+      {
+        "name": "RouterDeadInterval",
+        "description": "The number of seconds before declaring a silent router down.",
+        "size_bits": 32,
+        "constraints": [
+          "The value must be a positive integer representing the interval in seconds.",
+          "All routers on the same network must agree on the RouterDeadInterval value; otherwise, neighbor relationships cannot be established."
+        ]
+      },
+      {
+        "name": "Designated Router",
+        "description": "The identity of the Designated Router for this network.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is the IP address of the Designated Router's interface on the network.",
+          "If there is no Designated Router, the value must be set to 0.0.0.0.",
+          "The Designated Router is elected based on priority and Router ID, and all routers on the network must agree on its identity."
+        ]
+      },
+      {
+        "name": "Backup Designated Router",
+        "description": "The identity of the Backup Designated Router for this network.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is the IP address of the Backup Designated Router's interface on the network.",
+          "If there is no Backup Designated Router, the value must be set to 0.0.0.0.",
+          "The Backup Designated Router is elected based on priority and Router ID, and all routers on the network must agree on its identity."
+        ]
+      },
+      {
+        "name": "Neighbor",
+        "description": "The Router IDs of each router from whom valid Hello packets have been seen recently.",
+        "size_bits": 32,
+        "constraints": [
+          "The value is a list of 32-bit Router IDs.",
+          "Each Router ID in the list must correspond to a router that has sent a valid Hello packet within the last RouterDeadInterval seconds.",
+          "The Neighbor field is used to dynamically discover neighboring routers on multicast or broadcast networks."
+        ]
+      },
+      {
+        "name": "Interface MTU",
+        "description": "The size in bytes of the largest IP datagram that can be sent out the associated interface, without fragmentation.",
+        "size_bits": 16,
+        "constraints": [
+          "The value must represent the maximum transmission unit (MTU) of the interface in bytes.",
+          "For Database Description packets sent over virtual links, the Interface MTU must be explicitly set to 0.",
+          "The MTU values for common Internet link types can be referenced in Table 7-1 of [Ref22]."
+        ]
+      },
+      {
+        "name": "I-bit",
+        "description": "The Init bit. When set to 1, this packet is the first in the sequence of Database Description Packets.",
+        "size_bits": 1,
+        "constraints": [
+          "The I-bit must be set to 1 only for the first Database Description packet in the sequence.",
+          "Its presence indicates the start of the Database Exchange process."
+        ]
+      },
+      {
+        "name": "M-bit",
+        "description": "The More bit. When set to 1, it indicates that more Database Description Packets are to follow.",
+        "size_bits": 1,
+        "constraints": [
+          "The M-bit must be set to 1 if additional Database Description packets are required to complete the database description.",
+          "It must be cleared to 0 in the final packet of the sequence."
+        ]
+      },
+      {
+        "name": "MS-bit",
+        "description": "The Master/Slave bit. When set to 1, it indicates that the router is the master during the Database Exchange process.",
+        "size_bits": 1,
+        "constraints": [
+          "The MS-bit determines the role of the router in the Database Exchange process.",
+          "A value of 1 indicates the router is the master, while 0 indicates it is the slave.",
+          "The roles of master and slave are negotiated during the initialization of the adjacency."
+        ]
+      },
+      {
+        "name": "DD sequence number",
+        "description": "Used to sequence the collection of Database Description Packets.",
+        "size_bits": 32,
+        "constraints": [
+          "The initial DD sequence number must be unique and is used when the I-bit is set to 1.",
+          "The sequence number increments with each subsequent Database Description packet until the complete database description has been transmitted.",
+          "The DD sequence number ensures proper ordering and acknowledgment of packets during the Database Exchange process."
+        ]
+      },
+      {
+        "name": "LS type",
+        "description": "The type of the Link State Advertisement (LSA) being requested.",
+        "size_bits": 32,
+        "constraints": [
+          "The LS type uniquely identifies the type of LSA, such as Router-LSA, Network-LSA, etc., as defined in Section A.4.2.1 of the RFC.",
+          "The value must match one of the predefined LS type codes, and the receiving router must support the corresponding LSA type."
+        ]
+      },
+      {
+        "name": "Link State ID",
+        "description": "An identifier for the specific piece of the link-state database being requested.",
+        "size_bits": 32,
+        "constraints": [
+          "The Link State ID, together with the LS type and Advertising Router, uniquely identifies the LSA being requested.",
+          "The value must be consistent with the Link State ID assigned to the LSA when it was originated."
+        ]
+      },
+      {
+        "name": "Advertising Router",
+        "description": "The Router ID of the router that originally advertised the LSA being requested.",
+        "size_bits": 32,
+        "constraints": [
+          "The Advertising Router, together with the LS type and Link State ID, uniquely identifies the LSA being requested.",
+          "The value must match the Router ID of the originating router as recorded in the link-state database."
+        ]
+      },
+      {
+        "name": "# LSAs",
+        "description": "The number of LSAs included in this update.",
+        "size_bits": 32,
+        "constraints": [
+          "The value represents the count of LSAs included in the Link State Update packet.",
+          "It must be a non-negative integer, as it indicates the number of LSAs carried in the packet.",
+          "The total size of the LSAs listed in the packet must not exceed the packet length minus the fixed header size."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

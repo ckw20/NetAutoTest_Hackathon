@@ -1,0 +1,55 @@
+{
+  "protocol_header": {
+    "name": "Echo or Echo Reply Message",
+    "version": "",
+    "description": "Defines the structure of ICMP Echo and Echo Reply messages, including fields for message type, code, checksum, identifier, sequence number, and data.",
+    "fields": [
+      {1
+        "name": "Type",
+        "description": "Indicates the type of ICMP message. For echo messages, the value is 8; for echo reply messages, the value is 0.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 8 for echo messages.",
+          "Value must be 0 for echo reply messages."
+        ]
+      },
+      {2
+        "name": "Code",
+        "description": "Indicates the subtype of the ICMP message. For both echo and echo reply messages, this field must be set to 0.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must always be 0."
+        ]
+      },
+      {3
+        "name": "Checksum",
+        "description": "A 16-bit one's complement checksum calculated over the ICMP message starting from the ICMP Type field. The checksum field should be zero during computation, and if the total length of the message is odd, it is padded with one octet of zeros for the calculation.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be computed as the one's complement sum of the ICMP message.",
+          "Checksum field should be zero during computation.",
+          "If the total length is odd, pad with one octet of zeros."
+        ]
+      },
+      {4
+        "name": "Identifier",
+        "description": "An optional identifier used to aid in matching echo requests and replies. This field may be zero but is typically used to identify a session like a port in TCP or UDP.",
+        "size_bits": 16,
+        "constraints": [
+          "May be zero.",
+          "Used only when Code is 0."
+        ]
+      },
+      {5
+        "name": "Sequence Number",
+        "description": "An optional sequence number used to aid in matching echo requests and replies. This field may be zero but is typically incremented on each echo request sent.",
+        "size_bits": 16,
+        "constraints": [
+          "May be zero.",
+          "Used only when Code is 0."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

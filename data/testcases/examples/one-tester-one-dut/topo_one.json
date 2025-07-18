@@ -1,0 +1,48 @@
+{
+    "devices": [
+      {
+        "name": "TesterA",
+        "type": "tester",
+        "ports": [
+          {
+            "name": "PortTesterA_1",
+            "connected_to": "DeviceA:PortDeviceA_1"
+          },
+          {
+            "name": "PortTesterA_2",
+            "connected_to": "DeviceA:PortDeviceA_2"
+          },
+          {
+            "name": "PortTesterA_3",
+            "connected_to": "DeviceA:PortDeviceA_3"
+          },
+          {
+            "name": "PortTesterA_4",
+            "connected_to": "DeviceA:PortDeviceA_4"
+          }
+        ]
+      },
+      {
+        "name": "DeviceA",
+        "type": "DUT",
+        "ports": [
+          {
+            "name": "PortDeviceA_1",
+            "connected_to": "TesterA:PortTesterA_1"
+          },
+          {
+            "name": "PortDeviceA_2",
+            "connected_to": "TesterA:PortTesterA_2"
+          }
+          {
+            "name": "PortDeviceA_3",
+            "connected_to": "TesterA:PortTesterA_3"
+          }
+          {
+            "name": "PortDeviceA_4",
+            "connected_to": "TesterA:PortTesterA_4"
+          }
+        ]
+      }
+    ]
+  }

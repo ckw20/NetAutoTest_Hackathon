@@ -1,0 +1,52 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC12",
+      "title": "区域ID一致性验证测试",
+      "objective": "确保设备拒绝Area ID与接收接口所属区域不一致的Hello包",
+      "test_reference": [
+        "RFC2328.10.5",
+        "RFC2328.A.3.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC12-1",
+          "description": "配置被测设备（DUT）的一个接口为特定的OSPF区域（例如Area 1），并确保该接口启用了OSPF协议。",
+          "expected_result": "接口成功启用OSPF协议，并属于指定的区域。"
+        },
+        {
+          "step_id": "TC12-2",
+          "description": "在测试仪的一个端口上，构造一个带有不同Area ID（例如Area 2）的OSPF Hello包，并将其发送到被测设备的对应接口。",
+          "expected_result": "被测设备接收到该Hello包，但由于Area ID不匹配，丢弃该包。"
+        },
+        {
+          "step_id": "TC12-3",
+          "description": "延迟20秒后，检查测试仪端口的状态以及被测设备的OSPF邻居状态。",
+          "expected_result": "测试仪端口未与被测设备建立OSPF邻接关系，被测设备的邻居表中未出现测试仪的Router ID。"
+        },
+        {
+          "step_id": "TC12-4",
+          "description": "在测试仪的同一端口上，构造一个带有正确Area ID（例如Area 1）的OSPF Hello包，并将其发送到被测设备的对应接口。",
+          "expected_result": "被测设备接收到该Hello包，并开始尝试建立OSPF邻接关系。"
+        },
+        {
+          "step_id": "TC12-5",
+          "description": "延迟20秒后，检查测试仪端口的状态以及被测设备的OSPF邻居状态。",
+          "expected_result": "测试仪端口与被测设备成功建立OSPF邻接关系，被测设备的邻居表中出现测试仪的Router ID。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

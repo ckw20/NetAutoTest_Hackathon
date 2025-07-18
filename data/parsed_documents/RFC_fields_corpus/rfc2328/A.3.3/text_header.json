@@ -1,0 +1,81 @@
+{
+  "protocol_header": {
+    "name": "Database Description Packet",
+    "version": "OSPF packet type 2",
+    "description": "Exchanged during adjacency initialization to describe the contents of the link-state database. Multiple packets may be used, linked via DD sequence numbers.",
+    "fields": [
+      {
+        "name": "Interface MTU",
+        "description": "The size in bytes of the largest IP datagram that can be sent without fragmentation.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be set to 0 for packets sent over virtual links.",
+          "Must not exceed the MTU of the associated interface.",
+          "If the Interface MTU field indicates an IP datagram size larger than what the receiving interface can accept without fragmentation, the packet must be rejected.",
+          "Should reflect the maximum size of an IP datagram that can be transmitted without fragmentation, as described in RFC documentation such as Table 7-1 of [Ref22]."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "Optional capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "Bits are defined in Section A.2 of the OSPF specification.",
+          "Must reflect the router's supported capabilities.",
+          "The E-bit should be set if and only if the attached network belongs to a non-stub area.",
+          "Unrecognized bits in the Options field should be set to zero.",
+          "The router must maintain the same set of optional capabilities throughout the Database Exchange and flooding procedures; otherwise, the Database Exchange procedure should be restarted by reverting to neighbor state ExStart.",
+          "In state Exchange, if the Options field indicates a different set of optional OSPF capabilities than previously received from the neighbor, the SeqNumberMismatch event must be generated, and processing of the packet must stop.",
+          "Five bits of the OSPF Options field have been assigned, although only one (the E-bit) is fully described in this memo. The remaining bits (MC-bit, N/P-bit, EA-bit, DC-bit) are briefly described in Section A.2 but refer to specifications in external documents ([Ref18], [Ref19], [Ref20], [Ref21]). Routers encountering unrecognized Option bits in received Hello Packets, Database Description packets, or LSAs should ignore the capability and process the packet/LSA normally."
+        ]
+      },
+      {
+        "name": "I-bit",
+        "description": "The Init bit, indicating whether this is the first packet in the sequence.",
+        "size_bits": 1,
+        "constraints": [
+          "Set to 1 for the first packet in the sequence.",
+          "Set to 0 otherwise.",
+          "In state ExStart, the I-bit, M-bit, and MS-bit are all set when sending empty Database Description packets.",
+          "In state Exchange, if the Initialize(I) bit is set, the SeqNumberMismatch event must be generated, and processing of the packet must stop."
+        ]
+      },
+      {
+        "name": "M-bit",
+        "description": "The More bit, indicating whether more packets are to follow.",
+        "size_bits": 1,
+        "constraints": [
+          "Set to 1 if additional packets are required to complete the database description.",
+          "Set to 0 for the last packet.",
+          "In state ExStart, the I-bit, M-bit, and MS-bit are all set when sending empty Database Description packets.",
+          "In states Loading or Full, duplicates of Database Description packets with the M-bit set to 0 must be handled appropriately by the master and slave."
+        ]
+      },
+      {
+        "name": "MS-bit",
+        "description": "The Master/Slave bit, indicating the role of the router in the Database Exchange process.",
+        "size_bits": 1,
+        "constraints": [
+          "Set to 1 if the router is the master.",
+          "Set to 0 if the router is the slave.",
+          "In state ExStart, the I-bit, M-bit, and MS-bit are all set when sending empty Database Description packets.",
+          "In state Exchange, if the state of the MS-bit is inconsistent with the master/slave state of the connection, the SeqNumberMismatch event must be generated, and processing of the packet must stop."
+        ]
+      },
+      {
+        "name": "DD Sequence Number",
+        "description": "Used to sequence the collection of Database Description Packets.",
+        "size_bits": 32,
+        "constraints": [
+          "Initial value must be unique when the I-bit is set.",
+          "Must increment until the complete database description is sent.",
+          "In state Exchange, the DD sequence number is copied from the neighbor data structure for each new Database Description Packet.",
+          "In state Exchange, duplicate Database Description packets are resent with the same DD sequence number until acknowledged by the slave.",
+          "In states Loading and Full, the slave must resend its last Database Description packet with the same DD sequence number in response to duplicate packets from the master.",
+          "In state Exchange, Database Description packets must be processed in sequence as indicated by the DD sequence numbers: if the router is master, the next packet's DD sequence number must match the one in the neighbor data structure; if the router is slave, the next packet's DD sequence number must be one greater than the stored value. If the sequence is incorrect, the SeqNumberMismatch event must be generated, and processing must stop."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the Database Description Packet header in OSPF. Each field includes a detailed description, size in bits, and constraints to ensure accurate interpretation and validation."
+}

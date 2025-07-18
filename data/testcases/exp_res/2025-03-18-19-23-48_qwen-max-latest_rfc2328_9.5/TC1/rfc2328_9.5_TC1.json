@@ -1,0 +1,42 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC1",
+      "title": "Hello包网络掩码验证测试",
+      "objective": "确保被测设备拒绝网络掩码不匹配的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "steps": [
+        {
+          "step_id": "TC1-1",
+          "description": "配置协议测试仪端口，使其发送带有错误网络掩码的Hello包到被测设备。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC1-2",
+          "description": "延迟20秒后，观察协议测试仪端口的状态。",
+          "expected_result": "协议测试仪端口应没有到达2-WAY状态。"
+        },
+        {
+          "step_id": "TC1-3",
+          "description": "在被测设备上检查是否收到并丢弃了来自协议测试仪的Hello包。",
+          "expected_result": "被测设备的日志或统计信息应显示未接受该Hello包。"
+        },
+        {
+          "step_id": "TC1-4",
+          "description": "停止协议测试仪端口的Hello包发送。",
+          "expected_result": ""
+        }
+      ],
+      "tags": ["function"]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等。",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

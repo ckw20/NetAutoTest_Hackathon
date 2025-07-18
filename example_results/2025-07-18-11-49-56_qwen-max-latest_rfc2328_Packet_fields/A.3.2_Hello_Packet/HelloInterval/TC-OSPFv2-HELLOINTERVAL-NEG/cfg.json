@@ -1,0 +1,63 @@
+
+{
+  "type": "Testcase",
+  "name": "OSPFv2 HelloInterval Negative Test",
+  "tc_no": "TC-OSPFv2-HELLOINTERVAL-NEG",
+  "version": {
+    "description": "Version number, using the development or modification date",
+    "default": "v20241003"
+  },
+  "arg": {
+    "interface": {
+      "description": "Configure interface parameters for the test case",
+      "default": {
+        "mac_up_address": {
+          "description": "MAC address of the upstream interface (Tester:port1)",
+          "default": "00:01:02:02:02:02"
+        },
+        "mac_down_address": {
+          "description": "MAC address of the downstream interface (DUT:port1)",
+          "default": "00:01:02:02:02:03"
+        },
+        "ipv4_up_address": {
+          "description": "IPv4 address of the upstream interface (Tester:port1)",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "IPv4 gateway of the upstream interface (Tester:port1)",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "IPv4 address of the downstream interface (DUT:port1)",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_gateway": {
+          "description": "IPv4 gateway of the downstream interface (DUT:port1)",
+          "default": "192.168.1.100"
+        }
+      }
+    },
+    "ospf_hellointerval": {
+      "description": "OSPF HelloInterval settings for Tester and DUT",
+      "default": {
+        "tester_hellointerval": {
+          "description": "HelloInterval value configured on the Tester interface",
+          "default": 10
+        },
+        "dut_hellointerval": {
+          "description": "HelloInterval value configured on the DUT interface",
+          "default": 20
+        }
+      }
+    }
+  },
+  "dut": ["DUT"],
+  "dut_cfg": ["DUT_Setup", "DUT_Teardown"],
+  "port": ["port1"],
+  "comments": {
+    "arg": "Specific parameters generated according to the test case, such as MAC addresses, IPv4 addresses, and OSPF HelloInterval values.",
+    "dut": "Name of the device under test, indicating that the test case targets DUT.",
+    "dut_cfg": "Scripts required for the device under test, including the configuration script (DUT_Setup) and cleanup script (DUT_Teardown).",
+    "port": "Ports of the device under test required for the test case; this example includes port1."
+  }
+}

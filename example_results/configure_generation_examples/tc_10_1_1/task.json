@@ -1,0 +1,20 @@
+
+{
+    "id": "_tc_10_1_1",
+    "title": "Interface ACL Verification",
+    "objective": "Verify the ACL function of the interface.",
+    "test_reference": [],
+    "steps": [
+      {
+        "step_id": "TC1-1",
+        "description": "Connect tester port A to DUT port 1, tester port B to DUT port 2. Send traffic from tester port A to the DUT, and observe the traffic reception at tester port B.",
+        "expected_result": "Tester port B should be able to observe the traffic."
+      },
+      {
+        "step_id": "TC1-2",
+        "description": "Configure ACL on DUT port 2 to deny all outbound traffic on this port.",
+        "expected_result": "Tester port B should observe no traffic."
+      }
+    ]
+  }
+  

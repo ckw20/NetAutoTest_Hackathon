@@ -1,0 +1,81 @@
+A.4.1 The LSA header
+
+    All LSAs begin with a common 20 byte header.  This header contains
+    enough information to uniquely identify the LSA (LS type, Link State
+    ID, and Advertising Router).  Multiple instances of the LSA may
+    exist in the routing domain at the same time.  It is then necessary
+    to determine which instance is more recent.  This is accomplished by
+    examining the LS age, LS sequence number and LS checksum fields that
+    are also contained in the LSA header.
+
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |            LS age             |    Options    |    LS type    |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                        Link State ID                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     Advertising Router                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                     LS sequence number                        |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |         LS checksum           |             length            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+
+    LS age
+        The time in seconds since the LSA was originated.
+
+    Options
+        The optional capabilities supported by the described portion of
+        the routing domain.  OSPF's optional capabilities are documented
+        in Section A.2.
+
+    LS type
+        The type of the LSA.  Each LSA type has a separate advertisement
+        format.  The LSA types defined in this memo are as follows (see
+        Section 12.1.3 for further explanation):
+
+
+
+
+                        LS Type   Description
+                        ___________________________________
+                        1         Router-LSAs
+                        2         Network-LSAs
+                        3         Summary-LSAs (IP network)
+                        4         Summary-LSAs (ASBR)
+                        5         AS-external-LSAs
+
+
+
+
+    Link State ID
+        This field identifies the portion of the internet environment
+        that is being described by the LSA.  The contents of this field
+        depend on the LSA's LS type.  For example, in network-LSAs the
+        Link State ID is set to the IP interface address of the
+        network's Designated Router (from which the network's IP address
+        can be derived).  The Link State ID is further discussed in
+        Section 12.1.4.
+
+    Advertising Router
+        The Router ID of the router that originated the LSA.  For
+        example, in network-LSAs this field is equal to the Router ID of
+        the network's Designated Router.
+
+    LS sequence number
+        Detects old or duplicate LSAs.  Successive instances of an LSA
+        are given successive LS sequence numbers.  See Section 12.1.6
+        for more details.
+
+    LS checksum
+        The Fletcher checksum of the complete contents of the LSA,
+        including the LSA header but excluding the LS age field. See
+        Section 12.1.7 for more details.
+
+    length
+        The length in bytes of the LSA.  This includes the 20 byte LSA
+        header.

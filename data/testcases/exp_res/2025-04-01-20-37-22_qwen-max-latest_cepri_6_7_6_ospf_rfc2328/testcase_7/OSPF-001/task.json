@@ -1,0 +1,34 @@
+{
+  "id": "OSPF-001",
+  "title": "OSPFv2 邻居邻接关系建立验证测试",
+  "objective": "验证DUT能够根据RFC 2328第7章的要求，正确建立OSPF邻居邻接关系，并确保非FULL状态的邻居不会交换路由信息。",
+  "test_reference": [
+    "RFC 2328 (OSPFv2) - Section 7"
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "配置TesterA的IP地址：\n- PortTesterA_1: 192.168.1.100/24\n- PortTesterA_2: 192.168.2.100/24\n- PortTesterA_3: 192.168.3.100/24\n- PortTesterA_4: 192.168.4.100/24",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "在TesterA上配置OSPF路由器：\n- 在PortTesterA_1和PortTesterA_2插入不同的Router ID\n- 确保PortTesterA_1与PortDeviceA_1达到FULL状态\n- 确保PortTesterA_2与PortDeviceA_2达到2-Way状态（模拟非DR/BDR路由器）",
+      "expected_result": "PortTesterA_1与PortDeviceA_1达到FULL状态，PortTesterA_2与PortDeviceA_2达到2-Way状态"
+    },
+    {
+      "step_id": "3",
+      "description": "验证PortTesterA_1是否能与PortDeviceA_1交换LSA信息。",
+      "expected_result": "在测试步骤3中，PortTesterA_1能够正确接收并处理来自PortDeviceA_1的LSA信息"
+    },
+    {
+      "step_id": "4",
+      "description": "验证PortTesterA_2是否无法与PortDeviceA_2交换LSA信息。",
+      "expected_result": "在测试步骤4中，PortTesterA_2无法接收来自PortDeviceA_2的LSA信息，符合2-Way状态的行为"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ]
+}

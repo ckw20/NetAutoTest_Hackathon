@@ -1,0 +1,52 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC9",
+      "title": "路由器优先级处理测试",
+      "objective": "验证路由器优先级(Rtr Pri)为0时设备不参与DR/BDR选举",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC9-1",
+          "description": "在被测设备的接口上配置OSPF，并将路由器优先级(Rtr Pri)设置为0。",
+          "expected_result": "被测设备的接口成功应用了Rtr Pri为0的配置。"
+        },
+        {
+          "step_id": "TC9-2",
+          "description": "启动协议测试仪端口，与被测设备建立OSPF邻居关系。",
+          "expected_result": "被测设备与协议测试仪端口成功建立邻居关系，状态达到2-WAY。"
+        },
+        {
+          "step_id": "TC9-3",
+          "description": "等待足够的时间（大于RouterDeadInterval），观察网络中DR和BDR的选举结果。",
+          "expected_result": "被测设备未被选为DR或BDR，DR和BDR由其他符合条件的路由器担任。"
+        },
+        {
+          "step_id": "TC9-4",
+          "description": "在被测设备的接口上重新配置路由器优先级(Rtr Pri)为非零值（如1），并重复步骤2和步骤3。",
+          "expected_result": "被测设备参与DR/BDR选举，并根据优先级和Router ID成为DR或BDR。"
+        },
+        {
+          "step_id": "TC9-5",
+          "description": "恢复被测设备的初始配置，关闭协议测试仪端口。",
+          "expected_result": "网络恢复正常状态，无异常行为。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

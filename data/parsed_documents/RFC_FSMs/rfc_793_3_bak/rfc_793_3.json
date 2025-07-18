@@ -1,0 +1,224 @@
+{
+    "states": [
+        "CLOSED",
+        "LISTEN",
+        "SYN-SENT",
+        "SYN-RECEIVED",
+        "ESTABLISHED",
+        "FIN-WAIT-1",
+        "FIN-WAIT-2",
+        "CLOSE-WAIT",
+        "CLOSING",
+        "LAST-ACK",
+        "TIME-WAIT"
+    ],
+    "init_state": "CLOSED",
+    "events": [
+        "OPEN",
+        "SEND",
+        "RECEIVE",
+        "CLOSE",
+        "ABORT",
+        "SEGMENT_ARRIVES",
+        "USER_TIMEOUT",
+        "RETRANSMISSION_TIMEOUT",
+        "TIME-WAIT_TIMEOUT",
+        "RST_RECEIVED",
+        "SYN_RECEIVED",
+        "ACK_RECEIVED",
+        "FIN_RECEIVED"
+    ],
+    "transitions": [
+        {
+            "from_state": "CLOSED",
+            "to_state": "LISTEN",
+            "event": "OPEN",
+            "actions": [
+                "Create TCB",
+                "Set LISTEN state"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "CLOSED",
+            "to_state": "SYN-SENT",
+            "event": "OPEN",
+            "actions": [
+                "Create TCB",
+                "Send SYN",
+                "Set ISS",
+                "Set SND.UNA and SND.NXT"
+            ],
+            "constraints": [
+                "Foreign socket is specified"
+            ]
+        },
+        {
+            "from_state": "LISTEN",
+            "to_state": "SYN-RECEIVED",
+            "event": "SYN_RECEIVED",
+            "actions": [
+                "Set RCV.NXT",
+                "Set IRS",
+                "Send SYN,ACK",
+                "Set SND.NXT and SND.UNA"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-SENT",
+            "to_state": "SYN-RECEIVED",
+            "event": "SYN_RECEIVED",
+            "actions": [
+                "Set RCV.NXT",
+                "Set IRS",
+                "Send SYN,ACK",
+                "Set SND.NXT and SND.UNA"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "SYN-SENT",
+            "to_state": "ESTABLISHED",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments from retransmission queue",
+                "Send ACK"
+            ],
+            "constraints": [
+                "SND.UNA <= SEG.ACK <= SND.NXT"
+            ]
+        },
+        {
+            "from_state": "SYN-RECEIVED",
+            "to_state": "ESTABLISHED",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments from retransmission queue"
+            ],
+            "constraints": [
+                "SND.UNA <= SEG.ACK <= SND.NXT"
+            ]
+        },
+        {
+            "from_state": "ESTABLISHED",
+            "to_state": "FIN-WAIT-1",
+            "event": "CLOSE",
+            "actions": [
+                "Send FIN",
+                "Set SND.NXT"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "ESTABLISHED",
+            "to_state": "CLOSE-WAIT",
+            "event": "FIN_RECEIVED",
+            "actions": [
+                "Send ACK",
+                "Signal user 'connection closing'"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "FIN-WAIT-1",
+            "to_state": "FIN-WAIT-2",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments from retransmission queue"
+            ],
+            "constraints": [
+                "SND.UNA <= SEG.ACK <= SND.NXT"
+            ]
+        },
+        {
+            "from_state": "FIN-WAIT-1",
+            "to_state": "CLOSING",
+            "event": "FIN_RECEIVED",
+            "actions": [
+                "Send ACK",
+                "Signal user 'connection closing'"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "FIN-WAIT-2",
+            "to_state": "TIME-WAIT",
+            "event": "FIN_RECEIVED",
+            "actions": [
+                "Send ACK",
+                "Start 2MSL timer"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "CLOSE-WAIT",
+            "to_state": "LAST-ACK",
+            "event": "CLOSE",
+            "actions": [
+                "Send FIN",
+                "Set SND.NXT"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "CLOSING",
+            "to_state": "TIME-WAIT",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments from retransmission queue",
+                "Start 2MSL timer"
+            ],
+            "constraints": [
+                "SND.UNA <= SEG.ACK <= SND.NXT"
+            ]
+        },
+        {
+            "from_state": "LAST-ACK",
+            "to_state": "CLOSED",
+            "event": "ACK_RECEIVED",
+            "actions": [
+                "Set SND.UNA",
+                "Remove acknowledged segments from retransmission queue",
+                "Delete TCB"
+            ],
+            "constraints": [
+                "SND.UNA <= SEG.ACK <= SND.NXT"
+            ]
+        },
+        {
+            "from_state": "TIME-WAIT",
+            "to_state": "CLOSED",
+            "event": "TIME-WAIT_TIMEOUT",
+            "actions": [
+                "Delete TCB"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "*",
+            "to_state": "CLOSED",
+            "event": "RST_RECEIVED",
+            "actions": [
+                "Delete TCB",
+                "Signal user 'connection reset'"
+            ],
+            "constraints": []
+        },
+        {
+            "from_state": "*",
+            "to_state": "CLOSED",
+            "event": "ABORT",
+            "actions": [
+                "Send RST",
+                "Delete TCB",
+                "Signal user 'connection reset'"
+            ],
+            "constraints": []
+        }
+    ]
+}

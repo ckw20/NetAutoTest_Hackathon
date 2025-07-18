@@ -1,0 +1,6 @@
+system im
+#
+dis igmp group
+#
+quit
+quit

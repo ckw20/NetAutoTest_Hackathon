@@ -1,0 +1,54 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC101",
+      "title": "OSPF邻居状态机完整路径测试（Down至Full再回到Down）",
+      "objective": "验证被测设备在OSPF协议中邻居状态机的完整路径行为，包括从Down到Full状态的建立过程以及通过KillNbr事件返回Down状态的行为。",
+      "test_reference": ["RFC2328 10.1", "RFC2328 10.2", "RFC2328 10.3", "RFC2328 10.4"],
+      "steps": [
+        {
+          "step_id": "TC101-1",
+          "description": "确保TesterA和DeviceA之间的所有端口连接正常，并关闭DeviceA的OSPF协议以使其处于Down状态。",
+          "expected_result": "DeviceA的OSPF邻居状态为Down。"
+        },
+        {
+          "step_id": "TC101-2",
+          "description": "在TesterA上配置并发送一个Hello包到DeviceA。",
+          "expected_result": "DeviceA接收到Hello包后，邻居状态从Down变为Init，并启动Inactivity Timer。"
+        },
+        {
+          "step_id": "TC101-3",
+          "description": "在TesterA上继续发送Hello包，确保DeviceA在TesterA的Hello包中看到自己的Router ID，触发2-WayReceived事件。",
+          "expected_result": "DeviceA的邻居状态从Init变为2-Way。"
+        },
+        {
+          "step_id": "TC101-4",
+          "description": "检查是否满足形成邻接关系的条件（例如，网络类型为Point-to-Point），并通过AdjOK?事件触发状态机。",
+          "expected_result": "如果满足条件，DeviceA的邻居状态从2-Way变为ExStart，并开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-5",
+          "description": "在ExStart状态下，完成主从协商和DD序列号交换，触发NegotiationDone事件。",
+          "expected_result": "DeviceA的邻居状态从ExStart变为Exchange，并开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-6",
+          "description": "在Exchange状态下，完成数据库描述包的交换，触发ExchangeDone事件。",
+          "expected_result": "DeviceA的邻居状态从Exchange变为Loading，并开始发送Link State Request包请求缺失的LSA。"
+        },
+        {
+          "step_id": "TC101-7",
+          "description": "在Loading状态下，接收所有缺失的LSA并完成同步，触发LoadingDone事件。",
+          "expected_result": "DeviceA的邻居状态从Loading变为Full，表示邻接关系完全建立。"
+        },
+        {
+          "step_id": "TC101-8",
+          "description": "在TesterA上模拟KillNbr事件，强制终止与DeviceA的邻居关系。",
+          "expected_result": "DeviceA的邻居状态从Full变为Down，且Link state retransmission list、Database summary list和Link state request list被清空，同时Inactivity Timer被禁用。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

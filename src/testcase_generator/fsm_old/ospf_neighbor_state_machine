@@ -1,0 +1,26 @@
+// OSPF Neighbor State Machine
+digraph {
+	Down
+	Attempt
+	Init
+	"2-Way"
+	ExStart
+	Exchange
+	Loading
+	Full
+	Down -> Attempt [label=Start]
+	Down -> Init [label=HelloReceived]
+	Attempt -> Init [label=HelloReceived]
+	Init -> "2-Way" [label="2-WayReceived"]
+	Init -> Init [label="1-WayReceived"]
+	"2-Way" -> ExStart [label="AdjOK?"]
+	ExStart -> Exchange [label=NegotiationDone]
+	Exchange -> Loading [label=ExchangeDone]
+	Exchange -> Full [label=ExchangeDone]
+	Loading -> Full [label=LoadingDone]
+	Full -> Down [label="KillNbr, InactivityTimer, LLDown"]
+	ExStart -> ExStart [label="SeqNumberMismatch, BadLSReq"]
+	Exchange -> ExStart [label="SeqNumberMismatch, BadLSReq"]
+	Loading -> ExStart [label="SeqNumberMismatch, BadLSReq"]
+	Full -> ExStart [label="SeqNumberMismatch, BadLSReq"]
+}

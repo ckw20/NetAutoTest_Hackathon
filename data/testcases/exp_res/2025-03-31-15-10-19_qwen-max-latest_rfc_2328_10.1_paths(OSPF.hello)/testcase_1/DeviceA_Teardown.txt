@@ -1,0 +1,12 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address 192.168.1.1 255.255.255.0
+ undo ip forward-broadcast
+ undo ospf network-type nbma
+ portswitch
+#
+undo ospf 1
+commit
+quit

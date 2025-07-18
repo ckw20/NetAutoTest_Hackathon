@@ -1,0 +1,138 @@
+{
+  "protocol_header": {
+    "name": "AS-external-LSA",
+    "version": "Type 5",
+    "description": "These LSAs are originated by AS boundary routers and describe destinations external to the AS. They include information about external routes, default routes, and TOS-specific metrics.",
+    "fields": [
+      {
+        "name": "LS age",
+        "description": "The time in seconds since the LSA was originated.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be within the range of 0 to 65535."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "Optional capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "Value depends on the OSPF version and router capabilities."
+        ]
+      },
+      {
+        "name": "LS type",
+        "description": "Identifies the type of LSA. For AS-external-LSAs, this value is always 5.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be exactly 5 for AS-external-LSAs."
+        ]
+      },
+      {
+        "name": "Link State ID",
+        "description": "Specifies an IP network number or the default route (0.0.0.0).",
+        "size_bits": 32,
+        "constraints": [
+          "For default routes, the value must be 0.0.0.0.",
+          "For specific networks, it specifies the IP network number with optional host bits set.",
+          "For Type 4 summary-LSAs, the Link State ID must equal the AS boundary router's Router ID.",
+          "For Type 3 summary-LSAs, the Link State ID must equal the network's address or the range's address, with optional host bits set as described in Appendix E."
+        ]
+      },
+      {
+        "name": "Advertising Router",
+        "description": "The Router ID of the router that originated the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a valid OSPF Router ID.",
+          "For summary-LSAs, this field identifies the area border router originating the advertisement."
+        ]
+      },
+      {
+        "name": "LS sequence number",
+        "description": "Used to detect old or duplicate LSAs.",
+        "size_bits": 32,
+        "constraints": [
+          "Value increments with each new instance of the LSA."
+        ]
+      },
+      {
+        "name": "LS checksum",
+        "description": "Checksum of the entire LSA excluding the LS age field.",
+        "size_bits": 16,
+        "constraints": [
+          "Calculated using the Fletcher checksum algorithm."
+        ]
+      },
+      {
+        "name": "length",
+        "description": "The length of the LSA in bytes including the header.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be greater than or equal to the minimum LSA size."
+        ]
+      },
+      {1
+        "name": "Network Mask",
+        "description": "The IP address mask for the advertised destination.",
+        "size_bits": 32,
+        "constraints": [
+          "For class A networks, the mask should typically be 0xff000000.",
+          "For default routes, the mask must be 0.0.0.0.",
+          "For summary-LSAs, the mask corresponds to the network or range being summarized."
+        ]
+      },
+      {2
+        "name": "bit E",
+        "description": "Indicates the type of external metric: Type 1 (E=0) or Type 2 (E=1).",
+        "size_bits": 1,
+        "constraints": [
+          "Value must be either 0 or 1."
+        ]
+      },
+      {3
+        "name": "metric",
+        "description": "The cost of the route, interpreted based on the external type indication (bit E).",
+        "size_bits": 24,
+        "constraints": [
+          "For Type 1 metrics, the value is expressed in link state units.",
+          "For Type 2 metrics, the value represents larger costs.",
+          "For summary-LSAs, the metric must equal the routing table entry's cost or the largest cost of any component networks in the case of address ranges."
+        ]
+      },
+      {4
+        "name": "Forwarding address",
+        "description": "The IP address to which data traffic for the advertised destination will be forwarded.",
+        "size_bits": 32,
+        "constraints": [
+          "If set to 0.0.0.0, traffic is forwarded to the LSA's originator."
+        ]
+      },
+      {5
+        "name": "External Route Tag",
+        "description": "A 32-bit field attached to each external route for communication between AS boundary routers.",
+        "size_bits": 32,
+        "constraints": [
+          "Not used by OSPF itself; its usage is outside the scope of the protocol."
+        ]
+      },
+      {6
+        "name": "TOS",
+        "description": "The Type of Service that the following fields concern.",
+        "size_bits": 8,
+        "constraints": [
+          "Encoding follows Section 12.3 of the OSPF specification. The TOS field is represented as a decimal integer corresponding to specific RFC 1349 TOS values, where valid values include 0 (normal service), 2 (minimize monetary cost), 4 (maximize reliability), 8 (maximize throughput), and 16 (minimize delay). Other intermediate values such as 6, 10, 12, etc., are also valid but do not map to named services."
+        ]
+      },
+      {7
+        "name": "TOS metric",
+        "description": "TOS-specific metric information for backward compatibility.",
+        "size_bits": 24,
+        "constraints": [
+          "Value depends on the specific TOS configuration."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of the AS-external-LSA header specification. The 'protocol_header' object contains metadata about the protocol and an array of field definitions. Each field has properties for name, description, bit size, and constraints. Additional constraints have been extracted from the RFC document section on summary-LSAs and integrated into the relevant fields."
+}

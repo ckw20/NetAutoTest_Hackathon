@@ -1,0 +1,20 @@
+digraph "OSPF Database Exchange State Machine" {
+	label="Figure 13: Neighbor state changes (Database Exchange)" rankdir=LR
+	ExStart
+	Exchange
+	Loading
+	Full
+	ExStart -> Exchange [label=NegotiationDone]
+	Exchange -> Full [label="ExchangeDone
+(LS Req empty)"]
+	Exchange -> Loading [label="ExchangeDone
+(LS Req non-empty)"]
+	Loading -> Full [label=LoadingDone]
+	Exchange -> ExStart [label="SeqNumberMismatch/BadLSReq" color=blue]
+	Loading -> ExStart [label="SeqNumberMismatch/BadLSReq" color=blue]
+	Full -> ExStart [label="SeqNumberMismatch/BadLSReq" color=blue]
+	ExStart -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+	Exchange -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+	Loading -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+	Full -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+}

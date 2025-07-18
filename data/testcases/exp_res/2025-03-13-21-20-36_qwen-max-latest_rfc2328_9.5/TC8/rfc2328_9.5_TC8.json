@@ -1,0 +1,44 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC8",
+      "title": "RouterDeadInterval一致性验证",
+      "objective": "验证接口拒绝RouterDeadInterval不一致的Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.10.5"
+      ],
+      "steps": [
+        {
+          "step_id": "TC8-1",
+          "description": "配置TesterA的PortTesterA_1端口，使其发送的Hello包中包含与DeviceA的PortDeviceA_1不同的RouterDeadInterval值。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC8-2",
+          "description": "启动TesterA的PortTesterA_1端口，开始向DeviceA的PortDeviceA_1发送Hello包。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "TC8-3",
+          "description": "等待20秒后，观察TesterA的PortTesterA_1端口状态。",
+          "expected_result": "TesterA的PortTesterA_1端口应未到达2-WAY状态。"
+        },
+        {
+          "step_id": "TC8-4",
+          "description": "检查DeviceA的日志或调试信息，确认其是否接收到来自TesterA的Hello包。",
+          "expected_result": "DeviceA应丢弃接收到的Hello包，并记录相关日志（如RouterDeadInterval不匹配）。"
+        },
+        {
+          "step_id": "TC8-5",
+          "description": "停止TesterA的PortTesterA_1端口的Hello包发送。",
+          "expected_result": ""
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

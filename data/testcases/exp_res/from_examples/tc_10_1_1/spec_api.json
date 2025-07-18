@@ -1,0 +1,20 @@
+[
+    "init_tester",
+    "get_locations",
+    "reserve_port",
+    "edit_port",
+    "wait_port_state",
+    "create_interface",
+    "edit_interface",
+    "add_stream",
+    "get_layer_from_interfaces",
+    "subscribe_result",
+    "save_case",
+    "start_protocol",
+    "stop_protocol",
+    "start_stream",
+    "stop_stream",
+    "get_streamblock_statistic",
+    "release_port",
+    "shutdown_tester"
+]

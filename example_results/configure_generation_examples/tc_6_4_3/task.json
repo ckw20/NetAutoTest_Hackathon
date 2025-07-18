@@ -1,0 +1,32 @@
+{
+  "id": "tc_6_4_3",
+  "title": "Port Throughput Test",
+  "objective": "Test Objective : 6.4.3 Port Throughput",
+  "test_reference": ["RFC 2544"],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "According to RFC 2544, connect any two same-type ports of the switch to the tester, see Figure 3;",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "Configure the traffic generator: test frame lengths are (64, 65, 256, 1024, 1518) bytes respectively;",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "Test duration is 60s.",
+      "expected_result": "The technical requirement for throughput is 100%."
+    }
+  ],
+  "tags": ["performance"],
+  "comments": {
+    "id": "Unique identifier for the test case.",
+    "title": "Title of the test case, briefly describing the test content.",
+    "objective": "Purpose of the test, indicating the function or feature to be verified by this test case.",
+    "test_reference": "Reference documents for the test case, such as RFC section numbers, etc.",
+    "steps": "Detailed description of test steps. Each step includes: step_id: unique identifier for the step. description: specific operation or configuration for the step. expected_result: expected result for the step.",
+    "tags": "Tags for the test case, used for classification or filtering. Types include: ['function', 'performance']"
+  }
+} 

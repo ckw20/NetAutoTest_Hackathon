@@ -1,0 +1,24 @@
+
+{
+    "id": "tc643",
+    "title": "端口吞吐量验证测试",
+    "objective": "端口吞吐量",
+    "test_reference": ["RFC 2544"],
+    "steps": [
+      {
+        "step_id": "TC1-2",
+        "description": "将交换机任意两个同类型端口与测试仪相连接，随后生成帧长度不同的流量，每种帧长持续 10 秒。帧长度应依次为 64, 1024, 9000",
+        "expected_result": "应能观察到吞吐量为 100%"
+      }
+    ],
+    "tags": ["performance"],
+    "comments": {
+      "id": "测试用例的唯一标识符。",
+      "title": "测试用例的标题，简要描述测试内容。",
+      "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+      "test_reference": "测试用例的参考文档，如RFC的章节号等。",
+      "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+      "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+    }
+  }
+  

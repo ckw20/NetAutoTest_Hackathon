@@ -1,0 +1,97 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPF-001",
+      "title": "OSPFv2 LSA Propagation Test",
+      "objective": "验证OSPFv2协议中LSA（链路状态通告）能够正确传播",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2)",
+        "RFC 5340 (OSPF for IPv6)"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1",
+              "ip": "192.168.1.100/24"
+            },
+            {
+              "name": "port2",
+              "connected_to": "DUT:port2",
+              "ip": "192.168.2.100/24"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1",
+              "ip": "192.168.1.1/24"
+            },
+            {
+              "name": "port2",
+              "connected_to": "Tester:port2",
+              "ip": "192.168.2.1/24"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "搭建测试环境，按照拓扑图连接设备",
+          "expected_result": "物理连接建立成功"
+        },
+        {
+          "step_id": "2",
+          "description": "配置测试仪端口IP地址: port1为192.168.1.100/24，port2为192.168.2.100/24",
+          "expected_result": "测试仪端口IP配置成功"
+        },
+        {
+          "step_id": "3",
+          "description": "配置DUT端口IP地址: port1为192.168.1.1/24，port2为192.168.2.1/24",
+          "expected_result": "DUT端口IP配置成功"
+        },
+        {
+          "step_id": "4",
+          "description": "在DUT上配置OSPFv2路由协议",
+          "expected_result": "OSPFv2配置成功"
+        },
+        {
+          "step_id": "5",
+          "description": "测试仪使用port1、port2建立OSPF路由器，在port1插入LSA，并使port1和DUT的port1达到FULL状态，port2和DUT的port2达到FULL状态",
+          "expected_result": "OSPF邻居关系建立成功，达到FULL状态"
+        },
+        {
+          "step_id": "6",
+          "description": "观察port2是否能得到port1的LSA",
+          "expected_result": "port2能够收到port1插入的LSA"
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "routing"
+      ],
+      "appendix": [
+        "测试注意事项:",
+        "1. 确保所有接口物理连接正常",
+        "2. 配置OSPF时确保area ID一致",
+        "3. 测试前清除所有设备的OSPF状态和路由表"
+      ]
+    }
+  ],
+  "comments": {
+    "author": "Tester-006",
+    "created_date": "2023-11-15",
+    "last_modified": "2023-11-15",
+    "bugs": "None"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "tc_6_7_8",
+  "title": "Internet Group Management Protocol (IGMP) Test",
+  "objective": "Test Objective : 6.7.8 Internet Group Management Protocol (IGMP)",
+  "test_reference": [],
+  "steps": [
+    {"step_id": "1", "description": "Build the test environment according to Figure 10;", "expected_result": ""},
+    {"step_id": "2", "description": "tester port1 address is 192.168.1.100/24, port2 address is 192.168.2.100/24;", "expected_result": ""},
+    {"step_id": "3", "description": "DUT port1 address is 192.168.1.1/24, port2 address is 192.168.2.1/24;", "expected_result": ""},
+    {"step_id": "4", "description": "Configure IGMPv2 multicast query on DUT;", "expected_result": ""},
+    {"step_id": "5", "description": "tester sends IGMPv2 report packets with destination address 225.1.1.1, TTL=1, group address 225.1.1.1, period 1s, to port1;", "expected_result": ""},
+    {"step_id": "6", "description": "Stop sending IGMPv2 report packets from step 5, observe the change of switch multicast group membership;", "expected_result": ""},
+    {"step_id": "7", "description": "tester sends IGMPv2 report packets with destination address 225.1.1.1, TTL=1, group address 225.1.1.1, period 1s, to port1, then immediately sends IGMPv2 leave packets with destination address 224.0.0.2, TTL=1, group address 225.1.1.1, to port1; observe the change of switch multicast group membership;", "expected_result": ""},
+    {"step_id": "8", "description": "Stop sending packets from step 7;", "expected_result": ""},
+    {"step_id": "9", "description": "Check DUT configuration to see if IGMPv1, IGMPv2, IGMPv3 are supported.", "expected_result": ""}
+  ],
+  "tags": ["function"],
+  "comments": {
+    "id": "Unique identifier for the test case.",
+    "title": "Title of the test case, briefly describing the test content.",
+    "objective": "Purpose of the test, indicating the function or feature to be verified by this test case.",
+    "test_reference": "Reference documents for the test case, such as RFC section numbers, etc.",
+    "steps": "Detailed description of test steps. Each step includes: step_id: unique identifier for the step. description: specific operation or configuration for the step. expected_result: expected result for the step.",
+    "tags": "Tags for the test case, used for classification or filtering. Types include: ['function', 'performance']"
+  }
+} 

@@ -1,0 +1,56 @@
+// OSPF FSM (With Wildcards)
+digraph {
+	Down
+	Attempt
+	Init
+	"2-Way"
+	ExStart
+	Exchange
+	Loading
+	Full
+	Down -> Attempt [label="Start
+Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)/Start the Inactivity Timer for the neighbor"]
+	Attempt -> Init [label="HelloReceived
+Restart the Inactivity Timer for the neighbor, since the neighbor has now been heard from"]
+	Down -> Init [label="HelloReceived
+Start the Inactivity Timer for the neighbor"]
+	Attempt -> Down [label=KillNbr color=red style=dashed]
+	Init -> Down [label=KillNbr color=red style=dashed]
+	"2-Way" -> Down [label=KillNbr color=red style=dashed]
+	ExStart -> Down [label=KillNbr color=red style=dashed]
+	Exchange -> Down [label=KillNbr color=red style=dashed]
+	Loading -> Down [label=KillNbr color=red style=dashed]
+	Full -> Down [label=KillNbr color=red style=dashed]
+	Attempt -> Down [label=LLDown color=red style=dashed]
+	Init -> Down [label=LLDown color=red style=dashed]
+	"2-Way" -> Down [label=LLDown color=red style=dashed]
+	ExStart -> Down [label=LLDown color=red style=dashed]
+	Exchange -> Down [label=LLDown color=red style=dashed]
+	Loading -> Down [label=LLDown color=red style=dashed]
+	Full -> Down [label=LLDown color=red style=dashed]
+	Attempt -> Down [label=InactivityTimer color=red style=dashed]
+	Init -> Down [label=InactivityTimer color=red style=dashed]
+	"2-Way" -> Down [label=InactivityTimer color=red style=dashed]
+	ExStart -> Down [label=InactivityTimer color=red style=dashed]
+	Exchange -> Down [label=InactivityTimer color=red style=dashed]
+	Loading -> Down [label=InactivityTimer color=red style=dashed]
+	Full -> Down [label=InactivityTimer color=red style=dashed]
+	Init -> "2-Way" [label="2-WayReceived
+Determine whether an adjacency should be established with the neighbor/If not, the new neighbor state is 2-Way/Otherwise, transition to ExStart, increment DD sequence number, declare master, and start sending Database Description Packets"]
+	"2-Way" -> ExStart [label="AdjOK?
+Determine whether an adjacency should be formed with the neighboring router/If yes, transition to ExStart and perform actions as per Init -> ExStart transition"]
+	ExStart -> Exchange [label="NegotiationDone
+List the contents of the entire area link state database in the neighbor Database summary list/Send Database Description packets to the neighbor"]
+	Exchange -> Loading [label="ExchangeDone
+If the neighbor Link state request list is not empty, start or continue sending Link State Request packets"]
+	Exchange -> Full [label="ExchangeDone
+If the neighbor Link state request list is empty, no further action required"]
+	Loading -> Full [label="LoadingDone
+No action required"]
+	"2-Way" -> Init [label="1-WayReceived
+Clear Link state retransmission list, Database summary list, and Link state request list of LSAs"]
+	Exchange -> ExStart [label="SeqNumberMismatch
+Tear down the partially formed adjacency/Increment DD sequence number, declare master, and restart Database Description packet exchange"]
+	Exchange -> ExStart [label="BadLSReq
+Tear down the partially formed adjacency/Increment DD sequence number, declare master, and restart Database Description packet exchange"]
+}

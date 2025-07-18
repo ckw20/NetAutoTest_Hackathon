@@ -1,0 +1,135 @@
+{
+  "protocol_header": {
+    "name": "DHCP Message Header",
+    "version": "",
+    "description": "The DHCP message header defines the structure of a DHCP message, which is an extension of the BOOTP mechanism. It includes fields for message type, hardware address information, transaction identifiers, and optional parameters.",
+    "fields": [
+      {
+        "name": "op",
+        "description": "Message op code or message type.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 1 (BOOTREQUEST) or 2 (BOOTREPLY)."
+        ]
+      },
+      {
+        "name": "htype",
+        "description": "Hardware address type, as defined in the ARP section of the 'Assigned Numbers' RFC.",
+        "size_bits": 8,
+        "constraints": [
+          "Example: 1 represents 10mb Ethernet."
+        ]
+      },
+      {
+        "name": "hlen",
+        "description": "Length of the hardware address in bytes.",
+        "size_bits": 8,
+        "constraints": [
+          "For example, 6 for 10mb Ethernet."
+        ]
+      },
+      {
+        "name": "hops",
+        "description": "Number of relay agents traversed by the message; set to zero by the client.",
+        "size_bits": 8,
+        "constraints": [
+          "Must be zero when sent by the client.",
+          "May be incremented by relay agents."
+        ]
+      },
+      {
+        "name": "xid",
+        "description": "Transaction ID, a random number chosen by the client to associate messages and responses.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be unique for each transaction initiated by the client."
+        ]
+      },
+      {
+        "name": "secs",
+        "description": "Seconds elapsed since the client began the address acquisition or renewal process.",
+        "size_bits": 16,
+        "constraints": [
+          "Set by the client.",
+          "Value increments with time."
+        ]
+      },
+      {
+        "name": "flags",
+        "description": "Flags field, used to control message delivery behavior.",
+        "size_bits": 16,
+        "constraints": [
+          "Leftmost bit (BROADCAST flag): Set to 1 to request broadcast replies.",
+          "Remaining bits must be zero."
+        ]
+      },
+      {
+        "name": "ciaddr",
+        "description": "Client IP address, filled in if the client is in BOUND, RENEW, or REBINDING state.",
+        "size_bits": 32,
+        "constraints": [
+          "Only set if the client can respond to ARP requests."
+        ]
+      },
+      {
+        "name": "yiaddr",
+        "description": "IP address assigned to the client ('your' IP address).",
+        "size_bits": 32,
+        "constraints": [
+          "Set by the server in DHCPOFFER and DHCPACK messages."
+        ]
+      },
+      {
+        "name": "siaddr",
+        "description": "IP address of the next server to use in the bootstrap process.",
+        "size_bits": 32,
+        "constraints": [
+          "Set by the server if it provides the next bootstrap service."
+        ]
+      },
+      {
+        "name": "giaddr",
+        "description": "Relay agent IP address, used when booting via a relay agent.",
+        "size_bits": 32,
+        "constraints": [
+          "Set by the relay agent."
+        ]
+      },
+      {
+        "name": "chaddr",
+        "description": "Client hardware address.",
+        "size_bits": 128,
+        "constraints": [
+          "Maximum length is 16 octets."
+        ]
+      },
+      {
+        "name": "sname",
+        "description": "Optional server host name, represented as a null-terminated string.",
+        "size_bits": 512,
+        "constraints": [
+          "Maximum length is 64 octets, including the null terminator."
+        ]
+      },
+      {
+        "name": "file",
+        "description": "Boot file name, represented as a null-terminated string.",
+        "size_bits": 1024,
+        "constraints": [
+          "Maximum length is 128 octets, including the null terminator.",
+          "May contain a generic name or a fully qualified directory path."
+        ]
+      },
+      {
+        "name": "options",
+        "description": "Variable-length field containing optional parameters.",
+        "size_bits": null,
+        "constraints": [
+          "Minimum length is 312 octets.",
+          "May extend into the 'file' and 'sname' fields."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

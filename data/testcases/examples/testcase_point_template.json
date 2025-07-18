@@ -1,0 +1,18 @@
+{
+  "test_case_points": [
+    {
+      "id": "",
+      "title": "",
+      "objective": "",
+      "test_reference": [],
+      "tags": []
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考RFC章节号，例如[RFC2328.9.5, RFC2328.9.6]。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

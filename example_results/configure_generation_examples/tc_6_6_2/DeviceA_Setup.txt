@@ -1,0 +1,27 @@
+system
+vlan 10
+quit
+vlan 20
+quit
+#
+interface Vlanif 10
+ip address 192.168.1.1 255.255.255.0
+#
+interface Vlanif 20
+ip address 192.168.2.1 255.255.255.0
+#
+interface ReplaceInterface_PortDeviceA_1
+ port link-type access
+ port default vlan 10
+#                                                                               
+interface ReplaceInterface_PortDeviceA_2
+ port link-type access
+ port default vlan 20
+#
+ospf 1
+area 0.0.0.0
+network 192.168.1.0 0.0.0.255
+network 192.168.2.0 0.0.0.255
+#
+commit
+quit

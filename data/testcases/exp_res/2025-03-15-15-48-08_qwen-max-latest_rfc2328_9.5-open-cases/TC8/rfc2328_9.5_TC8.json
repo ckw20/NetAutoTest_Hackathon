@@ -1,0 +1,90 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC8",
+      "title": "邻居列表完整性测试",
+      "objective": "验证Hello包包含最近RouterDeadInterval内收到的所有邻居信息",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "DUT:Port1"
+            },
+            {
+              "name": "Port2",
+              "connected_to": "DUT:Port2"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "Tester1:Port1"
+            },
+            {
+              "name": "Port2",
+              "connected_to": "Tester1:Port2"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC8-1",
+          "description": "配置被测设备（DUT）的OSPF协议，设置HelloInterval和RouterDeadInterval参数，并确保两个端口都启用了OSPF。",
+          "expected_result": "DUT成功启用OSPF协议，且HelloInterval和RouterDeadInterval参数正确配置。"
+        },
+        {
+          "step_id": "TC8-2",
+          "description": "在Tester1的Port1和Port2上分别发送Hello包，模拟多个邻居路由器的存在。",
+          "expected_result": "Tester1成功发送Hello包，且DUT能够接收到这些包。"
+        },
+        {
+          "step_id": "TC8-3",
+          "description": "等待超过RouterDeadInterval时间后，观察DUT发送的Hello包中的邻居列表字段。",
+          "expected_result": "DUT发送的Hello包中应包含Tester1的Port1和Port2的邻居信息，且这些信息应在最近RouterDeadInterval内更新。"
+        },
+        {
+          "step_id": "TC8-4",
+          "description": "停止Tester1的Port2发送Hello包，仅保留Port1的Hello包发送。",
+          "expected_result": "经过RouterDeadInterval时间后，DUT发送的Hello包中不再包含Port2的邻居信息，但仍然包含Port1的信息。"
+        },
+        {
+          "step_id": "TC8-5",
+          "description": "恢复Tester1的Port2发送Hello包，并再次等待超过RouterDeadInterval时间。",
+          "expected_result": "DUT发送的Hello包中重新包含Port1和Port2的邻居信息，且信息完整无误。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "topology": [
+      "测试用例所涉及的设备和端口连接信息，包含以下字段：",
+      "1. **name**: 设备的名称，用于唯一标识设备，例如tester, DUT1, DeviceA等。",
+      "2. **type**: 设备的类型（例如：tester、DUT 等）。",
+      "3. **ports**: 设备的端口列表，描述设备的各个端口。",
+      "   - **name**: 端口的名称，用于唯一标识端口，例如port1等。",
+      "   - **connected_to**: 描述该端口连接到的设备和端口，格式为 '设备名称:端口名称'。"
+    ],
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

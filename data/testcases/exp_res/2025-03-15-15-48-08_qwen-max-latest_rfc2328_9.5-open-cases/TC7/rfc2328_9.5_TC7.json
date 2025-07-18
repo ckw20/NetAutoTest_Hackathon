@@ -1,0 +1,61 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC7",
+      "title": "DR/BDR字段初始化验证",
+      "objective": "确保未选举DR/BDR时对应字段值为0.0.0.0",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester1",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "DUT:Port1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "Port1",
+              "connected_to": "Tester1:Port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "TC7-1",
+          "description": "在被测设备（DUT）上配置OSPF协议，并确保接口处于广播网络类型。",
+          "expected_result": "DUT的接口成功启用OSPF协议，且网络类型为广播。"
+        },
+        {
+          "step_id": "TC7-2",
+          "description": "清除DUT上的所有邻居关系，确保没有DR/BDR选举发生。",
+          "expected_result": "DUT的OSPF邻居表为空，且没有DR/BDR选举记录。"
+        },
+        {
+          "step_id": "TC7-3",
+          "description": "通过协议测试仪向DUT发送Hello包，并捕获DUT发出的Hello包。",
+          "expected_result": "DUT成功发送Hello包，且Hello包中的DR和BDR字段值为0.0.0.0。"
+        },
+        {
+          "step_id": "TC7-4",
+          "description": "分析捕获的Hello包，检查DR和BDR字段的值。",
+          "expected_result": "Hello包中的DR和BDR字段值均为0.0.0.0，符合RFC2328中关于未选举DR/BDR时的初始化要求。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ]
+}

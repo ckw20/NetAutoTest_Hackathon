@@ -1,0 +1,97 @@
+{
+  "protocol_header": {
+    "name": "Network-LSA",
+    "version": "Type 2",
+    "description": "Network-LSAs are Type 2 LSAs originated by the Designated Router for each broadcast and NBMA network supporting two or more routers. They describe all attached routers and include the IP interface address of the Designated Router in the Link State ID field.",
+    "fields": [
+      {
+        "name": "LS age",
+        "description": "The age of the LSA in seconds, indicating how long ago it was originated.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be between 0 and 3600 (1 hour)."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "Optional capabilities supported by the router that generated the LSA.",
+        "size_bits": 8,
+        "constraints": [
+          "Must conform to OSPF Options field specifications."
+        ]
+      },
+      {
+        "name": "LS type",
+        "description": "Identifies the type of LSA. For Network-LSAs, this value is always 2.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be exactly 2 for Network-LSAs."
+        ]
+      },
+      {
+        "name": "Link State ID",
+        "description": "The IP interface address of the Designated Router originating the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a valid IPv4 address.",
+          "When masked with the Network Mask field, it yields the network's IP address."
+        ]
+      },
+      {
+        "name": "Advertising Router",
+        "description": "The Router ID of the router that originated the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "Must be a unique 32-bit identifier within the OSPF domain.",
+          "If the Link State ID equals one of the router's IP interface addresses and the Advertising Router does not match the router's current Router ID, the LSA must be flushed due to a change in Router ID."
+        ]
+      },
+      {
+        "name": "LS sequence number",
+        "description": "A sequence number used to detect old or duplicate LSAs.",
+        "size_bits": 32,
+        "constraints": [
+          "Must start at initial value (e.g., 0x80000001) and increment with each new instance.",
+          "Maximum value is 0x7FFFFFFF."
+        ]
+      },
+      {
+        "name": "LS checksum",
+        "description": "A checksum covering the entire LSA except the LS age field.",
+        "size_bits": 16,
+        "constraints": [
+          "Must follow standard checksum computation rules for OSPF LSAs."
+        ]
+      },
+      {
+        "name": "Length",
+        "description": "The total length of the LSA in bytes, including headers and payload.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be a multiple of 4 bytes.",
+          "Minimum value depends on the number of Attached Routers."
+        ]
+      },
+      {
+        "name": "Network Mask",
+        "description": "The IP address mask for the network described by the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "For example, a class A network would have the mask 0xFF000000.",
+          "Must match the network's subnet mask."
+        ]
+      },
+      {
+        "name": "Attached Router",
+        "description": "The Router IDs of routers fully adjacent to the Designated Router, including itself.",
+        "size_bits": null,
+        "constraints": [
+          "Number of entries can be deduced from the LSA header's length field.",
+          "Each entry must be a unique 32-bit Router ID.",
+          "The Designated Router must include itself in this list of attached routers."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

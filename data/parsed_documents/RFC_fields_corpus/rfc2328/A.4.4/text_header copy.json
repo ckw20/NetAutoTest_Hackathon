@@ -1,0 +1,124 @@
+{
+  "protocol_header": {
+    "name": "Summary-LSAs",
+    "version": "Type 3 and Type 4",
+    "description": "Summary-LSAs are used to describe inter-area destinations, originated by area border routers. Type 3 is used for IP networks, and Type 4 is used for AS boundary routers.",
+    "fields": [
+      {
+        "name": "LS age",
+        "description": "The age of the LSA in seconds, indicating how long ago the LSA was generated.",
+        "size_bits": 16,
+        "constraints": [
+          "Value must be between 0 and 3600 (1 hour).",
+          "If the LS age is equal to MaxAge (3600 seconds), the LSA should be ignored during AS external route calculation."
+        ]
+      },
+      {
+        "name": "Options",
+        "description": "A set of options that indicate OSPF capabilities supported by the router.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid values depend on OSPF specification."
+        ]
+      },
+      {
+        "name": "LS type",
+        "description": "Indicates whether the LSA is a Type 3 or Type 4 summary-LSA.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be either 3 (Type 3) or 4 (Type 4).",
+          "Type 3 is used for describing IP networks, while Type 4 is used for describing AS boundary routers."
+        ]
+      },
+      {
+        "name": "Link State ID",
+        "description": "For Type 3 LSAs, this is an IP network number. For Type 4 LSAs, it is the OSPF Router ID of the AS boundary router.",
+        "size_bits": 32,
+        "constraints": [
+          "For Type 3: The value must represent a valid IP network number.",
+          "For Type 4: The value must match the OSPF Router ID of the AS boundary router.",
+          "When describing a default route in stub areas, this field is set to 0.0.0.0.",
+          "If necessary, the Link State ID can have one or more of the network's host bits set, as described in Appendix E of the RFC.",
+          "The Link State ID is masked with the network/subnet mask contained in the body of the LSA to obtain the destination address N."
+        ]
+      },
+      {
+        "name": "Advertising Router",
+        "description": "The OSPF Router ID of the router that originated the LSA.",
+        "size_bits": 32,
+        "constraints": [
+          "Must match the originating router's OSPF Router ID.",
+          "Only area border routers are allowed to originate summary-LSAs.",
+          "If the LSA was originated by the calculating router itself, it should be ignored during AS external route calculation."
+        ]
+      },
+      {
+        "name": "LS sequence number",
+        "description": "A sequence number used to detect old or duplicate LSAs.",
+        "size_bits": 32,
+        "constraints": [
+          "Value increments with each new instance of the LSA.",
+          "If a destination becomes unreachable, the router must flush the LSA by setting its age to MaxAge and reflooding it."
+        ]
+      },
+      {
+        "name": "LS checksum",
+        "description": "Checksum used to verify the integrity of the LSA.",
+        "size_bits": 16,
+        "constraints": [
+          "Calculated over the entire LSA except the LS age field."
+        ]
+      },
+      {
+        "name": "Length",
+        "description": "The total length of the LSA in bytes, including the header.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be greater than or equal to the minimum LSA size.",
+          "The length must accommodate all fields, including variable-length components such as TOS metrics."
+        ]
+      },
+      {1
+        "name": "Network Mask",
+        "description": "For Type 3 LSAs, indicates the destination network's IP address mask. For Type 4 LSAs, this field must be zero.",
+        "size_bits": 32,
+        "constraints": [
+          "For Type 3: Must represent a valid subnet mask (e.g., 0xff000000 for a class A network).",
+          "For Type 4: Must be set to 0.",
+          "The network mask is used to determine the range of IP addresses covered by the summary-LSA.",
+          "When calculating AS external routes, the network mask is applied to the Link State ID to derive the destination address N."
+        ]
+      },
+      {2
+        "name": "Metric",
+        "description": "The cost of the route, expressed in the same units as interface costs in router-LSAs.",
+        "size_bits": 24,
+        "constraints": [
+          "Value must be non-negative and consistent with OSPF metric units.",
+          "If the routing table cost equals or exceeds LSInfinity, a summary-LSA cannot be generated for the route.",
+          "During AS external route calculation, the metric Y specified in the LSA must be a type 1 or type 2 external metric."
+        ]
+      },
+      {3
+        "name": "TOS",
+        "description": "The IP Type of Service (TOS) that this metric refers to.",
+        "size_bits": 8,
+        "constraints": [
+          "Encoding follows Section 12.3 of the OSPF specification, where the OSPF encoding is expressed as a decimal integer corresponding to specific RFC 1349 TOS binary values.",
+          "Valid values are integers from 0 to 30, representing specific TOS encodings: 0 (normal service), 2 (minimize monetary cost), 4 (maximize reliability), 8 (maximize throughput), and 16 (minimize delay), along with intermediate encodings as defined in Table 17 of the RFC.",
+          "TOS-specific metrics are optional and may not be supported in all implementations."
+        ]
+      },
+      {4
+        "name": "TOS metric",
+        "description": "TOS-specific metric information for backward compatibility.",
+        "size_bits": 24,
+        "constraints": [
+          "Value must align with the corresponding TOS field.",
+          "TOS metrics are only included if the TOS field specifies a non-zero value."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

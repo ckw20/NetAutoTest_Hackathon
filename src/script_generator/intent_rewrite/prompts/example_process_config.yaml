@@ -1,0 +1,9 @@
+
+api_key: "sk-e025fbab2599423fb0946f3acb9bdda6"
+base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+model :  "deepseek-r1"
+
+cepri_dev_new_root_dir :  '/root/NetAutoTest/data/ref_projects/cepri-dev-new/Testcase'
+examples_root_dir :  '/root/NetAutoTest/data/ref_projects/Examples/Python'
+api_json_path :  "/root/NetAutoTest/data/parsed_documents/API_docs/last_llm_result_with_names.json"
+output_json_path :  '/root/NetAutoTest/data/rewrite_results/all_python_results_english__.json'

@@ -1,0 +1,63 @@
+{
+  "id": "TC-OSPFv2-HELLOINTERVAL-NEG",
+  "title": "OSPFv2 HelloInterval Negative Test",
+  "objective": "Verify that OSPFv2 routers fail to establish neighbor relationships when the HelloInterval values differ between routers on the same network.",
+  "test_reference": [
+    "RFC 2328 (OSPF Version 2), Section A.3.2"
+  ],
+  "topology": [
+    {
+      "name": "Tester",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "port1",
+          "connected_to": "DUT:port1"
+        }
+      ]
+    },
+    {
+      "name": "DUT",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "port1",
+          "connected_to": "Tester:port1"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "Initialize the device test environment according to the provided configuration.",
+      "expected_result": "Test environment is initialized successfully."
+    },
+    {
+      "step_id": "2",
+      "description": "Configure the Tester with a HelloInterval value of 10 seconds and the DUT with a HelloInterval value of 20 seconds on their connected interfaces.",
+      "expected_result": "HelloInterval configuration is applied successfully on both devices."
+    },
+    {
+      "step_id": "3",
+      "description": "Enable OSPFv2 on both devices and ensure they are in the same area.",
+      "expected_result": "OSPFv2 is enabled, and both devices are configured in the same area."
+    },
+    {
+      "step_id": "4",
+      "description": "Observe the OSPF neighbor state between the Tester and DUT.",
+      "expected_result": "The neighbor state remains in INIT or does not reach FULL, indicating failure to establish a neighbor relationship."
+    }
+  ],
+  "tags": [
+    "function",
+    "ospf",
+    "hellointerval"
+  ],
+  "appendix": [
+    "Test precautions:",
+    "1. Ensure physical connections between devices are stable.",
+    "2. Verify that the HelloInterval values differ on both devices before starting the test.",
+    "3. Clear OSPF states and routing tables of all devices before testing."
+  ]
+}

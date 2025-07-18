@@ -1,0 +1,62 @@
+{
+  "protocol_header": {
+    "name": "Parameter Problem Message",
+    "version": "",
+    "description": "This header is used by gateways or hosts to notify the source host of an issue with the header parameters of a datagram that caused it to be discarded. The message includes details about the error location and context.",
+    "fields": [
+      {
+        "name": "Type",
+        "description": "Indicates the type of ICMP message. For Parameter Problem Messages, this value is always 12.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 12."
+        ]
+      },
+      {
+        "name": "Code",
+        "description": "Specifies the subtype of the ICMP message. Code 0 indicates that the Pointer field identifies the octet where an error was detected.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 0 for Pointer-based errors."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A 16-bit ones' complement checksum of the ICMP message, calculated starting from the ICMP Type field. The checksum field should be zero during computation and may be replaced in the future.",
+        "size_bits": 16,
+        "constraints": [
+          "Must be computed as the ones' complement sum of the ICMP message.",
+          "Checksum field must be set to zero during calculation."
+        ]
+      },
+      {
+        "name": "Pointer",
+        "description": "Identifies the octet in the original datagram's header where the error was detected. Only valid when Code is 0.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid only if Code is 0.",
+          "Value corresponds to the byte offset in the original datagram's header."
+        ]
+      },
+      {
+        "name": "unused",
+        "description": "Reserved field that is unused and should be set to zero.",
+        "size_bits": 24,
+        "constraints": [
+          "Must be set to zero."
+        ]
+      },
+      {
+        "name": "Internet Header + 64 bits of Original Data Datagram",
+        "description": "Includes the internet header and the first 64 bits of the original datagram's data. This information helps the host match the message to the appropriate process.",
+        "size_bits": null,
+        "constraints": [
+          "The internet header must be included.",
+          "The first 64 bits of the original datagram's data must be included.",
+          "If higher-level protocols use port numbers, they are assumed to be in the first 64 data bits."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON describes the structure of the Parameter Problem Message header, including its fields, descriptions, sizes, and constraints."
+}

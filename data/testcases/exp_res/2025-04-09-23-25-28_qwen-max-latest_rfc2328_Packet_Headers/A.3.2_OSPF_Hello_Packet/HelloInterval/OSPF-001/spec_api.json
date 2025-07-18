@@ -1,0 +1,21 @@
+[
+    "init_tester",
+    "get_locations",
+    "reserve_port",
+    "edit_port",
+    "wait_port_state",
+    "create_interface",
+    "edit_interface",
+    "create_ospf",
+    "select_interface",
+    "add_stream",
+    "subscribe_result",
+    "save_case",
+    "start_protocol",
+    "wait_ospf_adjacency_state",
+    "edit_ospf",
+    "stop_protocol",
+    "get_ospf_statistic",
+    "release_port",
+    "shutdown_tester"
+]

@@ -1,0 +1,49 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC7",
+      "title": "不同网络类型Hello发送方式验证",
+      "objective": "验证在广播/虚拟链路/Point-to-MultiPoint网络正确使用组播/单播发送Hello包",
+      "test_reference": ["RFC2328.9.5"],
+      "steps": [
+        {
+          "step_id": "TC7-1",
+          "description": "配置DeviceA的PortDeviceA_1为广播网络类型，并设置HelloInterval和RouterDeadInterval。",
+          "expected_result": "PortDeviceA_1成功启用广播网络类型，参数配置正确。"
+        },
+        {
+          "step_id": "TC7-2",
+          "description": "在TesterA的PortTesterA_1上启动协议测试仪，监听来自DeviceA的Hello包。",
+          "expected_result": "TesterA的PortTesterA_1能够接收到组播地址AllSPFRouters上的Hello包，且发送间隔为HelloInterval。"
+        },
+        {
+          "step_id": "TC7-3",
+          "description": "配置DeviceA的PortDeviceA_2为虚拟链路网络类型，并设置HelloInterval。",
+          "expected_result": "PortDeviceA_2成功启用虚拟链路网络类型，参数配置正确。"
+        },
+        {
+          "step_id": "TC7-4",
+          "description": "在TesterA的PortTesterA_2上启动协议测试仪，监听来自DeviceA的Hello包。",
+          "expected_result": "TesterA的PortTesterA_2能够接收到单播形式的Hello包，且发送间隔为HelloInterval。"
+        },
+        {
+          "step_id": "TC7-5",
+          "description": "配置DeviceA的PortDeviceA_3为Point-to-MultiPoint网络类型，并设置HelloInterval。",
+          "expected_result": "PortDeviceA_3成功启用Point-to-MultiPoint网络类型，参数配置正确。"
+        },
+        {
+          "step_id": "TC7-6",
+          "description": "在TesterA的PortTesterA_3上启动协议测试仪，监听来自DeviceA的Hello包。",
+          "expected_result": "TesterA的PortTesterA_3能够接收到单独发送的Hello包，且发送间隔为HelloInterval。"
+        },
+        {
+          "step_id": "TC7-7",
+          "description": "停止所有端口上的协议测试仪，并清除相关配置。",
+          "expected_result": "所有端口恢复正常状态，未产生异常流量。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

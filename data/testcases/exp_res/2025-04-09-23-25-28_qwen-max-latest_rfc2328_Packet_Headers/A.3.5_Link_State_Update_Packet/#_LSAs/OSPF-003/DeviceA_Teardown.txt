@@ -1,0 +1,11 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address 192.168.1.1 255.255.255.0
+ portswitch
+#
+undo ospf 1
+Y
+commit
+quit

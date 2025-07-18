@@ -1,0 +1,290 @@
+task_name: ospf_network_test_rewrite
+description: >
+  将自然语言表达的网络测试用例意图改写为标准化细粒度的测试子任务列表，
+  支持后续自动化脚本生成与 API 函数调用，适用于 OSPF 等典型网络协议测试。
+
+prompt_template: |
+  你是一位资深的网络测试专家，擅长将复杂的自然语言测试意图分解为可执行的细粒度操作步骤。
+
+  你将收到以下输入内容：
+
+  Task Intent：用自然语言描述的网络测试用例目标与流程  
+  Code Snippet：测试脚本代码  
+  API Functions：用于生成测试脚本的 API 接口列表
+
+  ---
+
+  你的任务是：
+
+  请根据上述输入，将 Task Intent 改写为一个标准化化、细粒度的子任务列表，用于驱动自动化测试脚本生成。
+
+  每个子任务应满足以下要求，重点注意！！！
+  1. 遵循逻辑执行顺序，反映实际网络测试的步骤先后关系；
+  2. 表述规范明确，便于后续通过语义匹配在 API Functions 中检索对应的函数；
+  3. 确保不遗漏任何关键的测试意图或判断条件（例如配置、验证、预期结果等）；
+  4. 任务之间具备上下文连贯性，确保后续任务能够衔接前面的输出。
+
+  ---
+
+  ## Input:
+
+  - Task Intent:
+    =================================================================================
+    Objective      :   测试目的 :  开放式最短路径优先路由协议（OSPF)
+
+    Step           :   测试步骤1: tester port1 IP地址为192.168.1.100/24，port2为192.168.2.100/24；
+                       测试步骤2: DUT port1 IP地址为192.168.1.1/24，port2为 192.168.2.1/24；
+                       测试步骤3: 在DUT上配置OSPFv2路由协议；
+                       测试步骤4: 测试仪tester使用port1、port2建立OSPF路由器，在port1插入一些LSA，并使port1和DUT的port1达到FULL状态，port2和DUT的port2达到FULL状态，观察port2是否能得到port1的LSA。
+
+    Criteria       :   预期结果1: ospf建立成功，可以收到lsa
+    =================================================================================
+
+  - Code Snippet: |
+    import sys
+    import os
+
+    dirname, filename = os.path.split(os.path.abspath(__file__))
+    ntolibrary_path = os.path.join(dirname, os.path.pardir, os.path.pardir)
+
+    # 将库的路径添加到 sys.path
+    if ntolibrary_path not in sys.path:
+        sys.path.append(ntolibrary_path)
+
+    from CustomLibrary.common import cfg, testbed, setup, teardown, printf, temp_dir, get_locations, CustomData, edit_port_params
+    from TesterLibrary.base import *
+
+
+    dirname, filename = os.path.split(os.path.abspath(__file__))
+    data = CustomData()
+    # 测试前下发配罿
+    device = setup(cfg, testbed)
+
+    verdict = 'pass'
+    errInfo = ''
+
+    try:
+        # 初始化仪表
+        printf(message='Initialize tester')
+        if testbed['tester']['rtsm']['ip']:
+            init_tester(Rtsm=testbed['tester']['rtsm']['ip'])
+        else:
+            init_tester()
+
+        locations = get_locations(cfg['port'])
+        # 创建端口，并预约端口
+        ports = reserve_port(Locations=locations, Force=testbed['tester']['force']['default'], Debug=testbed['tester']['debug']['default'], WaitForStatusUp=False)
+        port_up, port_down = ports
+
+        if not testbed['tester']['debug']['default']:
+            for k, v in testbed['tester'].items():
+                edit_port_kwargs = {}
+                if k in edit_port_params:
+                    edit_port_kwargs.update({k: v['default']})
+            if edit_port_kwargs:
+                edit_port(Ports=ports, **edit_port_kwargs)
+                time.sleep(10)
+            if  testbed['tester']['wait_for_status_up']['default']:
+                wait_port_state(ports)
+
+        # 创建接口
+        interfaces_up = create_interface(Port=port_up, Layers=['ipv4'])
+        interfaces_down = create_interface(Port=port_down, Layers=['ipv4'])
+        edit_interface(Interface=interfaces_up,
+                      Layer='EthIILayer',
+                      Address=cfg['arg']['interface']['default']['mac_up_address']['default'])
+
+        edit_interface(Interface=interfaces_down,
+                      Layer='EthIILayer',
+                      Address=cfg['arg']['interface']['default']['mac_down_address']['default'])
+
+        edit_interface(Interface=interfaces_up,
+                      Layer='IPv4Layer',
+                      Address=cfg['arg']['interface']['default']['ipv4_up_address']['default'],
+                      Gateway=cfg['arg']['interface']['default']['ipv4_up_gateway']['default'])
+
+        edit_interface(Interface=interfaces_down,
+                      Layer='IPv4Layer',
+                      Address=cfg['arg']['interface']['default']['ipv4_down_address']['default'],
+                      Gateway=cfg['arg']['interface']['default']['ipv4_down_gateway']['default'])
+
+        #创建ospf协议
+        session_1 = create_ospf(Port=port_up, Priority=1)
+        session_2 = create_ospf(Port=port_down, Priority=2)
+
+        # OSPFv2协议会话与接口绑定
+        select_interface(Session=session_1, Interface=interfaces_up)
+        select_interface(Session=session_2, Interface=interfaces_down)
+
+        # OSPFv2协议会话1创建Summary Lsa
+        summary_lsa = create_ospf_summary_lsa(Session=session_1)
+
+        # OSPFv2协议会话2创建External Lsa
+        external_lsa = create_ospf_external_lsa(Session=session_2)
+
+        # 获取OSPFv2协议绑定流端点对象
+        point_1 = get_ospf_router_from_lsa(Lsa=summary_lsa)
+        point_2 = get_ospf_router_from_lsa(Lsa=external_lsa)
+
+        # 创建OSPFv2绑定流
+        streams = add_stream(Type='binding', SrcPoints=point_1, DstPoints=point_2, Bidirection=True)
+
+        # 订阅统计
+
+        subscribe_result(Types=['Ospfv2SessionResultPropertySet', 'StreamBlockStats'])
+        # 保存配置文件
+        save_case(Path=os.path.join(temp_dir, 'xcfg', '{}.xcfg'.format(cfg['tc_no'])))
+        printf(message='Save case to xcfg')
+
+
+        if not testbed['tester']['debug']['default']:
+            printf(message='Test start')
+            # 启动协议
+            start_protocol()
+            # 等待OSPFv2协议会话达到Full状态
+            wait_ospf_adjacency_state(Sessions=[session_1, session_2])
+            advertise_ospf_lsa(Lsa=[summary_lsa, external_lsa])
+            time.sleep(5)
+
+            # 发送流量
+            start_stream()
+            time.sleep(10)
+            stop_stream()
+            withdraw_ospf_lsa(Lsa=[summary_lsa, external_lsa])
+            time.sleep(5)
+            stop_protocol()
+            time.sleep(3)
+
+            # 获取OSPFv2会话1统计
+            import pandas
+            result = get_ospf_statistic()
+            print(result)
+            if not isinstance(result, pandas.DataFrame):
+                verdict = 'fail'
+
+            result = get_ospf_statistic(Session=session_1)
+            print(result)
+            TxSummaryLsa = result['TxSummaryLsa']
+            RxAsExternalLsa = result['RxAsExternalLsa']
+            print('TxSummaryLsa: {}'.format(TxSummaryLsa))
+            print('RxAsExternalLsa: {}'.format(RxAsExternalLsa))
+
+            # 获取OSPFv2会话2统计
+            result = get_ospf_statistic(Session=session_2)
+            print(result)
+            RxSummaryLsa = result['RxSummaryLsa']
+            TxAsExternalLsa = result['TxAsExternalLsa']
+            print('RxSummaryLsa: {}'.format(RxSummaryLsa))
+            print('TxAsExternalLsa: {}'.format(TxAsExternalLsa))
+
+            # 获取流量1统计
+            result = get_streamblock_statistic(Stream=streams[0])
+            print(result)
+            TxStreamFrames = result['TxStreamFrames']
+            RxStreamFrames = result['RxStreamFrames']
+            print('TxStreamFrames: {}'.format(TxStreamFrames))
+            print('RxStreamFrames: {}'.format(RxStreamFrames))
+
+            if TxStreamFrames != RxStreamFrames:
+                verdict = 'fail'
+                errInfo += '{} TxStreamFrames({}) is not equal to RxStreamFrames({})\n'.format(streams[0].Name,TxStreamFrames,RxStreamFrames)
+
+            # 获取流量2统计
+
+            result = get_streamblock_statistic(Stream=streams[1])
+            print(result)
+            TxStreamFrames = result['TxStreamFrames']
+            RxStreamFrames = result['RxStreamFrames']
+            print('TxStreamFrames: {}'.format(TxStreamFrames))
+            print('RxStreamFrames: {}'.format(RxStreamFrames))
+
+            if TxStreamFrames != RxStreamFrames:
+                verdict = 'fail'
+                errInfo += '{} TxStreamFrames({}) is not equal to RxStreamFrames({})\n'.format(streams[1].Name,TxStreamFrames,RxStreamFrames)
+            # 测试结束
+            printf(message='Test completed')
+
+            # 释放端口资源
+            release_port(locations)
+
+    except Exception as e:
+        CustomData.verdict = 'fail'
+        CustomData.errInfo = repr(e)
+    finally:
+        # 关闭仪表进程
+        shutdown_tester()
+        # 测试结束清除配置
+        teardown(cfg, testbed)
+        print(f'errInfo:\n{CustomData.errInfo}', flush=True)
+        print(f'verdict:{CustomData.verdict}', flush=True)
+
+  - API Functions: |
+    init_tester: 初始化测试仪表  
+    save_case: 测试仪表保存配置文件  
+    edit_port: 修改测试仪表端口参数  
+    release_port: 释放测试仪表的端口  
+    reserve_port: 预约测试仪表的端口  
+    wait_port_state: 等待测试仪表端口链路达到指定状态  
+    create_interface: 在指定端口上創建接口  
+    edit_interface: 修改测试仪表接口的参数  
+    select_interface: 协议绑定测试仪表接口  
+    start_protocol: 测试仪表启动协议  
+    stop_protocol: 测试仪表停止协议  
+    advertise_ospf_lsa: 通告 OSPFv2 协议会话 lsa  
+    create_ospf: 创建OSPFv2协议会话对象  
+    create_ospf_external_lsa: 创建OSPFv2 External LSA对象  
+    create_ospf_summary_lsa: 创建OSPFv2 Summary LSA对象  
+    get_ospf_router_from_lsa: 获取OSPF LSA对应的绑定流源或目的端点对象  
+    get_ospf_statistic: 获取OSPFv2协议会话统计结果  
+    wait_ospf_adjacency_state: 等待OSPFv2或OSPFv3协议会话达到指定邻接状态  
+    withdraw_ospf_lsa: 撤销OSPFv2协议会话lsa  
+    get_streamblock_statistic: 获取测试仪表流模板块统计结果  
+    subscribe_result: 订阅测试仪表统计视图  
+    add_stream: 测试仪表创建流量  
+    start_stream: 测试仪表开始发送数据流  
+    stop_stream: 测试仪表停止发送数据流
+
+  ### 输出格式要求：
+
+  请以 JSON 格式返回，键为 `"子任务1"`, `"子任务2"` 等，值为该任务的具体描述，不要输出多余内容。例如：
+
+  ```json
+  {
+    "子任务1": "配置交换机端口 eth1 与测试仪连接，设置为全双工模式。",
+    "子任务2": "使用 API 创建流量流，帧长度为 64 字节，测试时间为 60 秒。",
+    "子任务3": "开始流量发送，并记录测试期间的丢包率和吞吐量。",
+    "子任务4": "校验测试结果是否满足预期：吞吐率达 100%。"
+  }
+  ```
+
+
+  ## Output:
+  ```json
+  {
+    "子任务1": "初始化测试仪表，准备进行网络测试。",
+    "子任务2": "预约测试仪端口 port1 和 port2，并等待端口状态达到 UP。",
+    "子任务3": "在 port1 上创建 IPv4 接口，配置 IP 地址为 192.168.1.100/24，设置对应 MAC 地址与网关。",
+    "子任务4": "在 port2 上创建 IPv4 接口，配置 IP 地址为 192.168.2.100/24，设置对应 MAC 地址与网关。",
+    "子任务5": "在 DUT 的 port1 配置 IP 地址为 192.168.1.1/24，port2 配置 IP 地址为 192.168.2.1/24。",
+    "子任务6": "在 DUT 上启用并配置 OSPFv2 协议。",
+    "子任务7": "在测试仪 port1 上创建 OSPFv2 会话，优先级设为 1，并绑定到已配置接口。",
+    "子任务8": "在测试仪 port2 上创建 OSPFv2 会话，优先级设为 2，并绑定到已配置接口。",
+    "子任务9": "在 port1 所绑定的 OSPF 会话中创建 Summary LSA。",
+    "子任务10": "在 port2 所绑定的 OSPF 会话中创建 External LSA。",
+    "子任务11": "从创建的 LSA 中提取源和目的端点，作为后续流量流的端点。",
+    "子任务12": "基于上述端点创建双向绑定流，用于模拟 LSA 的转发路径。",
+    "子任务13": "订阅 OSPFv2 会话统计信息和流量统计数据。",
+    "子任务14": "保存当前测试配置为 xcfg 格式文件。",
+    "子任务15": "启动 OSPFv2 协议，等待 port1 和 DUT port1、port2 和 DUT port2 邻居状态达到 FULL。",
+    "子任务16": "在 FULL 状态建立后通告 Summary LSA 与 External LSA。",
+    "子任务17": "发送绑定流，持续 10 秒后停止数据流。",
+    "子任务18": "撤销已通告的 LSA，并关闭 OSPF 协议会话。",
+    "子任务19": "获取 OSPFv2 会话 1 和会话 2 的 LSA 发送接收统计，验证 DUT port2 是否成功接收到 DUT port1 通告的 LSA。",
+    "子任务20": "获取绑定流的发送帧与接收帧数量，校验是否存在丢包情况。",
+    "子任务21": "释放测试仪端口资源，关闭测试仪，清除测试配置。"
+  }
+
+
+  ## Input:
+
+  - Task Intent:

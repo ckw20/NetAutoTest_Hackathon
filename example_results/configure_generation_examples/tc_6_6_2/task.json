@@ -1,0 +1,42 @@
+{
+  "id": "tc_6_6_2",
+  "title": "Routing Table Capacity Test",
+  "objective": "Test Objective : 6.6.2 Routing Table Capacity",
+  "test_reference": [],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "Build the test environment according to the topology diagram;",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "Tester port1 IP address is 192.168.1.100/24, port2 is 192.168.2.100/24;",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "DUT port1 IP address is 192.168.1.1/24, port2 IP address is 192.168.2.1/24;",
+      "expected_result": ""
+    },
+    {
+      "step_id": "4",
+      "description": "Configure DUT and tester in the same Area, DUT interfaces 1 and 2 establish OSPF adjacency with tester respectively;",
+      "expected_result": ""
+    },
+    {
+      "step_id": "5",
+      "description": "Tester interfaces port1 and port2 respectively send Type LSA to DUT interfaces port1 and port2, with a total number equal to the specified value of the DUT routing table capacity.",
+      "expected_result": "View and record the OSPF-generated routing table statistics information of the DUT."
+    }
+  ],
+  "tags": ["performance"],
+  "comments": {
+    "id": "Unique identifier for the test case.",
+    "title": "Title of the test case, briefly describing the test content.",
+    "objective": "Purpose of the test, indicating the function or feature to be verified by this test case.",
+    "test_reference": "Reference documents for the test case, such as RFC section numbers, etc.",
+    "steps": "Detailed description of test steps. Each step includes: step_id: unique identifier for the step. description: specific operation or configuration for the step. expected_result: expected result for the step.",
+    "tags": "Tags for the test case, used for classification or filtering. Types include: ['function', 'performance']"
+  }
+} 

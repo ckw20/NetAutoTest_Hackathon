@@ -1,0 +1,27 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo portswitch
+ ip address 192.168.1.1 255.255.255.0
+ ospf priority 1
+ ip forward-broadcast                                                       
+#                                                                               
+interface ReplaceInterface_PortDeviceA_2
+ undo portswitch
+ ip address 192.168.1.2 255.255.255.0
+ ospf priority 1
+ ip forward-broadcast                                                       
+#                                                                               
+interface ReplaceInterface_PortDeviceA_3
+ undo portswitch
+ ip address 192.168.1.3 255.255.255.0
+ ospf priority 1
+ ip forward-broadcast                                                       
+#
+ospf 1
+ area 0
+ network 192.168.1.0 0.0.0.255
+
+commit
+quit

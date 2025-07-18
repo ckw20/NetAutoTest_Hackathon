@@ -1,0 +1,81 @@
+{
+  "id": "TC1",
+  "title": "Hello包参数一致性验证",
+  "objective": "验证相邻路由器Hello包的Network Mask、HelloInterval和RouterDeadInterval参数一致性",
+  "test_reference": [
+    "RFC2328.9.5",
+    "RFC2328.10.5"
+  ],
+  "topology": [
+    {
+      "name": "Tester1",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "Port1",
+          "ip": "192.168.1.1/24",
+          "connected_to": "DUT:Port1",
+          "area": "0.0.0.0"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "Port1",
+          "ip": "192.168.1.2/24",
+          "connected_to": "Tester1:Port1",
+          "area": "0.0.0.0"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "TC1-1",
+      "description": "在Tester1的Port1上配置与DUT的Port1不一致的Network Mask（例如，Tester1设置为255.255.255.0，而DUT设置为255.255.0.0）。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "TC1-2",
+      "description": "启动Tester1发送Hello包，并观察DUT是否接受该Hello包。",
+      "expected_result": "DUT应拒绝接受该Hello包，且邻接关系无法建立。"
+    },
+    {
+      "step_id": "TC1-3",
+      "description": "将Tester1的Port1的Network Mask修改为与DUT一致（例如，均设置为255.255.255.0），但配置不同的HelloInterval（例如，Tester1设置为10秒，而DUT设置为5秒）。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "TC1-4",
+      "description": "启动Tester1发送Hello包，并观察DUT是否接受该Hello包。",
+      "expected_result": "DUT应拒绝接受该Hello包，且邻接关系无法建立。"
+    },
+    {
+      "step_id": "TC1-5",
+      "description": "将Tester1的Port1的HelloInterval修改为与DUT一致（例如，均设置为5秒），但配置不同的RouterDeadInterval（例如，Tester1设置为40秒，而DUT设置为20秒）。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "TC1-6",
+      "description": "启动Tester1发送Hello包，并观察DUT是否接受该Hello包。",
+      "expected_result": "DUT应拒绝接受该Hello包，且邻接关系无法建立。"
+    },
+    {
+      "step_id": "TC1-7",
+      "description": "将Tester1的Port1的所有参数（Network Mask、HelloInterval、RouterDeadInterval）配置为与DUT一致。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "TC1-8",
+      "description": "启动Tester1发送Hello包，并观察DUT是否接受该Hello包。",
+      "expected_result": "DUT应接受该Hello包，且邻接关系能够成功建立并达到2-WAY状态。"
+    }
+  ],
+  "tags": [
+    "function",
+    "hello"
+  ]
+}

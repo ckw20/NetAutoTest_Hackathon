@@ -1,0 +1,45 @@
+// OSPF FSM (With Wildcards)
+digraph {
+	Down
+	Attempt
+	Init
+	"2-Way"
+	ExStart
+	Exchange
+	Loading
+	Full
+	Down -> Attempt [label=Start]
+	Attempt -> Init [label=HelloReceived]
+	Down -> Init [label=HelloReceived]
+	Init -> "2-Way" [label="2-WayReceived"]
+	ExStart -> Exchange [label=NegotiationDone]
+	Exchange -> Loading [label=ExchangeDone]
+	Exchange -> Full [label=ExchangeDone]
+	Loading -> Full [label=LoadingDone]
+	"2-Way" -> ExStart [label="AdjOK?"]
+	ExStart -> "2-Way" [label="AdjOK?"]
+	Exchange -> ExStart [label=SeqNumberMismatch]
+	Exchange -> ExStart [label=BadLSReq]
+	Attempt -> Down [label=KillNbr color=red style=dashed]
+	Init -> Down [label=KillNbr color=red style=dashed]
+	"2-Way" -> Down [label=KillNbr color=red style=dashed]
+	ExStart -> Down [label=KillNbr color=red style=dashed]
+	Exchange -> Down [label=KillNbr color=red style=dashed]
+	Loading -> Down [label=KillNbr color=red style=dashed]
+	Full -> Down [label=KillNbr color=red style=dashed]
+	Attempt -> Down [label=LLDown color=red style=dashed]
+	Init -> Down [label=LLDown color=red style=dashed]
+	"2-Way" -> Down [label=LLDown color=red style=dashed]
+	ExStart -> Down [label=LLDown color=red style=dashed]
+	Exchange -> Down [label=LLDown color=red style=dashed]
+	Loading -> Down [label=LLDown color=red style=dashed]
+	Full -> Down [label=LLDown color=red style=dashed]
+	Attempt -> Down [label=InactivityTimer color=red style=dashed]
+	Init -> Down [label=InactivityTimer color=red style=dashed]
+	"2-Way" -> Down [label=InactivityTimer color=red style=dashed]
+	ExStart -> Down [label=InactivityTimer color=red style=dashed]
+	Exchange -> Down [label=InactivityTimer color=red style=dashed]
+	Loading -> Down [label=InactivityTimer color=red style=dashed]
+	Full -> Down [label=InactivityTimer color=red style=dashed]
+	"2-Way" -> Init [label="1-WayReceived"]
+}

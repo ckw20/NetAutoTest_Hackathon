@@ -1,0 +1,4 @@
+tc_2_1_2_1_1	交换机Checksum校验	验证交换机网口是否能够丢弃错误的TCP、UDP、IP校验和报文	按拓扑图建立测试环境	"测试步骤1: 按拓扑图建立测试环境；
+测试步骤2: 测试仪表端口PortDeviceA_1创建IPv4 Checksum错误流、TCP Checksum错误流、UDP Checksum错误流总共三条流量；
+测试步骤3: 测试仪的端口PortDeviceA_1发送所有流量一段时间后，停止流量；
+测试步骤4: 查看被测设备DeviceA上的IPv4 Checksum错误、TCP Checksum错误、UDP Checksum错误数量。"	预期结果1: 步骤4中，被测设备DeviceA上的IPv4 Checksum错误、TCP Checksum错误、UDP Checksum错误数量与仪表发送的数量相同，流量全部丢弃。	网络测试仪表	功能测试

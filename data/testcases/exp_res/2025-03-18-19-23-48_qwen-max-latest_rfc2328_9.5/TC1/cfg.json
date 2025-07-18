@@ -1,0 +1,59 @@
+
+{
+  "type": "Testcase",
+  "name": "Hello包网络掩码验证测试",
+  "tc_no": "tc_hello_mask_validation",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "仪表接口Mac地址与IPv4地址设置",
+      "default": {
+        "mac_up_address": {
+          "description": "上行接口Mac地址设置",
+          "default": "00:01:02:03:04:05"
+        },
+        "mac_down_address": {
+          "description": "下行接口Mac地址设置",
+          "default": "00:01:02:03:04:06"
+        },
+        "ipv4_up_address": {
+          "description": "上行接口IPv4地址设置",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "上行接口IPv4网关设置",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "下行接口IPv4地址设置",
+          "default": "192.168.2.100"
+        },
+        "ipv4_down_gateway": {
+          "description": "下行接口IPv4网关设置",
+          "default": "192.168.2.1"
+        }
+      }
+    },
+    "hello_packet": {
+      "description": "配置Hello包相关参数",
+      "default": {
+        "subnet_mask_mismatch": {
+          "description": "发送带有错误网络掩码的Hello包",
+          "default": "255.255.255.0"
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2", "PortDeviceA_3", "PortDeviceA_4"],
+  "comments": {
+    "arg": "根据测例实际需要，配置测例的参数。例如，配置接口的Mac地址、IPv4地址以及Hello包的网络掩码等信息。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1、PortDeviceA_2、PortDeviceA_3和PortDeviceA_4。"
+  }
+}

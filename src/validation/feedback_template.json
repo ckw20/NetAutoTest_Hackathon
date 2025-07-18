@@ -1,0 +1,11 @@
+
+
+{
+    "file": "文件路径，例如:'C:\\Tsinghua\\cepri-dev\\cepri-dev\\Testcase\\tc_6_8_1\\main.py'",
+    "verdict": "测试结果的判定，例如: 'pass' 或 'fail'",
+    "errInfo": "错误信息（若有），描述测试失败的具体原因，例如: 'Step 5: Fail - stream2 RxStreamFrames(0) is not equal to TxStreamFrames(865)'",
+    "info": "详细的日志信息，包含系统状态、登录时间、用户信息等，以多行字符串形式存储。",
+    "exception_error":"脚本执行错误信息，例如: 'KeyError: 'DeviceD'' 或 'Exception: 设备DeviceB下发配置失败！'",
+    "return_value":"脚本执行状态，成功0 或 失败1"
+    }
+

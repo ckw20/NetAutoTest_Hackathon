@@ -1,0 +1,53 @@
+A.3.6 The Link State Acknowledgment packet
+
+    Link State Acknowledgment Packets are OSPF packet type 5.  To make
+    the flooding of LSAs reliable, flooded LSAs are explicitly
+    acknowledged.  This acknowledgment is accomplished through the
+    sending and receiving of Link State Acknowledgment packets.
+    Multiple LSAs can be acknowledged in a single Link State
+    Acknowledgment packet.
+
+    Depending on the state of the sending interface and the sender of
+    the corresponding Link State Update packet, a Link State
+    Acknowledgment packet is sent either to the multicast address
+    AllSPFRouters, to the multicast address AllDRouters, or as a
+    unicast.  The sending of Link State Acknowledgement packets is
+    documented in Section 13.5.  The reception of Link State
+    Acknowledgement packets is documented in Section 13.7.
+
+    The format of this packet is similar to that of the Data Description
+    packet.  The body of both packets is simply a list of LSA headers.
+
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |   Version #   |       5       |         Packet length         |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                          Router ID                            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                           Area ID                             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |           Checksum            |             AuType            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                                                               |
+       +-                                                             -+
+       |                                                               |
+       +-                         An LSA Header                       -+
+       |                                                               |
+       +-                                                             -+
+       |                                                               |
+       +-                                                             -+
+       |                                                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                              ...                              |
+
+
+    Each acknowledged LSA is described by its LSA header.  The LSA
+    header is documented in Section A.4.1.  It contains all the
+    information required to uniquely identify both the LSA and the LSA's
+    current instance.

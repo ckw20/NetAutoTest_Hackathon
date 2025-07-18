@@ -1,0 +1,64 @@
+{
+  "id": "OSPF-003",
+  "title": "OSPF Hello Packet Options Field - Unrecognized Bits Validation",
+  "objective": "验证DUT在接收到包含未识别位的Hello包时，能够忽略这些位并正常处理包。",
+  "test_reference": [
+    "RFC 2328, Section A.3.2 (The Hello packet)",
+    "RFC 2328, Section A.2 (Options field)"
+  ],
+  "topology": [
+    {
+      "name": "TesterA",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "PortTesterA_1",
+          "connected_to": "DeviceA:PortDeviceA_1"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "PortDeviceA_1",
+          "connected_to": "TesterA:PortTesterA_1"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "根据提供的配置初始化设备测试环境。",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "在测试仪端口 (PortTesterA_1) 上发送一个OSPF Hello包，其中Options字段包含未识别位（例如，将未定义位设置为1）。",
+      "expected_result": "DUT端口 (PortDeviceA_1) 正常接收并处理Hello包，邻居关系建立成功。"
+    },
+    {
+      "step_id": "3",
+      "description": "验证DUT发送的Hello包中未识别位是否被重置为0。",
+      "expected_result": "测试仪端口 (PortTesterA_1) 接收到的Hello包中所有未识别位均为0，且邻居关系保持稳定。"
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ],
+  "appendix": [
+    {
+      "title": "设备初始化配置详情",
+      "content": [
+        "1. 测试仪 (TesterA) 的IP地址配置：",
+        "   - 测试仪端口1 (PortTesterA_1): 192.168.1.100/24",
+        "2. 被测设备DUT (DeviceA) 的IP地址配置：",
+        "   - DUT端口1 (PortDeviceA_1): 192.168.1.1/24",
+        "3. 在被测设备DUT (DeviceA) 上启用并配置OSPFv2路由协议。"
+      ]
+    }
+  ]
+}

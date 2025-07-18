@@ -1,0 +1,82 @@
+task_name: network_test_intent_rewrite
+description: >
+  Rewrite natural language task descriptions for any type of network testing scenario
+  into a standardized sequence of fine-grained subtasks. This supports automated planning,
+  API retrieval, and script generation for protocols like OSPF, BGP, IGMP, throughput, latency tests, etc.
+
+prompt_template: |
+  You are a senior network testing expert, skilled at breaking down complex natural language test intents into executable fine-grained action steps.
+
+  You will receive the following inputs:
+
+  Task Intent: A description in natural language of the goals and steps of a network testing case.  
+  Code Snippet: The test script code.  
+  API Functions: A list of available API interfaces used to generate the test script.
+
+  ---
+
+  Your task is:
+
+  Based on the above inputs, rewrite the Task Intent into a standardized and fine-grained list of subtasks to guide automated test script generation.
+
+  Each subtask must satisfy the following critical requirements:
+  1. Follow the logical execution order, reflecting the actual sequence of network testing steps;
+  2. Be clearly and precisely described to facilitate semantic matching with API Functions;
+  3. Ensure no key testing intent or condition is omitted (e.g., configurations, validations, expected outcomes);
+  4. Maintain contextual consistency across tasks so that each subtask smoothly connects with the output of the previous one.
+
+  ---
+
+  ## Input:
+  - Task Intent: 
+    {intent}
+  - Code Snippet: 
+    ```python
+    {code}
+    ```
+  - API Functions: 
+    {api_list}
+
+  ### Output format requirement:
+
+  Please return the result in JSON format. Use keys like `"Subtask 1"`, `"Subtask 2"`, etc., and values as detailed task descriptions. Do not include any additional content. For example:
+  
+  For excmple:
+  ## Input:
+    - Task Intent:
+      =================================================================================
+      Objective      :   测试目的 :  开放式最短路径优先路由协议（OSPF)
+
+      Step           :   测试步骤1: tester port1 IP地址为192.168.1.100/24，port2为192.168.2.100/24；
+                        测试步骤2: DUT port1 IP地址为192.168.1.1/24，port2为 192.168.2.1/24；
+                        测试步骤3: 在DUT上配置OSPFv2路由协议；
+                        测试步骤4: 测试仪tester使用port1、port2建立OSPF路由器，在port1插入一些LSA，并使port1和DUT的port1达到FULL状态，port2和DUT的port2达到FULL状态，观察port2是否能得到port1的LSA。
+
+      Criteria       :   预期结果1: ospf建立成功，可以收到lsa
+      =================================================================================
+
+ 
+  ## Output:
+  {{
+    "Subtask 1": "Initialize the test instrument and prepare for network testing.",
+    "Subtask 2": "Reserve the test instrument ports port1 and port2, and wait until the ports are in the UP state.",
+    "Subtask 3": "Create an IPv4 interface on port1, assign IP address 192.168.1.100/24, and configure the corresponding MAC address.",
+    "Subtask 4": "Create an IPv4 interface on port2, assign IP address 192.168.2.100/24, and configure the corresponding MAC address.",
+    "Subtask 5": "Configure DUT port1 with IP address 192.168.1.1/24, and port2 with IP address 192.168.2.1/24.",
+    "Subtask 6": "Enable and configure OSPFv2 protocol on DUT.",
+    "Subtask 7": "Establish an OSPFv2 session on port1, set the priority to 1, and bind it to the configured interface.",
+    "Subtask 8": "Establish an OSPFv2 session on port2, set the priority to 1, and bind it to the configured interface.",
+    "Subtask 9": "Check whether the OSPF session on port1 receives the Summary LSA.",
+    "Subtask 10": "Check whether the OSPF session on port2 receives the External LSA.",
+    "Subtask 11": "Create a routing entry on DUT with port2 as the next-hop output interface.",
+    "Subtask 12": "Inject an LSA at port1 and configure a routing prefix to be advertised.",
+    "Subtask 13": "Inject a stream at port1 targeting the advertised prefix.",
+    "Subtask 14": "Verify the current routing entry using xcfg and display the routing data.",
+    "Subtask 15": "Enable OSPF routing between DUT and port1, port2; verify that the neighbor status of DUT port2 reaches FULL.",
+    "Subtask 16": "Check whether DUT port2 receives Summary LSA and External LSA.",
+    "Subtask 17": "Stop traffic injection, keep session state unchanged.",
+    "Subtask 18": "Clear the OSPFv2 session on DUT and re-establish the session.",
+    "Subtask 19": "Capture traffic and send a packet reception report; verify whether DUT port2 successfully receives the LSA from port1.",
+    "Subtask 20": "Capture traffic and analyze packet sending and receiving statistics; verify whether DUT port2 successfully receives the LSA advertised by port1.",
+    "Subtask 21": "Release the test instrument and finish the test."
+  }}

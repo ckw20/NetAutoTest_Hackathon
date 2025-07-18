@@ -1,0 +1,48 @@
+{
+  "test_cases": [
+    {
+      "id": "TC-RIP-001",
+      "title": "RIPv2路由协议配置与路由更新测试",
+      "objective": "验证在DUT上配置RIPv2路由协议后，测试仪tester能够通过RIPv2协议发送路由更新报文，并观察DUT的路由表变化以及tester port2是否收到路由更新报文。",
+      "test_reference": "RFC 2453 (RIPv2)",
+      "steps": [
+        {
+          "step_id": "Step-1",
+          "description": "按图4，任选交换机两个端口作为测试端口。",
+          "expected_result": "测试端口选择成功。"
+        },
+        {
+          "step_id": "Step-2",
+          "description": "配置tester port1 IP地址为192.168.1.100/24，port2为192.168.2.100/24。",
+          "expected_result": "tester port1和port2的IP地址配置成功。"
+        },
+        {
+          "step_id": "Step-3",
+          "description": "配置DUT1 port1 IP地址为192.168.1.1/24，port2 IP地址为192.168.2.1/24。",
+          "expected_result": "DUT1 port1和port2的IP地址配置成功。"
+        },
+        {
+          "step_id": "Step-4",
+          "description": "在DUT上配置RIPv2路由协议。",
+          "expected_result": "RIPv2路由协议配置成功。"
+        },
+        {
+          "step_id": "Step-5",
+          "description": "tester port1从UDP端口520向组播地址224.0.0.9的520 UDP端口发送地址簇为2，RIP条目为192.168.4.0/255.255.255.0/8的RIPv2应答报文，周期为1s，观察DUT的路由表变化，观察tester port2是否收到路由更新报文。",
+          "expected_result": "DUT的路由表更新，tester port2收到路由更新报文。"
+        },
+        {
+          "step_id": "Step-6",
+          "description": "停止发送步骤5的报文，tester port1从UDP端口520向组播地址224.0.0.9的520 UDP端口发送地址簇为2，RIP条目为192.168.4.0/255.255.255.0/6的RIPv2应答报文，周期为1s，观察DUT的路由表变化，观察tester port2是否收到路由更新报文。",
+          "expected_result": "DUT的路由表更新，tester port2收到路由更新报文。"
+        },
+        {
+          "step_id": "Step-7",
+          "description": "停止发送步骤6的报文，tester port1从UDP端口520向组播地址224.0.0.9的520 UDP端口发送地址簇为2，RIP条目为192.168.4.0/255.255.255.0/10的RIPv2应答报文，周期为1s，观察DUT的路由表变化，观察tester port2是否收到路由更新报文。",
+          "expected_result": "DUT的路由表更新，tester port2收到路由更新报文。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

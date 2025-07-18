@@ -1,0 +1,112 @@
+
+{
+  "type": "Testcase",
+  "name": "OSPFv2 邻居邻接关系建立验证测试",
+  "tc_no": "OSPF-001",
+  "version": {
+    "description": "版本号，使用开发或修改日期",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "配置接口的Mac地址和IPv4地址等信息。",
+      "default": {
+        "mac_address": {
+          "PortTesterA_1": {
+            "description": "TesterA PortTesterA_1的Mac地址设置",
+            "default": "00:01:02:03:04:05"
+          },
+          "PortTesterA_2": {
+            "description": "TesterA PortTesterA_2的Mac地址设置",
+            "default": "00:01:02:03:04:06"
+          },
+          "PortTesterA_3": {
+            "description": "TesterA PortTesterA_3的Mac地址设置",
+            "default": "00:01:02:03:04:07"
+          },
+          "PortTesterA_4": {
+            "description": "TesterA PortTesterA_4的Mac地址设置",
+            "default": "00:01:02:03:04:08"
+          },
+          "PortDeviceA_1": {
+            "description": "DeviceA PortDeviceA_1的Mac地址设置",
+            "default": "00:01:02:03:04:11"
+          },
+          "PortDeviceA_2": {
+            "description": "DeviceA PortDeviceA_2的Mac地址设置",
+            "default": "00:01:02:03:04:12"
+          },
+          "PortDeviceA_3": {
+            "description": "DeviceA PortDeviceA_3的Mac地址设置",
+            "default": "00:01:02:03:04:13"
+          },
+          "PortDeviceA_4": {
+            "description": "DeviceA PortDeviceA_4的Mac地址设置",
+            "default": "00:01:02:03:04:14"
+          }
+        },
+        "ipv4_address": {
+          "PortTesterA_1": {
+            "description": "TesterA PortTesterA_1的IPv4地址设置",
+            "default": "192.168.1.100"
+          },
+          "PortTesterA_2": {
+            "description": "TesterA PortTesterA_2的IPv4地址设置",
+            "default": "192.168.2.100"
+          },
+          "PortTesterA_3": {
+            "description": "TesterA PortTesterA_3的IPv4地址设置",
+            "default": "192.168.3.100"
+          },
+          "PortTesterA_4": {
+            "description": "TesterA PortTesterA_4的IPv4地址设置",
+            "default": "192.168.4.100"
+          },
+          "PortDeviceA_1": {
+            "description": "DeviceA PortDeviceA_1的IPv4地址设置",
+            "default": "192.168.1.1"
+          },
+          "PortDeviceA_2": {
+            "description": "DeviceA PortDeviceA_2的IPv4地址设置",
+            "default": "192.168.2.1"
+          },
+          "PortDeviceA_3": {
+            "description": "DeviceA PortDeviceA_3的IPv4地址设置",
+            "default": "192.168.3.1"
+          },
+          "PortDeviceA_4": {
+            "description": "DeviceA PortDeviceA_4的IPv4地址设置",
+            "default": "192.168.4.1"
+          }
+        },
+        "ipv4_gateway": {
+          "PortTesterA_1": {
+            "description": "TesterA PortTesterA_1的IPv4网关设置",
+            "default": "192.168.1.1"
+          },
+          "PortTesterA_2": {
+            "description": "TesterA PortTesterA_2的IPv4网关设置",
+            "default": "192.168.2.1"
+          },
+          "PortTesterA_3": {
+            "description": "TesterA PortTesterA_3的IPv4网关设置",
+            "default": "192.168.3.1"
+          },
+          "PortTesterA_4": {
+            "description": "TesterA PortTesterA_4的IPv4网关设置",
+            "default": "192.168.4.1"
+          }
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1", "PortDeviceA_2", "PortDeviceA_3", "PortDeviceA_4"],
+  "comments": {
+    "arg": "根据测例生成的特定参数，例如配置接口的Mac地址和IPv4地址等信息。",
+    "dut": "被测设备名称，表示该测例针对的设备是DeviceA。",
+    "dut_cfg": "被测设备所需的脚本，包括DeviceA的配置脚本（DeviceA_Setup）和清理脚本（DeviceA_Teardown）。",
+    "port": "测例所需的被测设备端口，本例包括PortDeviceA_1、PortDeviceA_2、PortDeviceA_3和PortDeviceA_4。"
+  }
+}

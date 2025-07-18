@@ -1,0 +1,54 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC10",
+      "title": "邻居状态机事件触发测试",
+      "objective": "验证Hello包处理正确触发2-Way/1-Way事件和NeighborChange事件",
+      "test_reference": ["RFC2328.10.5"],
+      "steps": [
+        {
+          "step_id": "TC10-1",
+          "description": "配置协议测试仪端口1发送Hello包，其中包含被测设备的Router ID在邻居列表中。",
+          "expected_result": "被测设备应接收到该Hello包，并触发2-WayReceived事件。"
+        },
+        {
+          "step_id": "TC10-2",
+          "description": "延迟一段时间（大于HelloInterval），观察被测设备与协议测试仪端口1之间的邻居状态。",
+          "expected_result": "被测设备与协议测试仪端口1之间的邻居状态应达到2-Way状态。"
+        },
+        {
+          "step_id": "TC10-3",
+          "description": "配置协议测试仪端口2发送Hello包，其中不包含被测设备的Router ID在邻居列表中。",
+          "expected_result": "被测设备应接收到该Hello包，并触发1-WayReceived事件。"
+        },
+        {
+          "step_id": "TC10-4",
+          "description": "延迟一段时间（大于HelloInterval），观察被测设备与协议测试仪端口2之间的邻居状态。",
+          "expected_result": "被测设备与协议测试仪端口2之间的邻居状态应保持在Init状态。"
+        },
+        {
+          "step_id": "TC10-5",
+          "description": "修改协议测试仪端口1发送的Hello包中的Router Priority字段值。",
+          "expected_result": "被测设备应检测到Router Priority字段的变化，并触发NeighborChange事件。"
+        },
+        {
+          "step_id": "TC10-6",
+          "description": "配置协议测试仪端口1发送的Hello包，声明其为Designated Router（DR）。",
+          "expected_result": "如果被测设备当前处于Waiting状态，则应触发BackupSeen事件；否则，应触发NeighborChange事件。"
+        },
+        {
+          "step_id": "TC10-7",
+          "description": "配置协议测试仪端口1发送的Hello包，声明其为Backup Designated Router（BDR）。",
+          "expected_result": "如果被测设备当前处于Waiting状态，则应触发BackupSeen事件；否则，应触发NeighborChange事件。"
+        },
+        {
+          "step_id": "TC10-8",
+          "description": "停止协议测试仪端口1和端口2的Hello包发送。",
+          "expected_result": "被测设备与协议测试仪端口1和端口2之间的邻居状态应逐渐变为Down状态。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

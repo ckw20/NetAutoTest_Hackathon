@@ -1,0 +1,54 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC101",
+      "title": "验证OSPF邻居状态机在NBMA网络中的状态转换路径：Down -> Attempt -> Init -> 2-Way -> ExStart -> Exchange -> ExStart",
+      "objective": "验证OSPF协议在NBMA网络中，从Down状态到ExStart状态的完整状态转换路径，包括事件触发和动作执行的正确性。",
+      "test_reference": ["RFC2328 10.1", "RFC2328 10.2", "RFC2328 10.3", "RFC2328 10.4"],
+      "steps": [
+        {
+          "step_id": "TC101-1",
+          "description": "配置测试仪端口PortTesterA_1与被测设备DUT的PortDeviceA_1之间的连接为NBMA网络类型。",
+          "expected_result": "测试仪和DUT之间的链路配置为NBMA网络类型，且无其他干扰流量。"
+        },
+        {
+          "step_id": "TC101-2",
+          "description": "确保DUT的PortDeviceA_1处于Down状态，未接收到任何Hello包。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态为Down。"
+        },
+        {
+          "step_id": "TC101-3",
+          "description": "在测试仪PortTesterA_1上触发Start事件，向DUT发送Hello包，并启动Inactivity Timer。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态从Down变为Attempt，Inactivity Timer已启动。"
+        },
+        {
+          "step_id": "TC101-4",
+          "description": "在测试仪PortTesterA_1上发送一个Hello包，模拟HelloReceived事件。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态从Attempt变为Init，Inactivity Timer已重启。"
+        },
+        {
+          "step_id": "TC101-5",
+          "description": "在测试仪PortTesterA_1上发送一个包含DUT路由器ID的Hello包，模拟2-WayReceived事件。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态从Init变为2-Way，且未尝试建立邻接关系。"
+        },
+        {
+          "step_id": "TC101-6",
+          "description": "在测试仪PortTesterA_1上触发AdjOK?事件，模拟需要建立邻接关系的条件（如DUT是DR或BDR）。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态从2-Way变为ExStart，DD序列号已递增，且开始发送Database Description包。"
+        },
+        {
+          "step_id": "TC101-7",
+          "description": "在测试仪PortTesterA_1上完成主从协商并交换DD序列号，模拟NegotiationDone事件。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态从ExStart变为Exchange，且Database Description包已发送。"
+        },
+        {
+          "step_id": "TC101-8",
+          "description": "在测试仪PortTesterA_1上发送一个无效的Link State Request包，模拟BadLSReq事件。",
+          "expected_result": "DUT的PortDeviceA_1的邻居状态从Exchange退回到ExStart，Link state retransmission list、Database summary list和Link state request list已被清空，且重新开始主从协商。"
+        }
+      ],
+      "tags": ["function"]
+    }
+  ]
+}

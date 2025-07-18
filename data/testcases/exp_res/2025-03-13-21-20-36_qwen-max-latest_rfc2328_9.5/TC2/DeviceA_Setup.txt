@@ -1,0 +1,22 @@
+
+system-view
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo portswitch
+ ip unnumbered interface LoopBack0
+ ospf network-type p2p
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo portswitch
+ ospf network-type virtual-link 1.1.1.1
+#
+ospf 1 router-id 1.1.1.1
+ area 0.0.0.0
+  network 192.168.1.0 0.0.0.255
+  network 192.168.2.0 0.0.0.255
+#
+interface LoopBack0
+ ip address 1.1.1.1 255.255.255.255
+#
+commit
+quit

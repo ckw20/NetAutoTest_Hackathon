@@ -1,0 +1,61 @@
+
+{
+  "test_case_points": [
+    {
+      "id": "TC1",
+      "title": "Hello包参数一致性验证",
+      "objective": "验证接口拒绝HelloInterval不一致的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC2",
+      "title": "网络掩码字段处理验证",
+      "objective": "验证在unnumbered点对点网络和虚拟链路上Network Mask字段置0的正确性",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC3",
+      "title": "Options字段E-bit配置验证",
+      "objective": "验证被测设备在存根区域正确清除E-bit的能力",
+      "test_reference": ["RFC2328.9.5", "RFC2328.4.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC4",
+      "title": "未知选项位处理验证",
+      "objective": "验证设备正确处理Hello包Options字段未识别位（应置零）",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC5",
+      "title": "邻居列表维护验证",
+      "objective": "验证设备在RouterDeadInterval时间内维护有效邻居列表的能力",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC6",
+      "title": "DR/BDR字段初始化验证",
+      "objective": "验证在未选举时DR/BDR字段置0的正确性",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC7",
+      "title": "不同网络类型Hello发送方式验证",
+      "objective": "验证在广播/虚拟链路/Point-to-MultiPoint网络正确使用组播/单播发送Hello包",
+      "test_reference": ["RFC2328.9.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC8",
+      "title": "RouterDeadInterval一致性验证",
+      "objective": "验证接口拒绝RouterDeadInterval不一致的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    }
+  ]
+}

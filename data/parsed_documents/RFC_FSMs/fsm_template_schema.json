@@ -1,0 +1,77 @@
+{
+    "type": "object",
+    "properties": {
+      "states": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "init_state": {
+        "type": "string",
+        "minLength": 1
+      },
+      "events": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "transitions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "from_state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "to_state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "event": {
+              "type": "string",
+              "minLength": 1
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "default": []
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "default": []
+            }
+          },
+          "required": [
+            "from_state",
+            "to_state",
+            "event"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "states",
+      "init_state",
+      "events",
+      "transitions"
+    ],
+    "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+A.3.5 The Link State Update packet
+
+    Link State Update packets are OSPF packet type 4.  These packets
+    implement the flooding of LSAs.  Each Link State Update packet
+    carries a collection of LSAs one hop further from their origin.
+    Several LSAs may be included in a single packet.
+
+    Link State Update packets are multicast on those physical networks
+    that support multicast/broadcast.  In order to make the flooding
+    procedure reliable, flooded LSAs are acknowledged in Link State
+    Acknowledgment packets.  If retransmission of certain LSAs is
+    necessary, the retransmitted LSAs are always sent directly to the
+    neighbor.  For more information on the reliable flooding of LSAs,
+    consult Section 13.
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |   Version #   |       4       |         Packet length         |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                          Router ID                            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                           Area ID                             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |           Checksum            |             AuType            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                       Authentication                          |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                            # LSAs                             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                                                               |
+       +-                                                            +-+
+       |                             LSAs                              |
+       +-                                                            +-+
+       |                              ...                              |
+
+
+
+
+
+    # LSAs
+        The number of LSAs included in this update.
+
+
+    The body of the Link State Update packet consists of a list of LSAs.
+    Each LSA begins with a common 20 byte header, described in Section
+    A.4.1. Detailed formats of the different types of LSAs are described
+    in Section A.4.

@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Protocol Field Specification",
+  "description": "Schema for documenting protocol field structures",
+  "type": "object",
+  "properties": {
+    "protocol_field": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Protocol name/identifier"
+        },
+        "version": {
+          "type": "string",
+          "description": "Protocol version"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief functional description"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Field name/identifier"
+              },
+              "description": {
+                "type": "string",
+                "description": "Field purpose/function"
+              },
+              "size_bits": {
+                "type": ["integer", "null"],
+                "description": "Fixed bit length (null for variable)"
+              },
+              "constraints": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "Validation rule or allowed value"
+                }
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      },
+      "required": ["name", "fields"]
+    },
+    "comments": {
+      "type": "string",
+      "description": "Documentation notes"
+    }
+  },
+  "required": ["protocol_field"]
+}

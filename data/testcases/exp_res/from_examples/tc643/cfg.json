@@ -1,0 +1,52 @@
+{
+ "type":"Testcase",
+ "name":"端口吞吐量",
+ "tc_no":"tc643",
+ "version": {
+  "description": "版本号，使用开发或修改日期",
+  "default": "v20240902"
+ },
+ "arg":{
+  "interface": {
+   "description": "仪表接口Mac地址设置",
+   "default": {
+     "up": {
+      "description": "上行接口Mac地址设置",
+      "default": "00:01:01:02:02:02"
+     },
+     "down":{
+      "description": "下行接口Mac地址设置",
+      "default": "00:01:02:02:02:02"
+     }
+   }
+  },
+  "frame_size":{
+   "description":"测试帧长",
+   "default": [64, 65, 256, 1024, 1518, 9000]
+  },
+  "duration": {
+   "description": "每个帧长测试时长",
+   "default": 10
+  },
+  "search": {
+   "description": "二分法测试设置",
+   "default": {
+     "init": {
+      "description": "初始负载",
+      "default": 100
+     },
+     "lower": {
+      "description": "最小负载",
+      "default": 100
+     },
+     "upper": {
+      "description": "最大负载",
+      "default": 100
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2"]
+}

@@ -1,0 +1,60 @@
+// OSPF FSM (With Wildcards)
+digraph {
+	Down
+	Attempt
+	Init
+	"2-Way"
+	ExStart
+	Exchange
+	Loading
+	Full
+	Down -> Attempt [label="Start
+Send an Hello Packet to the neighbor (this neighbor is always associated with an NBMA network)/Start the Inactivity Timer for the neighbor"]
+	Attempt -> Init [label="HelloReceived
+Restart the Inactivity Timer for the neighbor, since the neighbor has now been heard from"]
+	Down -> Init [label="HelloReceived
+Start the Inactivity Timer for the neighbor"]
+	Init -> "2-Way" [label="2-WayReceived
+Determine whether an adjacency should be established with the neighbor (see Section 10.4)"]
+	Init -> ExStart [label="2-WayReceived
+Increment the DD sequence number in the neighbor data structure/Declare itself master (sets the master/slave bit to master)/Start sending Database Description Packets, with the initialize (I), more (M) and master (MS) bits set"]
+	ExStart -> Exchange [label="NegotiationDone
+List the contents of its entire area link state database in the neighbor Database summary list/Send Database Description packets"]
+	Exchange -> Loading [label="ExchangeDone
+Start (or continue) sending Link State Request packets to the neighbor"]
+	Exchange -> Full [label=ExchangeDone
+]
+	Loading -> Full [label=LoadingDone
+]
+	"2-Way" -> ExStart [label="AdjOK?
+Perform actions associated with state Init and event 2-WayReceived"]
+	ExStart -> "2-Way" [label="AdjOK?
+Clear Link state retransmission list, Database summary list and Link state request list of LSAs"]
+	Exchange -> ExStart [label="SeqNumberMismatch
+Clear Link state retransmission list, Database summary list and Link state request list of LSAs/Increment the DD sequence number in the neighbor data structure/Declare itself master (sets the master/slave bit to master)/Start sending Database Description Packets, with the initialize (I), more (M) and master (MS) bits set"]
+	Exchange -> ExStart [label="BadLSReq
+Clear Link state retransmission list, Database summary list and Link state request list of LSAs/Increment the DD sequence number in the neighbor data structure/Declare itself master (sets the master/slave bit to master)/Start sending Database Description Packets, with the initialize (I), more (M) and master (MS) bits set"]
+	Attempt -> Down [label=KillNbr color=red style=dashed]
+	Init -> Down [label=KillNbr color=red style=dashed]
+	"2-Way" -> Down [label=KillNbr color=red style=dashed]
+	ExStart -> Down [label=KillNbr color=red style=dashed]
+	Exchange -> Down [label=KillNbr color=red style=dashed]
+	Loading -> Down [label=KillNbr color=red style=dashed]
+	Full -> Down [label=KillNbr color=red style=dashed]
+	Attempt -> Down [label=LLDown color=red style=dashed]
+	Init -> Down [label=LLDown color=red style=dashed]
+	"2-Way" -> Down [label=LLDown color=red style=dashed]
+	ExStart -> Down [label=LLDown color=red style=dashed]
+	Exchange -> Down [label=LLDown color=red style=dashed]
+	Loading -> Down [label=LLDown color=red style=dashed]
+	Full -> Down [label=LLDown color=red style=dashed]
+	Attempt -> Down [label=InactivityTimer color=red style=dashed]
+	Init -> Down [label=InactivityTimer color=red style=dashed]
+	"2-Way" -> Down [label=InactivityTimer color=red style=dashed]
+	ExStart -> Down [label=InactivityTimer color=red style=dashed]
+	Exchange -> Down [label=InactivityTimer color=red style=dashed]
+	Loading -> Down [label=InactivityTimer color=red style=dashed]
+	Full -> Down [label=InactivityTimer color=red style=dashed]
+	"2-Way" -> Init [label="1-WayReceived
+Clear Link state retransmission list, Database summary list and Link state request list of LSAs"]
+}

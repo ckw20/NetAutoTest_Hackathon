@@ -1,0 +1,52 @@
+{
+  "protocol_header": {
+    "name": "Information Request or Information Reply Message",
+    "version": "",
+    "description": "This message is used to request or reply with network information. The source and destination addresses are reversed between request and reply, and the type code changes accordingly.",
+    "fields": [
+      {
+        "name": "Type",
+        "description": "Indicates the type of the ICMP message. Value 15 represents an Information Request, while 16 represents an Information Reply.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 15 for Information Request.",
+          "Value must be 16 for Information Reply."
+        ]
+      },
+      {
+        "name": "Code",
+        "description": "Specifies additional information about the message. For this message, the Code field must always be 0.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 0."
+        ]
+      },
+      {
+        "name": "Checksum",
+        "description": "A 16-bit ones' complement checksum of the ICMP message starting from the ICMP Type field. The checksum field must be set to zero during computation.",
+        "size_bits": 16,
+        "constraints": [
+          "Computed as the 16-bit ones' complement of the one's complement sum of the ICMP message.",
+          "Checksum field must be zero during computation."
+        ]
+      },
+      {
+        "name": "Identifier",
+        "description": "An optional identifier to help match requests and replies. It may be zero if Code is 0.",
+        "size_bits": 16,
+        "constraints": [
+          "May be zero if Code is 0."
+        ]
+      },
+      {
+        "name": "Sequence Number",
+        "description": "An optional sequence number to help match requests and replies. It may be zero if Code is 0.",
+        "size_bits": 16,
+        "constraints": [
+          "May be zero if Code is 0."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

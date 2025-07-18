@@ -1,0 +1,48 @@
+{
+ "type": "Testcase",
+ "name": "Store-and-Forward Latency",
+ "tc_no": "tc_6_4_4",
+ "version": {
+  "description": "Version number, use development or modification date",
+  "default": "v20240916"
+ },
+ "arg": {
+  "interface": {
+   "description": "Interface MAC address setting",
+   "default": {
+    "up": {
+     "description": "Uplink interface MAC address setting",
+     "default": "00:01:01:02:02:02"
+    },
+    "down": {
+     "description": "Downlink interface MAC address setting",
+     "default": "00:01:02:02:02:02"
+    }
+   }
+  },
+  "frame_size": {
+   "description": "Test frame size",
+   "default": [64, 65, 256, 1024, 1518]
+  },
+  "duration": {
+   "description": "Test duration for each frame size",
+   "default": 60
+  },
+  "traffic_load_loop": {
+   "description": "Binary search test setting",
+   "default": {
+    "load_unit": {
+     "description": "Unit",
+     "default": "percent"
+    },
+    "load_custom": {
+     "description": "Custom load",
+     "default": [10, 95]
+    }
+   }
+  }
+ },
+ "dut": ["DeviceA"],
+ "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+ "port": ["PortDeviceA_1", "PortDeviceA_2"]
+}

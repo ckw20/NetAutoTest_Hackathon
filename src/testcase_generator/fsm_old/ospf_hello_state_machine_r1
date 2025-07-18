@@ -1,0 +1,26 @@
+digraph "OSPF Hello Protocol State Machine" {
+	label="Figure 12: Neighbor state changes (Hello Protocol)" rankdir=LR
+	Down
+	Attempt
+	Init
+	"2-Way"
+	ExStart
+	Down -> Attempt [label=Start]
+	Down -> Init [label=HelloReceived]
+	Attempt -> Init [label=HelloReceived]
+	Init -> ExStart [label="2-WayReceived
+(Adj needed)"]
+	Init -> "2-Way" [label="2-WayReceived
+(Adj not needed)"]
+	ExStart -> "2-Way" [label="AdjOK?
+(Adj not needed)"]
+	"2-Way" -> ExStart [label="AdjOK?
+(Adj needed)"]
+	Init -> Init [label=HelloReceived style=dashed]
+	Init -> Down [label="1-WayReceived"]
+	"2-Way" -> Init [label="1-WayReceived"]
+	Attempt -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+	Init -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+	"2-Way" -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+	ExStart -> Down [label="KillNbr/LLDown/InactivityTimer" color=red]
+}

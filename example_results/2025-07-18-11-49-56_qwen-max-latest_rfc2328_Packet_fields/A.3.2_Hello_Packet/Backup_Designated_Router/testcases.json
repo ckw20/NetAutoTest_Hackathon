@@ -1,0 +1,137 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-BDR-POS",
+      "title": "OSPFv2 Backup Designated Router (BDR) Positive Test",
+      "objective": "Verify that the Backup Designated Router (BDR) field in OSPFv2 Hello packets is correctly set to 0.0.0.0 when no BDR exists.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure OSPFv2 on the DUT and Tester, ensuring no Backup Designated Router (BDR) is elected.",
+          "expected_result": "OSPFv2 configuration is successful, and no BDR is elected."
+        },
+        {
+          "step_id": "3",
+          "description": "Send an OSPFv2 Hello packet from the DUT to the Tester.",
+          "expected_result": "The Tester receives the Hello packet."
+        },
+        {
+          "step_id": "4",
+          "description": "Verify that the Backup Designated Router (BDR) field in the received Hello packet is set to 0.0.0.0.",
+          "expected_result": "The BDR field in the received Hello packet is 0.0.0.0."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Ensure that no Backup Designated Router (BDR) is configured on the network before starting the test.",
+        "Clear OSPF states and routing tables of all devices before testing."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-BDR-NEG",
+      "title": "OSPFv2 Backup Designated Router (BDR) Negative Test",
+      "objective": "Verify that the Backup Designated Router (BDR) field in OSPFv2 Hello packets is not incorrectly set to a non-zero value when no BDR exists.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure OSPFv2 on the DUT and Tester, ensuring no Backup Designated Router (BDR) is elected.",
+          "expected_result": "OSPFv2 configuration is successful, and no BDR is elected."
+        },
+        {
+          "step_id": "3",
+          "description": "Send an OSPFv2 Hello packet from the DUT to the Tester.",
+          "expected_result": "The Tester receives the Hello packet."
+        },
+        {
+          "step_id": "4",
+          "description": "Verify that the Backup Designated Router (BDR) field in the received Hello packet is not set to a non-zero value.",
+          "expected_result": "The BDR field in the received Hello packet is not a non-zero value."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Ensure that no Backup Designated Router (BDR) is configured on the network before starting the test.",
+        "Clear OSPF states and routing tables of all devices before testing."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier for the test case.",
+    "title": "Brief description of the test content.",
+    "objective": "Purpose of the test, explaining the feature being verified.",
+    "test_reference": "Reference documents for the test case.",
+    "topology": "Device and port connection information.",
+    "steps": "Detailed test steps with expected results.",
+    "tags": "Tags for categorizing the test case.",
+    "appendix": "Additional information or precautions."
+  }
+}

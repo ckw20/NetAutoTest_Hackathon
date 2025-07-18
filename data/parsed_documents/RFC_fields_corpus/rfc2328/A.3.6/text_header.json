@@ -1,0 +1,10 @@
+{
+  "protocol_header": {
+    "name": "Link State Acknowledgment Packet",
+    "version": "OSPF Packet Type 5",
+    "description": "The Link State Acknowledgment packet is used to explicitly acknowledge flooded LSAs, ensuring reliable flooding. It contains a list of LSA headers and is sent either to multicast addresses (AllSPFRouters or AllDRouters) or as a unicast, depending on the state of the sending interface and the sender of the corresponding Link State Update packet.",
+    "fields": [
+    ]
+  },
+  "comments": "This JSON template describes the structure of a protocol header specification. The 'protocol_header' object contains metadata about the protocol (name, version, description) and an array of field definitions. Each field has properties for name, description, bit size (int, null if variable), and constraints (e.g., valid values/ranges) (a list of strings). Use this template to document network protocol headers."
+}

@@ -1,0 +1,129 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-AREAID-MATCH",
+      "title": "OSPFv2 Hello Packet Area ID Match Test",
+      "objective": "Verify that OSPFv2 Hello packets are accepted when the Area ID matches the interface's configured Area ID.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the DUT's port1 with an OSPF Area ID of 0.0.0.1.",
+          "expected_result": "OSPF Area ID configuration on DUT's port1 is successful."
+        },
+        {
+          "step_id": "3",
+          "description": "Send an OSPF Hello packet from the Tester to the DUT with an Area ID of 0.0.0.1.",
+          "expected_result": "The DUT accepts the Hello packet and establishes a neighbor relationship with the Tester."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Ensure the Tester and DUT are connected via a direct link.",
+        "Clear all OSPF states and routing tables before starting the test.",
+        "Use the provided configuration for the DUT's OSPF settings."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-HELLO-AREAID-MISMATCH",
+      "title": "OSPFv2 Hello Packet Area ID Mismatch Test",
+      "objective": "Verify that OSPFv2 Hello packets are rejected when the Area ID does not match the interface's configured Area ID.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the DUT's port1 with an OSPF Area ID of 0.0.0.1.",
+          "expected_result": "OSPF Area ID configuration on DUT's port1 is successful."
+        },
+        {
+          "step_id": "3",
+          "description": "Send an OSPF Hello packet from the Tester to the DUT with an Area ID of 0.0.0.2.",
+          "expected_result": "The DUT rejects the Hello packet and does not establish a neighbor relationship with the Tester."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Ensure the Tester and DUT are connected via a direct link.",
+        "Clear all OSPF states and routing tables before starting the test.",
+        "Use the provided configuration for the DUT's OSPF settings."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier for each test case, reflecting the test objective.",
+    "title": "Brief description of the test case content.",
+    "objective": "Purpose of the test, explaining the feature being verified.",
+    "test_reference": "Reference to relevant RFC sections.",
+    "topology": "Describes the devices and their connections in the test setup.",
+    "steps": "Detailed steps for executing the test, including expected results for key steps.",
+    "tags": "Categorization tags for filtering test cases.",
+    "appendix": "Additional notes or configurations required for the test."
+  }
+}

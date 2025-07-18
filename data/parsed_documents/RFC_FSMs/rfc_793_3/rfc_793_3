@@ -1,0 +1,53 @@
+// OSPF FSM (With Wildcards)
+digraph {
+	CLOSED
+	LISTEN
+	"SYN-SENT"
+	"SYN-RECEIVED"
+	ESTABLISHED
+	"FIN-WAIT-1"
+	"FIN-WAIT-2"
+	"CLOSE-WAIT"
+	CLOSING
+	"LAST-ACK"
+	"TIME-WAIT"
+	CLOSED -> LISTEN [label=OPEN]
+	CLOSED -> "SYN-SENT" [label=OPEN]
+	LISTEN -> CLOSED [label=ABORT color=red style=dashed]
+	"SYN-SENT" -> CLOSED [label=ABORT color=red style=dashed]
+	"SYN-RECEIVED" -> CLOSED [label=ABORT color=red style=dashed]
+	ESTABLISHED -> CLOSED [label=ABORT color=red style=dashed]
+	"FIN-WAIT-1" -> CLOSED [label=ABORT color=red style=dashed]
+	"FIN-WAIT-2" -> CLOSED [label=ABORT color=red style=dashed]
+	"CLOSE-WAIT" -> CLOSED [label=ABORT color=red style=dashed]
+	CLOSING -> CLOSED [label=ABORT color=red style=dashed]
+	"LAST-ACK" -> CLOSED [label=ABORT color=red style=dashed]
+	"TIME-WAIT" -> CLOSED [label=ABORT color=red style=dashed]
+	LISTEN -> "SYN-RECEIVED" [label=SYN_RECEIVED]
+	LISTEN -> "SYN-SENT" [label=SEND]
+	"SYN-SENT" -> "SYN-RECEIVED" [label=SYN_RECEIVED]
+	"SYN-SENT" -> ESTABLISHED [label=ACK_RECEIVED]
+	"SYN-RECEIVED" -> ESTABLISHED [label=ACK_RECEIVED]
+	ESTABLISHED -> "FIN-WAIT-1" [label=CLOSE]
+	ESTABLISHED -> "CLOSE-WAIT" [label=FIN_RECEIVED]
+	"FIN-WAIT-1" -> "FIN-WAIT-2" [label=ACK_RECEIVED]
+	"FIN-WAIT-1" -> CLOSING [label=FIN_RECEIVED]
+	"FIN-WAIT-2" -> "TIME-WAIT" [label=FIN_RECEIVED]
+	"CLOSE-WAIT" -> "LAST-ACK" [label=CLOSE]
+	CLOSING -> "TIME-WAIT" [label=ACK_RECEIVED]
+	"LAST-ACK" -> CLOSED [label=ACK_RECEIVED]
+	"TIME-WAIT" -> CLOSED [label="TIME-WAIT_TIMEOUT"]
+	LISTEN -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"SYN-SENT" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"SYN-RECEIVED" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	ESTABLISHED -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"FIN-WAIT-1" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"FIN-WAIT-2" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"CLOSE-WAIT" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	CLOSING -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"LAST-ACK" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"TIME-WAIT" -> CLOSED [label=RST_RECEIVED color=red style=dashed]
+	"SYN-SENT" -> CLOSED [label=RST_RECEIVED]
+	"SYN-RECEIVED" -> LISTEN [label=RST_RECEIVED]
+	ESTABLISHED -> CLOSED [label=RST_RECEIVED]
+}

@@ -1,0 +1,197 @@
+
+{
+  "test_cases": [
+    {
+      "id": "OSPF-000",
+      "title": "OSPF Hello Packet RouterDeadInterval 正向测试",
+      "objective": "验证DUT能够正确处理RouterDeadInterval字段，确保其值大于HelloInterval且与邻居路由器一致。",
+      "test_reference": [
+        "RFC 2328, Section A.3.2 (OSPF Hello Packet)",
+        "RFC 2328, Section 10.5 (Hello Packet Receive Processing)"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口 (PortTesterA_1) 上发送一个OSPF Hello包，设置RouterDeadInterval为40秒，HelloInterval为10秒。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否成功接收并处理该Hello包，并与其建立邻居关系。",
+          "expected_result": "DUT与测试仪端口 (PortTesterA_1) 成功建立OSPF邻居关系，状态达到FULL。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - PortTesterA_1: 192.168.1.100/24",
+            "2. 被测设备 (DeviceA) 的IP地址配置：",
+            "   - PortDeviceA_1: 192.168.1.1/24",
+            "3. 在被测设备 (DeviceA) 上启用并配置OSPFv2路由协议，设置RouterDeadInterval为40秒，HelloInterval为10秒。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-001",
+      "title": "OSPF Hello Packet RouterDeadInterval 负向测试 - 小于HelloInterval",
+      "objective": "验证DUT能够正确丢弃RouterDeadInterval小于HelloInterval的Hello包。",
+      "test_reference": [
+        "RFC 2328, Section A.3.2 (OSPF Hello Packet)",
+        "RFC 2328, Section 10.5 (Hello Packet Receive Processing)"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口 (PortTesterA_1) 上发送一个OSPF Hello包，设置RouterDeadInterval为5秒，HelloInterval为10秒。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否丢弃该Hello包，并未与其建立邻居关系。",
+          "expected_result": "DUT未与测试仪端口 (PortTesterA_1) 建立OSPF邻居关系，状态保持为Down。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - PortTesterA_1: 192.168.1.100/24",
+            "2. 被测设备 (DeviceA) 的IP地址配置：",
+            "   - PortDeviceA_1: 192.168.1.1/24",
+            "3. 在被测设备 (DeviceA) 上启用并配置OSPFv2路由协议，设置RouterDeadInterval为40秒，HelloInterval为10秒。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "OSPF-002",
+      "title": "OSPF Hello Packet RouterDeadInterval 负向测试 - 邻居不一致",
+      "objective": "验证DUT能够正确丢弃RouterDeadInterval与本地配置不一致的Hello包。",
+      "test_reference": [
+        "RFC 2328, Section A.3.2 (OSPF Hello Packet)",
+        "RFC 2328, Section 10.5 (Hello Packet Receive Processing)"
+      ],
+      "topology": [
+        {
+          "name": "TesterA",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "PortTesterA_1",
+              "connected_to": "DeviceA:PortDeviceA_1"
+            }
+          ]
+        },
+        {
+          "name": "DeviceA",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "PortDeviceA_1",
+              "connected_to": "TesterA:PortTesterA_1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "根据提供的配置初始化设备测试环境。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "2",
+          "description": "在测试仪端口 (PortTesterA_1) 上发送一个OSPF Hello包，设置RouterDeadInterval为60秒，HelloInterval为10秒。",
+          "expected_result": ""
+        },
+        {
+          "step_id": "3",
+          "description": "验证DUT是否丢弃该Hello包，并未与其建立邻居关系。",
+          "expected_result": "DUT未与测试仪端口 (PortTesterA_1) 建立OSPF邻居关系，状态保持为Down。"
+        }
+      ],
+      "tags": [
+        "function",
+        "protocol"
+      ],
+      "appendix": [
+        {
+          "title": "设备初始化配置详情",
+          "content": [
+            "1. 测试仪 (TesterA) 的IP地址配置：",
+            "   - PortTesterA_1: 192.168.1.100/24",
+            "2. 被测设备 (DeviceA) 的IP地址配置：",
+            "   - PortDeviceA_1: 192.168.1.1/24",
+            "3. 在被测设备 (DeviceA) 上启用并配置OSPFv2路由协议，设置RouterDeadInterval为40秒，HelloInterval为10秒。"
+          ]
+        }
+      ]
+    }
+  ]
+}

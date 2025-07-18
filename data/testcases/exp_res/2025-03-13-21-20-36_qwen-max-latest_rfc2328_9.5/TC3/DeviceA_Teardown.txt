@@ -1,0 +1,28 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address 192.168.1.1 255.255.255.0
+ undo ospf enable
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo ip address 192.168.2.1 255.255.255.0
+ undo ospf enable
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_3
+ undo ip address 192.168.3.1 255.255.255.0
+ undo ospf enable
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_4
+ undo ip address 192.168.4.1 255.255.255.0
+ undo ospf enable
+ portswitch
+#
+undo ospf 1
+undo ospf area 0
+undo ospf area 1
+commit
+quit

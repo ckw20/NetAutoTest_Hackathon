@@ -1,0 +1,54 @@
+
+{
+  "type": "Testcase",
+  "name": "OSPFv2 HelloInterval Positive Test",
+  "tc_no": "TC-OSPFv2-HELLOINTERVAL-POS",
+  "version": {
+    "description": "Version number, using the development or modification date",
+    "default": "v20241015"
+  },
+  "arg": {
+    "interface": {
+      "description": "Configure interface parameters such as MAC and IPv4 addresses for the test case.",
+      "default": {
+        "mac_up_address": {
+          "description": "Upstream interface MAC address settings",
+          "default": "00:01:02:03:04:05"
+        },
+        "mac_down_address": {
+          "description": "Downstream interface MAC address settings",
+          "default": "00:01:02:03:04:06"
+        },
+        "ipv4_up_address": {
+          "description": "Upstream interface IPv4 address settings",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "Upstream interface IPv4 gateway settings",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_address": {
+          "description": "Downstream interface IPv4 address settings",
+          "default": "192.168.1.1"
+        },
+        "ipv4_down_gateway": {
+          "description": "Downstream interface IPv4 gateway settings",
+          "default": "192.168.1.100"
+        }
+      }
+    },
+    "ospf_hello_interval": {
+      "description": "OSPF HelloInterval configuration value in seconds",
+      "default": 10
+    }
+  },
+  "dut": ["DUT"],
+  "dut_cfg": ["DUT_Setup", "DUT_Teardown"],
+  "port": ["port1"],
+  "comments": {
+    "arg": "Specific parameters generated according to the test case, including MAC and IPv4 addresses of interfaces and OSPF HelloInterval configuration.",
+    "dut": "Name of the device under test, indicating that the test case targets DUT.",
+    "dut_cfg": "Scripts required for the device under test, including the configuration script (DUT_Setup) and cleanup script (DUT_Teardown) for DUT.",
+    "port": "Ports of the device under test required for the test case; this example includes port1."
+  }
+}

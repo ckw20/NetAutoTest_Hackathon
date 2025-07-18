@@ -1,0 +1,149 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC-OSPFv2-HELLO-ROUTERID-UNIQUE",
+      "title": "OSPFv2 Hello Packet Router ID Uniqueness Test",
+      "objective": "Verify that the OSPFv2 Hello packet's Router ID field is unique within the OSPF domain.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPF Hello packet with a unique Router ID (e.g., 1.1.1.1) to the DUT.",
+          "expected_result": "Tester sends the Hello packet successfully."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe whether the DUT accepts the Hello packet and establishes a neighbor relationship.",
+          "expected_result": "DUT accepts the Hello packet and establishes a neighbor relationship with the Tester."
+        },
+        {
+          "step_id": "4",
+          "description": "Configure the Tester to send another OSPF Hello packet with the same Router ID (1.1.1.1) to the DUT.",
+          "expected_result": "Tester sends the Hello packet successfully."
+        },
+        {
+          "step_id": "5",
+          "description": "Observe whether the DUT rejects the second Hello packet due to duplicate Router ID.",
+          "expected_result": "DUT rejects the second Hello packet, and no new neighbor relationship is formed."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Ensure that the Tester and DUT are connected via a single link.",
+        "Clear all OSPF states and routing tables on the DUT before starting the test.",
+        "The Router IDs used in the test must be unique within the OSPF domain except for the duplicate test case."
+      ]
+    },
+    {
+      "id": "TC-OSPFv2-HELLO-ROUTERID-VALID",
+      "title": "OSPFv2 Hello Packet Router ID Validity Test",
+      "objective": "Verify that the OSPFv2 Hello packet's Router ID field adheres to the 32-bit value constraint.",
+      "test_reference": [
+        "RFC 2328 (OSPF Version 2), Section A.3.2"
+      ],
+      "topology": [
+        {
+          "name": "Tester",
+          "type": "tester",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "DUT:port1"
+            }
+          ]
+        },
+        {
+          "name": "DUT",
+          "type": "DUT",
+          "ports": [
+            {
+              "name": "port1",
+              "connected_to": "Tester:port1"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "1",
+          "description": "Initialize the device test environment according to the provided configuration.",
+          "expected_result": "Test environment is initialized successfully."
+        },
+        {
+          "step_id": "2",
+          "description": "Configure the Tester to send an OSPF Hello packet with a valid 32-bit Router ID (e.g., 2.2.2.2).",
+          "expected_result": "Tester sends the Hello packet successfully."
+        },
+        {
+          "step_id": "3",
+          "description": "Observe whether the DUT accepts the Hello packet and establishes a neighbor relationship.",
+          "expected_result": "DUT accepts the Hello packet and establishes a neighbor relationship with the Tester."
+        },
+        {
+          "step_id": "4",
+          "description": "Configure the Tester to send another OSPF Hello packet with an invalid Router ID (e.g., 0.0.0.0 or exceeding 32 bits).",
+          "expected_result": "Tester sends the Hello packet successfully."
+        },
+        {
+          "step_id": "5",
+          "description": "Observe whether the DUT rejects the Hello packet with the invalid Router ID.",
+          "expected_result": "DUT rejects the Hello packet, and no neighbor relationship is formed."
+        }
+      ],
+      "tags": [
+        "function",
+        "ospf",
+        "hello-packet"
+      ],
+      "appendix": [
+        "Ensure that the Tester and DUT are connected via a single link.",
+        "Clear all OSPF states and routing tables on the DUT before starting the test.",
+        "Valid Router IDs must conform to the 32-bit constraint as per RFC 2328."
+      ]
+    }
+  ],
+  "comments": {
+    "id": "Unique identifier for each test case, following the format TC-<PROTOCOL>-<PACKET>-<FIELD>-<TEST_TYPE>.",
+    "title": "Descriptive title summarizing the test case content.",
+    "objective": "Clear objective explaining the feature being tested.",
+    "test_reference": "References to relevant sections of RFCs or other standards.",
+    "topology": "Minimal topology required to execute the test case.",
+    "steps": "Detailed steps with measurable expected results.",
+    "tags": "Tags for categorization and filtering of test cases.",
+    "appendix": "Additional notes or configurations required for the test."
+  }
+}

@@ -1,0 +1,60 @@
+{
+ "type": "Testcase",
+ "name": "Address Learning Rate",
+ "tc_no": "tc_6_4_7",
+ "version": {
+  "description": "Version number, use development or modification date",
+  "default": "v20240917"
+ },
+ "arg": {
+  "interface": {
+   "description": "Interface MAC address setting",
+   "default": {
+    "up": {
+     "description": "Uplink interface MAC address setting",
+     "default": "00:01:01:02:02:02"
+    },
+    "down": {
+     "description": "Downlink interface MAC address setting",
+     "default": "00:01:02:02:02:02"
+    }
+   }
+  },
+  "frame_size": {
+   "description": "Test frame size",
+   "default": [64]
+  },
+  "learning_capacity": {
+   "description": "Configure the number of learning addresses and the address learning rate",
+   "default": {
+    "min_rate_count": {
+     "description": "Minimum address learning rate",
+     "default": 1000
+    },
+    "max_rate_count": {
+     "description": "Maximum address learning rate",
+     "default": 5000
+    },
+    "init_rate_count": {
+     "description": "Initial address learning rate",
+     "default": 5000
+    },
+    "resolution": {
+     "description": "Error",
+     "default": 2
+    },
+    "aging_time": {
+     "description": "Aging time",
+     "default": 30
+    },
+    "address_count": {
+     "description": "Number of addresses",
+     "default": 16000
+    }
+   }
+  }
+ },
+ "dut": ["DeviceA"],
+ "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+ "port": ["PortDeviceA_1", "PortDeviceA_2", "PortDeviceA_3"]
+}

@@ -1,0 +1,79 @@
+
+{
+  "test_case_points": [
+    {
+      "id": "TC1",
+      "title": "Hello包网络掩码字段验证测试",
+      "objective": "验证在非编号点对点网络和虚拟链路上Hello包的Network Mask字段设置为0.0.0.0",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC2",
+      "title": "Hello参数一致性检查测试",
+      "objective": "确保设备拒绝HelloInterval/RouterDeadInterval不匹配的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC3",
+      "title": "E-bit与区域类型匹配性测试",
+      "objective": "验证设备拒绝在stub区域发送E-bit置位的Hello包",
+      "test_reference": ["RFC2328.9.5", "RFC2328.4.5", "RFC2328.A.2", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC4",
+      "title": "Options字段处理机制测试",
+      "objective": "验证设备正确处理未识别Options字段bit位（应置零）",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC5",
+      "title": "Hello包发送方式验证测试",
+      "objective": "验证不同网络类型（广播/虚拟链路/P2MP）的Hello包发送方式正确性",
+      "test_reference": ["RFC2328.9.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC6",
+      "title": "邻居列表双向通信验证测试",
+      "objective": "验证设备在Hello包中正确包含最近收到的邻居路由器ID列表",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC7",
+      "title": "DR/BDR字段初始化测试",
+      "objective": "验证未选举DR/BDR时对应字段设置为0.0.0.0",
+      "test_reference": ["RFC2328.9.5", "RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC8",
+      "title": "Router Priority有效性测试",
+      "objective": "验证Router Priority为0时设备无法成为DR/BDR",
+      "test_reference": ["RFC2328.A.3.2"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC9",
+      "title": "NBMA网络Hello响应测试",
+      "objective": "验证设备在NBMA网络上收到Hello包后正确响应",
+      "test_reference": ["RFC2328.9.5", "RFC2328.10.5"],
+      "tags": ["function"]
+    },
+    {
+      "id": "TC10",
+      "title": "参数不匹配处理测试",
+      "objective": "验证设备丢弃Network Mask/HelloInterval/RouterDeadInterval不匹配的Hello包",
+      "test_reference": ["RFC2328.10.5"],
+      "tags": ["function"]
+    }
+  ],
+  "comments": {
+    "test_reference": "RFC章节号采用[RFCXXXX.<section>]格式，其中XXXX为RFC编号，<section>为实际章节号或附录编号",
+    "tags": "全部测试用例标记为功能测试(function)，未包含性能测试场景"
+  }
+}

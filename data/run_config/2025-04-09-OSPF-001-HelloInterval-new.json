@@ -1,0 +1,65 @@
+{
+    "Task": {
+        "dir": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-000",
+        "task": "task.json"
+    },
+    "API": {
+        "doc": "./data/parsed_documents/API_docs/layered_llm_result.json",
+        "specified": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-001/spec_api.json",
+        "Retriever": {
+            "local_model_type": "SentenceTransformer",
+            "local_model_name_or_path": "multi-qa-mpnet-base-cos-v1",
+            "local_embedding_k": 40,
+            "local_BM25_enable": false,
+            "local_BM25_k": 1000
+        }
+    },
+    "Example": {
+        "dir": "./data/ref_projects/cepri-dev-new",
+        "dir_no_cfg": "./data/ref_projects/Examples/Python",
+        "specified": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-001/spec_example.json",
+        "Retriever": {
+            "local_model_type": "SentenceTransformer",
+            "local_model_name_or_path": "multi-qa-mpnet-base-cos-v1",
+            "local_embedding_k": 1,
+            "local_BM25_enable": false,
+            "local_BM25_k": 1000,
+
+            
+            "remote_base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "remote_api_key": "sk-d8bc4885814a43edae2daad399256d05",
+            "remote_embedding_model": "text-embedding-v3",
+            "remote_rerank_model": "gte-rerank-v2",
+            "remote_corpus2embedding_path": "./data/embeddings/examples_embedding.json",
+            "remote_embedding_k": 30,
+            "remote_rerank_k": 1
+        }
+    },
+    "Code": {
+        "system_prompt": "./data/prompts/tcg_system_prompt",
+        "max_iter": 3,
+        "remove_past_assistant": true,
+        "Generator": {
+            "api_key": "sk-d8bc4885814a43edae2daad399256d05",
+            "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "model": "qwen-max-latest"
+        },
+        "assistant_content": null,
+        "user_content": null
+    },
+    "Experience": {
+        "pool_path": "./data/experience/exp_pool.json",
+        "Retriever": {
+            "remote_base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "remote_api_key": "sk-d8bc4885814a43edae2daad399256d05",
+            "remote_embedding_model": "text-embedding-v3",
+            "remote_rerank_model": "gte-rerank-v2",
+            "remote_corpus2embedding_path": "./data/embeddings/exp_pool_embedding.json",
+            "remote_embedding_k": 50,
+            "remote_rerank_k": 10
+        }
+    },
+    "Feedback": {
+        "HL_enable": true
+    }
+}

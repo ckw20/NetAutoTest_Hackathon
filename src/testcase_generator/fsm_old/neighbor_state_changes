@@ -1,0 +1,16 @@
+// Neighbor State Changes (Hello Protocol)
+digraph {
+	Init [label=Init]
+	Attempt [label=Attempt]
+	"2-Way" [label="2-Way"]
+	ExStart [label=ExStart]
+	"1-Way" [label="1-Way"]
+	Down [label=Down]
+	Down -> Init [label=Start]
+	Init -> Attempt [label="Hello Received"]
+	Attempt -> Init [label=HelloReceived]
+	Init -> "2-Way" [label="2-Way Received"]
+	Init -> "1-Way" [label="1-Way Received"]
+	"2-Way" -> ExStart [label=ExStart]
+	ExStart -> "2-Way" [label="2-Way"]
+}

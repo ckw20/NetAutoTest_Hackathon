@@ -1,0 +1,57 @@
+
+{
+  "test_cases": [
+    {
+      "id": "TC13",
+      "title": "虚拟链路Hello单播发送验证",
+      "objective": "确认虚拟链路上按HelloInterval间隔发送单播Hello包",
+      "test_reference": [
+        "RFC2328.9.5",
+        "RFC2328.A.3.2"
+      ],
+      "steps": [
+        {
+          "step_id": "TC13-1",
+          "description": "配置被测设备（DUT）和协议测试仪之间的虚拟链路，确保虚拟链路处于激活状态。",
+          "expected_result": "虚拟链路成功建立，并且两端的接口状态为UP。"
+        },
+        {
+          "step_id": "TC13-2",
+          "description": "在被测设备（DUT）上配置HelloInterval为一个特定值（例如10秒），并确保该值与协议测试仪上的配置一致。",
+          "expected_result": "被测设备和协议测试仪的HelloInterval参数配置一致，且无错误日志。"
+        },
+        {
+          "step_id": "TC13-3",
+          "description": "启动协议测试仪，监控从被测设备（DUT）发送到虚拟链路对端的Hello包。",
+          "expected_result": "协议测试仪能够接收到从被测设备发送的单播Hello包。"
+        },
+        {
+          "step_id": "TC13-4",
+          "description": "记录协议测试仪接收到的Hello包的时间戳，验证其发送间隔是否与配置的HelloInterval一致。",
+          "expected_result": "接收到的Hello包时间间隔与配置的HelloInterval值一致，误差在可接受范围内（例如±1秒）。"
+        },
+        {
+          "step_id": "TC13-5",
+          "description": "检查接收到的Hello包内容，包括Network Mask字段是否为0.0.0.0，以及Options字段是否正确设置。",
+          "expected_result": "接收到的Hello包中，Network Mask字段为0.0.0.0，Options字段与被测设备的配置一致。"
+        },
+        {
+          "step_id": "TC13-6",
+          "description": "停止协议测试仪的监控，关闭虚拟链路。",
+          "expected_result": "虚拟链路关闭后，协议测试仪不再接收到任何Hello包。"
+        }
+      ],
+      "tags": [
+        "function"
+      ]
+    }
+  ],
+  "comments": {
+    "id": "测试用例的唯一标识符。",
+    "title": "测试用例的标题，简要描述测试内容。",
+    "objective": "测试的目的，说明该测试用例要验证的功能或特性。",
+    "test_reference": "测试用例的参考文档，如RFC的章节号等",
+    "steps": "测试步骤的详细描述，每个步骤包括：\nstep_id: 步骤的唯一标识符。\ndescription: 步骤的具体操作或配置。\nexpected_result: 该步骤的预期结果。",
+    "tags": "测试用例的标签，用于分类或筛选测试用例，类型包括：['function', 'performance']"
+  }
+}

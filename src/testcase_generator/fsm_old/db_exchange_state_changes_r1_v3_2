@@ -1,0 +1,17 @@
+digraph "Database Exchange State Changes" {
+	rankdir=LR
+	ExStart
+	Exchange
+	Loading
+	Full
+	ExStart -> Exchange [label=NegotiationDone]
+	Exchange -> Full [label=ExchangeDone]
+	Exchange -> Loading [label=ExchangeDone]
+	Loading -> Full [label=LoadingDone]
+	Exchange -> ExStart [label=SeqNumberMismatch]
+	Exchange -> ExStart [label=BadLSReq]
+	Loading -> ExStart [label=SeqNumberMismatch]
+	Loading -> ExStart [label=BadLSReq]
+	Full -> ExStart [label=SeqNumberMismatch]
+	Full -> ExStart [label=BadLSReq]
+}

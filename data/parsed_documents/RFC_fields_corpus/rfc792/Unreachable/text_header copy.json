@@ -1,0 +1,55 @@
+{
+  "protocol_header": {
+    "name": "ICMP Destination Unreachable Message",
+    "version": "1",
+    "description": "This header defines the format of ICMP Destination Unreachable Messages, which are used to notify the source host about delivery failures.",
+    "fields": [
+      {1
+        "name": "Type",
+        "description": "Indicates the type of ICMP message. For Destination Unreachable messages, this field must be set to 3.",
+        "size_bits": 8,
+        "constraints": [
+          "Value must be 3."
+        ]
+      },
+      {2
+        "name": "Code",
+        "description": "Specifies the reason for the Destination Unreachable message. The value determines the specific condition, such as network unreachable or port unreachable.",
+        "size_bits": 8,
+        "constraints": [
+          "Valid values: 0 (net unreachable), 1 (host unreachable), 2 (protocol unreachable), 3 (port unreachable), 4 (fragmentation needed and DF set), 5 (source route failed).",
+          "Codes 0, 1, 4, and 5 may be received from a gateway; codes 2 and 3 may be received from a host."
+        ]
+      },
+      {3
+        "name": "Checksum",
+        "description": "A 16-bit one's complement checksum of the ICMP message starting with the ICMP Type field. The checksum field should be zero when computing the checksum.",
+        "size_bits": 16,
+        "constraints": [
+          "The checksum is computed as the one's complement sum of all 16-bit words in the ICMP message.",
+          "For computation, the checksum field must be zero.",
+          "This checksum may be replaced in the future."
+        ]
+      },
+      {4
+        "name": "Unused",
+        "description": "Reserved for future extensions. This field must be zero when sent, but receivers should ignore it (except for including it in the checksum).",
+        "size_bits": 32,
+        "constraints": [
+          "Value must be 0."
+        ]
+      },
+      {5
+        "name": "Internet Header + 64 bits of Original Data Datagram",
+        "description": "Includes the original IP header and the first 64 bits of the original datagram's data. This information helps the host match the message to the appropriate process.",
+        "size_bits": null,
+        "constraints": [
+          "The internet header length and content depend on the original datagram.",
+          "The first 64 bits of the original datagram's data are included for matching purposes.",
+          "If a higher-level protocol uses port numbers, they are assumed to be within the first 64 bits of the original datagram's data."
+        ]
+      }
+    ]
+  },
+  "comments": "This JSON describes the structure of the ICMP Destination Unreachable Message header, including its fields, sizes, and constraints."
+}
