@@ -82,13 +82,13 @@ def run_script_api(dir: str):
 
 
 def copy_case_files(tc_path, temp_dir):
-    # 复制用例目录下所有文件
+    # Copy all files in the test case directory
     for fname in os.listdir(tc_path):
         src = os.path.join(tc_path, fname)
         dst = os.path.join(temp_dir, fname)
         if os.path.isfile(src):
             shutil.copy2(src, dst)
-    # 复制上级 testbed.json（如果用例目录下没有）
+    # Copy testbed.json from the parent directory if not present in the test case directory
     upper_dir = os.path.dirname(tc_path)
     testbed_src = os.path.join(upper_dir, "testbed.json")
     testbed_dst = os.path.join(temp_dir, "testbed.json")
@@ -96,7 +96,7 @@ def copy_case_files(tc_path, temp_dir):
         shutil.copy2(testbed_src, testbed_dst)
     elif os.path.exists(os.path.join(tc_path, "testbed.json")):
         shutil.copy2(os.path.join(tc_path, "testbed.json"), testbed_dst)
-    # main.py 不存在但 main_pass.py 存在时，复制一份
+    # If main.py does not exist but main_pass.py exists, copy main_pass.py as main.py
     main_py = os.path.join(temp_dir, "main.py")
     main_pass_py = os.path.join(temp_dir, "main_pass.py")
     if not os.path.exists(main_py) and os.path.exists(main_pass_py):
@@ -104,8 +104,8 @@ def copy_case_files(tc_path, temp_dir):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="运行指定用例脚本")
-    parser.add_argument("-p", "--path", required=True, help="用例目录路径")
+    parser = argparse.ArgumentParser(description="Run the specified test case script")
+    parser.add_argument("-p", "--path", required=True, help="Test case directory path")
     args = parser.parse_args()
     tc_path = args.path.rstrip("/")
     tc_name = os.path.basename(tc_path)
@@ -113,7 +113,7 @@ def main():
     temp_dir = os.path.join("temp_script", f"{tc_name}_{now}")
     os.makedirs(temp_dir, exist_ok=True)
     copy_case_files(tc_path, temp_dir)
-    # 调用 run_script_api
+    # Call run_script_api
     result = run_script_api(temp_dir)
     print(result)
 
