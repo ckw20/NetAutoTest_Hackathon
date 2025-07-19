@@ -11,13 +11,19 @@ results = {}
 
 # Traverse all folders starting with tc
 tc_dirs = [d for d in os.listdir(base_dir) if d.startswith('tc') and os.path.isdir(os.path.join(base_dir, d))]
+# tc_dirs = [d for d in tc_dirs if d == 'tc_6_5_10']
+print(tc_dirs)
 
 for tc_dir in tc_dirs:
     tc_path = os.path.join(base_dir, tc_dir)
     print(f'Running: python run_script.py -p {tc_path}')
     # Run script
     try:
-        subprocess.run(['python', 'run_script.py', '-p', tc_path], check=True)
+        subprocess.run(['python', 'run_script.py', '-p', tc_path], check=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        print(f'{tc_dir} run timeout (TLE)')
+        results[tc_dir] = {'status': 'TLE', 'verdict': 'fail'}
+        continue
     except subprocess.CalledProcessError as e:
         print(f'{tc_dir} run failed: {e}')
         results[tc_dir] = {'status': 'error', 'verdict': 'fail'}
