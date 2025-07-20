@@ -224,7 +224,7 @@ def generate_test_cases_from_rfc(rfc_file_path, section, testcases_output_path, 
     return output_dir
 
 
-def generate_test_cases_from_fsm(fsm_path_path, rfc_pate_content_path, current_time, model='qwen-max-latest', topo_path=None, testbed_path=None):
+def generate_test_cases_from_fsm(fsm_path, rfc_pate_content_path, current_time, model='qwen-max-latest', topo_path=None, testbed_path=None):
 
     # Case without topology constraints
     few_shot_examples_path="data/testcases/examples/few_shot_of_testcases_with_topology.json"
@@ -241,12 +241,12 @@ def generate_test_cases_from_fsm(fsm_path_path, rfc_pate_content_path, current_t
     cfg_dut_setup_example_path="data/testcases/examples/one-tester-one-dut/tc_6_7_6/dut_config/DeviceA_Setup.txt"
     cfg_dut_teardown_example_path="data/testcases/examples/one-tester-one-dut/tc_6_7_6/dut_config/DeviceA_Teardown.txt"
 
-    fsm_json = load_json(fsm_path_path)
+    fsm_json = load_json(fsm_path)
 
     # Output folder under /results, create folder with current time, output filename as input_file+section    
     if not os.path.exists("results"):
         os.mkdir("results")
-    output_dir = f"results/{current_time}_{model}_{fsm_path_path.split('/')[-1].replace('.json', '')}"
+    output_dir = f"results/{current_time}_{model}_{fsm_path.split('/')[-1].replace('.json', '')}"
 
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -261,7 +261,7 @@ def generate_test_cases_from_fsm(fsm_path_path, rfc_pate_content_path, current_t
             if not os.path.exists(testcase_dir):
                 os.mkdir(testcase_dir)
 
-            testcase_path = os.path.join(testcase_dir, f"{fsm_path_path.split('/')[-1].replace('.json', '')}_{i+1}.json")
+            testcase_path = os.path.join(testcase_dir, f"{fsm_path.split('/')[-1].replace('.json', '')}_{i+1}.json")
             with open(testcase_path, 'w', encoding='utf-8') as f_out:
                 f_out.write(testcase)
 

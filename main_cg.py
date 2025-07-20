@@ -87,7 +87,7 @@ if __name__ == "__main__":
     if args.method == "rfc":    # Naively generate test cases directly from RFC
         testcase_generator.generate_test_cases_from_rfc(args.rfc_file, args.section, args.output_testcase, current_time, model=args.model, topo_path=args.topo_path, testpoint_path=args.testpoints_path, testbed_path=args.testbed_path)
     elif args.method == "fsm":  # Extract formatted FSM information and then generate test cases
-        testcase_generator.generate_test_cases_from_fsm(args.fsm_path_path, args.rfc_file, current_time, args.model, topo_path=args.topo_path, testbed_path=args.testbed_path)
+        testcase_generator.generate_test_cases_from_fsm(args.fsm_path, args.rfc_file, current_time, args.model, topo_path=args.topo_path, testbed_path=args.testbed_path)
     elif args.method == "field":   # Extract formatted information from fields and then generate test cases
         # testcase_generator.generate_test_cases_from_field(args.field_file, args.rfc_file, current_time, args.model, topo_path=args.topo_path, testbed_path=args.testbed_path, use_content_table=args.use_content_table, std_path=std_json_path)
         field_json_path = args.field_json
