@@ -1,0 +1,32 @@
+#
+sysname SwitchC
+#
+vlan batch 200 300 400
+#
+interface Vlanif200
+ ip address 192.168.2.2 255.255.255.0
+#
+interface Vlanif300
+ ip address 192.168.1.2 255.255.255.0
+#
+interface Vlanif400
+ ip address 172.16.1.1 255.255.255.0
+#
+interface 10GE1/0/1
+ port link-type trunk
+ port trunk allow-pass vlan 300
+#
+interface 10GE1/0/2
+ port link-type trunk
+ port trunk allow-pass vlan 200
+#
+interface 10GE1/0/3
+ port link-type trunk
+ port trunk allow-pass vlan 400
+#
+ospf 1
+ area 0.0.0.0
+  network 172.16.1.0 0.0.0.255
+  network 192.168.1.0 0.0.0.255
+  network 192.168.2.0 0.0.0.255
+#

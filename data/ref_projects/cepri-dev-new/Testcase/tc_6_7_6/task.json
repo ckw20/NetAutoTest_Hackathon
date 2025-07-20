@@ -1,0 +1,21 @@
+{
+  "id": "tc_6_7_6",
+  "title": "Open Shortest Path First (OSPF) Protocol",
+  "objective": "Test Objective : Open Shortest Path First (OSPF) Protocol",
+  "test_reference": [],
+  "steps": [
+    {"step_id": "1", "description": "tester port1 IP address is 192.168.1.100/24, port2 is 192.168.2.100/24;", "expected_result": ""},
+    {"step_id": "2", "description": "DUT port1 IP address is 192.168.1.1/24, port2 is 192.168.2.1/24;", "expected_result": ""},
+    {"step_id": "3", "description": "Configure OSPFv2 routing protocol on DUT;", "expected_result": ""},
+    {"step_id": "4", "description": "tester uses port1 and port2 to build OSPF routers, insert some LSAs on port1, make port1 and DUT port1 reach FULL state, port2 and DUT port2 reach FULL state, observe whether port2 can get LSAs from port1.", "expected_result": "OSPF is established successfully and LSAs can be received"}
+  ],
+  "tags": ["function"],
+  "comments": {
+    "id": "Unique identifier for the test case.",
+    "title": "Title of the test case, briefly describing the test content.",
+    "objective": "Purpose of the test, indicating the function or feature to be verified by this test case.",
+    "test_reference": "Reference documents for the test case, such as RFC section numbers, etc.",
+    "steps": "Detailed description of test steps. Each step includes: step_id: unique identifier for the step. description: specific operation or configuration for the step. expected_result: expected result for the step.",
+    "tags": "Tags for the test case, used for classification or filtering. Types include: ['function', 'performance']"
+  }
+} 

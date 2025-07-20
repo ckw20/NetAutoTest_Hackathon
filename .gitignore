@@ -4,7 +4,7 @@ __pycache__/
 results/
 test.py
 temp_script/
-Testcase/
+# Testcase/
 main_sg_xrt.py
 data/result_scripts/
 run_sg.sh

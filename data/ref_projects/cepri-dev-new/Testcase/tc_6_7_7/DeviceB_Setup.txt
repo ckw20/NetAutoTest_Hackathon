@@ -1,0 +1,27 @@
+#
+sysname SwitchB
+#
+vlan batch 100 200
+#
+interface Vlanif100
+ ip address 10.1.1.2 255.255.255.0
+ vrrp vrid 1 virtual-ip 10.1.1.111
+#
+interface Vlanif200
+ ip address 192.168.2.1 255.255.255.0
+#
+interface 10GE1/0/1
+ port link-type trunk
+ port trunk allow-pass vlan 200
+#
+interface 10GE1/0/2
+ port link-type trunk
+ port trunk pvid vlan 100
+ undo port trunk allow-pass vlan 1
+ port trunk allow-pass vlan 100
+#
+ospf 1
+ area 0.0.0.0
+  network 10.1.1.0 0.0.0.255
+  network 192.168.2.0 0.0.0.255
+#

@@ -1,0 +1,47 @@
+
+{
+  "type": "Testcase",
+  "name": "OSPF HelloInterval Positive Test - Verify correct configuration of HelloInterval field",
+  "tc_no": "tc_ospf_hellointerval_positive",
+  "version": {
+    "description": "Version number, use development or modification date",
+    "default": "v20240917"
+  },
+  "arg": {
+    "interface": {
+      "description": "Interface MAC address and IPv4 address setting",
+      "default": {
+        "mac_up_address": {
+          "description": "Uplink interface MAC address setting",
+          "default": "00:01:02:02:02:02"
+        },
+        "ipv4_up_address": {
+          "description": "Uplink interface IPv4 address setting",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "Uplink interface IPv4 gateway setting",
+          "default": "192.168.1.1"
+        }
+      }
+    },
+    "ospf_config": {
+      "description": "OSPF protocol related configuration",
+      "default": {
+        "hello_interval": {
+          "description": "OSPF HelloInterval value",
+          "default": 10
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1"],
+  "comments": {
+    "arg": "Specific parameters generated according to the test case, such as the MAC address, IPv4 address of the interface, and the HelloInterval value of OSPF.",
+    "dut": "Name of the device under test, indicating that the device for this test case is DeviceA.",
+    "dut_cfg": "Scripts required by the device under test, including the configuration script (DeviceA_Setup) and cleanup script (DeviceA_Teardown) for DeviceA.",
+    "port": "Ports required by the test case, including PortDeviceA_1."
+  }
+}

@@ -1,0 +1,51 @@
+
+{
+  "type": "Testcase",
+  "name": "OSPF Packet Header - Area ID Negative Test",
+  "tc_no": "tc_ospf_area_id_negative",
+  "version": {
+    "description": "Version number, use development or modification date",
+    "default": "v20241005"
+  },
+  "arg": {
+    "interface": {
+      "description": "Interface MAC address and IPv4 address setting",
+      "default": {
+        "mac_up_address": {
+          "description": "Uplink interface MAC address setting",
+          "default": "00:01:02:02:02:02"
+        },
+        "ipv4_up_address": {
+          "description": "Uplink interface IPv4 address setting",
+          "default": "192.168.1.100"
+        },
+        "ipv4_up_gateway": {
+          "description": "Uplink interface IPv4 gateway setting",
+          "default": "192.168.1.1"
+        }
+      }
+    },
+    "ospf_config": {
+      "description": "OSPF protocol related configuration parameters",
+      "default": {
+        "area_id_valid": {
+          "description": "Valid Area ID value",
+          "default": "0.0.0.0"
+        },
+        "area_id_invalid": {
+          "description": "Invalid Area ID value",
+          "default": "192.168.1.0"
+        }
+      }
+    }
+  },
+  "dut": ["DeviceA"],
+  "dut_cfg": ["DeviceA_Setup", "DeviceA_Teardown"],
+  "port": ["PortDeviceA_1"],
+  "comments": {
+    "arg": "Specific parameters generated according to the test case, including the MAC address, IPv4 address of the interface, and the Area ID configuration of the OSPF protocol.",
+    "dut": "Name of the device under test, indicating that the device for this test case is DeviceA.",
+    "dut_cfg": "Scripts required by the device under test, including the configuration script (DeviceA_Setup) and cleanup script (DeviceA_Teardown) for DeviceA.",
+    "port": "Ports required by the test case, including PortDeviceA_1."
+  }
+}

@@ -1,0 +1,13 @@
+#
+stp mode rstp
+stp instance 0 root primary
+stp pathcost-standard legacy
+#
+interface 10GE1/0/1
+ stp root-protection
+#
+interface 10GE1/0/2
+ stp root-protection
+#
+commit
+quit

@@ -1,0 +1,63 @@
+{
+  "id": "tc_ospf_hello_interval_negative",
+  "title": "OSPF HelloInterval Negative Test - Verify behavior when HelloInterval field does not match",
+  "objective": "Verify that the DUT correctly discards Hello packets and refuses to establish adjacency when receiving HelloInterval values inconsistent with the local interface configuration.",
+  "test_reference": [
+    "RFC 2328 (OSPFv2), Section A.3.2"
+  ],
+  "topology": [
+    {
+      "name": "TesterA",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "PortTesterA_1",
+          "connected_to": "DeviceA:PortDeviceA_1"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "PortDeviceA_1",
+          "connected_to": "TesterA:PortTesterA_1"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "Configure HelloInterval as 5 seconds on tester port 1 (PortTesterA_1) and start OSPF.",
+      "expected_result": ""
+    },
+    {
+      "step_id": "2",
+      "description": "Configure HelloInterval as 10 seconds on DUT port 1 (PortDeviceA_1) and start OSPF.",
+      "expected_result": ""
+    },
+    {
+      "step_id": "3",
+      "description": "Verify whether tester port 1 (PortTesterA_1) and DUT port 1 (PortDeviceA_1) can establish OSPF adjacency.",
+      "expected_result": "Tester port 1 (PortTesterA_1) and DUT port 1 (PortDeviceA_1) cannot establish OSPF adjacency, state remains Down or Init."
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ],
+  "appendix": [
+    {
+      "title": "Device Initial Configuration Details",
+      "content": [
+        "1. TesterA IP address configuration:",
+        "   - Tester port 1 (PortTesterA_1): 192.168.1.100/24",
+        "2. DUT (DeviceA) IP address configuration:",
+        "   - DUT port 1 (PortDeviceA_1): 192.168.1.1/24",
+        "3. Enable and configure OSPF protocol on both tester and DUT, ensure HelloInterval fields are inconsistent."
+      ]
+    }
+  ]
+}

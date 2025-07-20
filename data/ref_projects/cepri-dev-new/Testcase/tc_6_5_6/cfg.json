@@ -1,0 +1,56 @@
+{
+ "type":"Testcase",
+ "name":"IGMP-Snooping 组播",
+ "tc_no":"tc_6_5_6",
+ "version": {
+  "description": "版本号，使用开发或修改日期",
+  "default": "v20240918"
+ },
+ "arg":{
+  "interface": {
+   "description": "仪表接口Mac地址设置",
+   "default": {
+     "mac_up_address": {
+      "description": "上行接口Mac地址设置",
+      "default": "00:01:02:02:02:02"
+     },
+     "mac_down_address":{
+      "description": "下行接口Mac地址设置",
+      "default": "00:01:02:02:02:02"
+     },
+     "ipv4_up_address":{
+      "description": "上行接口IPv4地址设置",
+      "default": "192.168.1.100"
+     },
+     "ipv4_up_gateway":{
+      "description": "上行接口IPv4网关设置",
+      "default": "192.168.1.1"
+     },
+     "ipv4_down_address":{
+      "description": "下行接口IPv4地址设置",
+      "default": "192.168.2.100"
+     },
+     "ipv4_down_gateway":{
+      "description": "下行接口IPv4网关设置",
+      "default": "192.168.2.1"
+     }
+   }
+  },
+  "load_profile": {
+   "description": "端口负载设置",
+   "default": {
+      "rate": {
+        "description": "流量发送端口速率，单位：%",
+        "default": 100
+     },
+     "seconds": {
+       "description": "流量发送时长，单位：秒",
+       "default": 100
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Step3","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2"]
+}

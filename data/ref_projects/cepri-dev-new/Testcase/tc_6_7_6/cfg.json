@@ -1,0 +1,43 @@
+{
+ "type":"Testcase",
+ "name":"Open Shortest Path First (OSPF) Protocol",
+ "tc_no":"tc_6_7_6",
+ "version": {
+  "description": "Version number, use development or modification date",
+  "default": "v20240917"
+ },
+ "arg":{
+  "interface": {
+   "description": "Tester port MAC address setting",
+   "default": {
+     "mac_up_address": {
+      "description": "Uplink port MAC address setting",
+      "default": "00:01:02:02:02:02"
+     },
+     "mac_down_address":{
+      "description": "Downlink port MAC address setting",
+      "default": "00:01:02:02:02:02"
+     },
+     "ipv4_up_address":{
+      "description": "Uplink port IPv4 address setting",
+      "default": "192.168.1.100"
+     },
+     "ipv4_up_gateway":{
+      "description": "Uplink port IPv4 gateway setting",
+      "default": "192.168.1.1"
+     },
+     "ipv4_down_address":{
+      "description": "Downlink port IPv4 address setting",
+      "default": "192.168.2.100"
+     },
+     "ipv4_down_gateway":{
+      "description": "Downlink port IPv4 gateway setting",
+      "default": "192.168.2.1"
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2"]
+}

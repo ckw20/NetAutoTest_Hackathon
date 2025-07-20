@@ -1,0 +1,53 @@
+{
+  "id": "tc_ospf_area_id_negative",
+  "title": "OSPF Packet Header - Area ID Negative Test",
+  "objective": "Verify that the DUT correctly rejects OSPF packets with an Area ID field in the header that does not meet the requirements.",
+  "test_reference": [
+    "RFC 2328, Section A.3.1 (OSPF Packet Header)"
+  ],
+  "topology": [
+    {
+      "name": "TesterA",
+      "type": "tester",
+      "ports": [
+        {
+          "name": "PortTesterA_1",
+          "connected_to": "DeviceA:PortDeviceA_1"
+        }
+      ]
+    },
+    {
+      "name": "DeviceA",
+      "type": "DUT",
+      "ports": [
+        {
+          "name": "PortDeviceA_1",
+          "connected_to": "TesterA:PortTesterA_1"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "1",
+      "description": "Send an OSPF Hello packet from test port 1 (PortTesterA_1) with an Area ID that does not match the receiving interface's Area ID (i.e., different from 192.168.1.0), and the source IP address is not in the same network.",
+      "expected_result": "The DUT discards the OSPF packet and does not establish adjacency."
+    }
+  ],
+  "tags": [
+    "function",
+    "protocol"
+  ],
+  "appendix": [
+    {
+      "title": "Device Initial Configuration Details",
+      "content": [
+        "1. TesterA IP address configuration:",
+        "   - Tester port 1 (PortTesterA_1): 192.168.1.100/24",
+        "2. DUT (DeviceA) IP address configuration:",
+        "   - DUT port 1 (PortDeviceA_1): 192.168.1.1/24",
+        "3. Enable and configure OSPFv2 routing protocol on DUT (DeviceA), specify Area ID as 192.168.1.0."
+      ]
+    }
+  ]
+}

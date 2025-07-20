@@ -1,0 +1,81 @@
+{
+ "type":"Testcase",
+ "name":"Head-of-Line Blocking Test",
+ "tc_no":"tc_6_5_3",
+ "version": {
+  "description": "Version number, use development or modification date",
+  "default": "v20240918"
+ },
+ "arg":{
+  "interface": {
+   "description": "Tester port MAC address setting",
+   "default": {
+     "mac_up_address": {
+      "description": "Uplink port MAC address setting",
+      "default": "00:01:02:02:02:02"
+     },
+     "mac_down_address":{
+      "description": "Downlink port MAC address setting",
+      "default": "00:01:02:02:02:02"
+     },
+     "ipv4_up_address":{
+      "description": "Uplink port IPv4 address setting",
+      "default": "192.168.1.100"
+     },
+     "ipv4_up_gateway":{
+      "description": "Uplink port IPv4 gateway setting",
+      "default": "192.168.1.1"
+     },
+     "ipv4_down_address":{
+      "description": "Downlink port IPv4 address setting",
+      "default": "192.168.2.100"
+     },
+     "ipv4_down_gateway":{
+      "description": "Downlink port IPv4 gateway setting",
+      "default": "192.168.2.1"
+     }
+   }
+  },
+  "load_profile": {
+   "description": "Port load setting",
+   "default": {
+      "rate": {
+        "description": "Traffic sending port rate, unit: %",
+        "default": 100
+     },
+     "seconds": {
+       "description": "Traffic sending duration, unit: seconds",
+       "default": 100
+     }
+   }
+  },
+   "ospf": {
+   "description": "OSPF protocol setting",
+   "default": {
+      "priority_session_up": {
+        "description": "Uplink port protocol priority",
+        "default": 1
+     },
+      "priority_session_down": {
+        "description": "Downlink port protocol priority",
+        "default": 1
+     },
+     "area_id": {
+        "description": "Area ID",
+        "default": "0.0.0.0"
+     },
+     "advertise_count": {
+        "description": "Total number of advertised routes",
+        "default": 1000
+     },
+     "advertise_wait": {
+        "description": "Wait time after advertising routes, unit: seconds",
+        "default": 30
+     }
+   }
+  }
+ },
+ "dut":["DeviceA"],
+ "dut_cfg":["DeviceA_Setup","DeviceA_Teardown"],
+ "port":["PortDeviceA_1","PortDeviceA_2", "PortDeviceA_3", "PortDeviceA_4"]
+}

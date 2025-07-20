@@ -1,0 +1,24 @@
+system
+
+acl 3001
+ rule 5 deny ip
+ quit
+
+traffic classifier c1  
+ if-match acl 3001
+quit
+
+traffic behavior b1    
+ deny               
+quit
+
+traffic policy p1      
+ classifier c1 behavior b1  
+quit
+
+interface ReplaceInterface_PortDeviceA_2
+  traffic-policy p1 outbound
+quit
+
+commit
+quit
