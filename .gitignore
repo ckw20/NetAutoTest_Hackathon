@@ -15,3 +15,4 @@ data/models/
 data/embeddings/
 wandb/
 src/for_lint_cnt/
+private_repo/

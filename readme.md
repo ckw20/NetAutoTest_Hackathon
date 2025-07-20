@@ -172,3 +172,5 @@ The structure of `response.json` is as follows:
 - `output.verdict`: The final test result (e.g., pass/fail).
 - `output.errInfo`: Any error or failure details encountered during execution.
 - `output.info`: Detailed logs and information from the test process.
+
+The TesterLibrary, CustomLibrary, and related documentation (part available in Chinese only) are located in the ./private_repo directory.
