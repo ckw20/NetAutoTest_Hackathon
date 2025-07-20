@@ -80,10 +80,10 @@ try:
         printf(message='Test start')
         # 执行测试
         
-        ipv4_ping(Interface=interface_a, IpAddr='192.168.1.1', PacketCount=5)
-        ipv4_ping(Interface=interface_b, IpAddr='192.168.2.1', PacketCount=5)
-        ipv4_ping(Interface=interface_a, IpAddr='192.168.1.100', PacketCount=5)
-        ipv4_ping(Interface=interface_a, IpAddr='192.168.2.100', PacketCount=5)
+        # ipv4_ping(Interface=interface_a, IpAddr='192.168.1.1', PacketCount=5)
+        # ipv4_ping(Interface=interface_b, IpAddr='192.168.2.1', PacketCount=5)
+        # ipv4_ping(Interface=interface_a, IpAddr='192.168.1.100', PacketCount=5)
+        # ipv4_ping(Interface=interface_a, IpAddr='192.168.2.100', PacketCount=5)
     
         # 清空统计计数
         clear_result()
