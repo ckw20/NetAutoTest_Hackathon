@@ -1,0 +1,19 @@
+
+system
+#
+interface ReplaceInterface_PortDeviceA_1
+ undo ip address 192.168.1.1 255.255.255.0
+ undo ip forward-broadcast
+ undo ospf timer hello
+ portswitch
+#
+interface ReplaceInterface_PortDeviceA_2
+ undo ip address 192.168.2.1 255.255.255.0
+ undo ip forward-broadcast
+ undo ospf timer hello
+ portswitch
+#
+undo ospf 1
+Y
+commit
+quit
