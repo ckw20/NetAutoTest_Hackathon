@@ -16,7 +16,6 @@
     },
     "Example": {
         "dir": "./data/ref_projects/cepri-dev-new",
-        "dir_no_cfg": "./data/ref_projects/Examples/Python",
         "specified": "./data/testcases/exp_res/2025-04-09-23-25-28_qwen-max-latest_rfc2328_Packet_Headers/A.3.2_OSPF_Hello_Packet/HelloInterval/OSPF-001/spec_example.json",
         "Retriever": {
             "local_model_type": "SentenceTransformer",

@@ -149,6 +149,7 @@ def load_examples(path: str, no_cfg: bool = False):
                 # split by 'from' or 'import'
                 result_code_pos = min(content.find("from"), content.find("import"))
                 assert result_code_pos != -1
+                if '==========' not in content[:result_code_pos]: continue
 
                 move_the_fucking_cfg_testbed_device_setup_and_teardown_between_dir(
                     root, path, testbed, cfg, from_src_to_dst=False
