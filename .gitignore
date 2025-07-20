@@ -16,3 +16,4 @@ data/embeddings/
 wandb/
 src/for_lint_cnt/
 private_repo/
+data/ref_projects/cepri-dev-new/Testcase_old/
