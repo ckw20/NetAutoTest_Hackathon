@@ -3,10 +3,10 @@
 Large Language Model Driven Automated Network Protocol Testing
 
 - **Champions**
-  Yong Cui (cuiyong@tsinghua.edu.cn)
-  Xiaohui Xie (xiexiaohui@tsinghua.edu.cn)
-  Yunze Wei (wyz23@mails.tsinghua.edu.cn)
-  Kaiwen Chi (ckw24@mails.tsinghua.edu.cn)
+  - Yong Cui (cuiyong@tsinghua.edu.cn)
+  - Xiaohui Xie (xiexiaohui@tsinghua.edu.cn)
+  - Yunze Wei (wyz23@mails.tsinghua.edu.cn)
+  - Kaiwen Chi (ckw24@mails.tsinghua.edu.cn)
 - **Project Info**
   Traditional network protocol testing methods face significant challenges in adapting to rapid protocol evolution. The challenges stem primarily from protocol specification analysis and customized code development for testing. To address this, we propose NeTestLLM, a Large Language Model (LLM)-powered framework that automates protocol testing through two key components: (1) a hybrid test case generator that extracts protocol specifications and produces high-coverage test cases, and (2) a retrieval-feedback-enhanced engine that translates natural language descriptions into executable code.
 
